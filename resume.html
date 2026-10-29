@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Narendaran S G — VLSI & ASIC Resume</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #060911;
+      color: #111827;
+    }
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .a4-sheet {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 2rem auto;
+      background: #FFFFFF;
+      padding: 9mm 12mm;
+      box-shadow: 0 25px 50px -12px rgba(0, 240, 255, 0.15);
+    }
+    @media print {
+      body {
+        background: #FFFFFF;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .a4-sheet {
+        width: 100%;
+        min-height: auto;
+        margin: 0;
+        padding: 5mm 8mm;
+        box-shadow: none;
+      }
+      @page {
+        size: A4;
+        margin: 4mm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation & Print Action Bar -->
+  <div class="no-print bg-[#0B101E] border-b border-cyan-500/20 px-6 py-3 sticky top-0 z-50 flex flex-wrap items-center justify-between text-xs mono text-slate-300">
+    <div class="flex items-center space-x-3">
+      <a href="index.html" class="text-cyan-400 font-semibold hover:underline">← Back to VLSI Portfolio (narendaransg.github.io)</a>
+      <span class="text-slate-600">|</span>
+      <span>1-Page ATS Semiconductor Resume</span>
+    </div>
+    <div class="flex items-center space-x-3">
+      <button onclick="window.print()" class="px-4 py-1.5 rounded bg-cyan-400 text-slate-950 font-bold hover:bg-cyan-300 transition">
+        Save as PDF / Print (A4)
+      </button>
+    </div>
+  </div>
+
+  <!-- A4 Printable Sheet -->
+  <main class="a4-sheet text-[10.8px] leading-[1.36] text-slate-900">
+
+    <!-- HEADER -->
+    <header class="border-b-2 border-slate-900 pb-2 text-center">
+      <h1 class="text-2xl font-bold tracking-tight text-slate-950 uppercase">Narendaran S G</h1>
+      <p class="text-xs font-semibold text-blue-900 mt-0.5">
+        Final Year ECE Innovator &bull; ASIC Physical Design (Back-End) &bull; RTL Design &amp; Verification (Front-End) &bull; DFT
+      </p>
+      <div class="flex flex-wrap justify-center gap-x-2.5 gap-y-0.5 text-[10px] text-slate-700 mt-1 mono">
+        <span>Chennai, Tamil Nadu, India</span>
+        <span>|</span>
+        <a href="tel:+918925401875" class="text-blue-900 font-semibold hover:underline">+91 8925401875</a>
+        <span>|</span>
+        <a href="mailto:sgnarendaran@gmail.com" class="text-blue-800 hover:underline">sgnarendaran@gmail.com</a>
+        <span>|</span>
+        <a href="https://www.linkedin.com/in/narendaran-s-g-886273291" class="text-blue-800 hover:underline">linkedin.com/in/narendaran-s-g-886273291</a>
+        <span>|</span>
+        <a href="https://github.com/narendaransg" class="text-blue-800 hover:underline">github.com/narendaransg</a>
+        <span>|</span>
+        <a href="https://edaplayground.com/x/JiD3" class="text-blue-800 hover:underline">edaplayground.com/x/JiD3</a>
+      </div>
+    </header>
+
+    <!-- EDUCATION -->
+    <section class="mt-2">
+      <h2 class="text-[11px] font-bold uppercase tracking-wider text-blue-950 border-b border-slate-300 pb-0.5 mb-1">Education</h2>
+      <div class="flex justify-between items-baseline">
+        <div>
+          <span class="font-bold text-slate-950">Easwari Engineering College (SRM Group)</span>, Chennai, India
+          <div class="italic text-slate-700">Bachelor of Engineering (B.E.) in Electrical, Electronics and Communications Engineering (ECE)</div>
+        </div>
+        <div class="text-right shrink-0">
+          <div class="font-bold">Sep 2023 – Jul 2027</div>
+          <div class="font-semibold text-blue-900">CGPA: 9.30</div>
+        </div>
+      </div>
+      <div class="flex justify-between items-baseline mt-1">
+        <div>
+          <span class="font-bold text-slate-950">Chettinad Vidyashram</span>, Chennai, India — <span class="italic text-slate-700">Higher Secondary School (Science Stream: PCM, Biotechnology)</span>
+        </div>
+        <div class="text-right shrink-0">
+          <span class="font-bold">Mar 2008 – May 2023</span> | <span class="font-semibold text-blue-900">Grade: 96%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNICAL SKILLS -->
+    <section class="mt-2">
+      <h2 class="text-[11px] font-bold uppercase tracking-wider text-blue-950 border-b border-slate-300 pb-0.5 mb-1">EDA Toolchains &amp; Technical Skills</h2>
+      <ul class="space-y-0.5">
+        <li><strong class="text-slate-950">Commercial EDA Suite:</strong> Synopsys IC Compiler II (<span class="mono text-[10px]">icc2_shell</span>), Synopsys Design Compiler (<span class="mono text-[10px]">dc_shell</span>), Synopsys Design Vision, Synopsys IC Compiler, Synopsys VCS, Synopsys PrimeTime, Cadence Innovus, Cadence Genus, Cadence Modus.</li>
+        <li><strong class="text-slate-950">Open-Source EDA &amp; PDK:</strong> OpenLane, OpenROAD, Yosys, Verilator, Magic, KLayout, SkyWater 130nm PDK (<span class="mono text-[10px]">sky130_fd_sc_hd</span>).</li>
+        <li><strong class="text-slate-950">HDLs &amp; Verification:</strong> Verilog HDL, SystemVerilog HVL, UVM Fundamentals, Coverage-Driven Verification (CDV), OOP Testbenches, Switch-Level CMOS.</li>
+        <li><strong class="text-slate-950">Physical Design &amp; DFT:</strong> Floorplanning, Flyline Macro Placement, Power Delivery Network (PDN) Mesh, Congestion Mitigation, Multi-Clock CTS &amp; NDR (<span class="mono text-[10px]">dwds</span>), STA Timing Closure, DRC/LVS &amp; Route ECO, Scan-Chain Insertion, PCB Design.</li>
+      </ul>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="mt-2">
+      <h2 class="text-[11px] font-bold uppercase tracking-wider text-blue-950 border-b border-slate-300 pb-0.5 mb-1">ASIC Physical Design, Verification &amp; DFT Projects</h2>
+
+      <!-- Project 1 -->
+      <div class="mb-1.5">
+        <div class="flex justify-between items-baseline">
+          <span class="font-bold text-slate-950">8-Bit Asynchronous FIFO Physical Design &amp; Routing Optimization — Synopsys IC Compiler II</span>
+          <span class="font-semibold text-slate-700 shrink-0">Apr 2026 – May 2026</span>
+        </div>
+        <ul class="list-disc list-inside space-y-0.5 text-slate-800">
+          <li>Implemented an end-to-end layout across a 2,065.428 &mu;m&sup2; core area (63.14% initial &rarr; 68.41% final utilization, 1 &mu;m core offset, 305 final cells) with 24 track-aligned M5 ports (West inputs, East outputs).</li>
+          <li>Structured an M7/M8 top mesh (0.6 &mu;m width, 18 &mu;m pitch), M2 vertical straps (0.18 &mu;m width, 6 &mu;m pitch), and 0.06 &mu;m M1 rails with 97 DCAP and 2 TIEH cells, fixing 2 via spacing violations for 0 PG DRC and 0% placement congestion.</li>
+          <li>Balanced dual asynchronous clocks (<span class="mono text-[10px]">wclk</span>: 1.50 ns period, 80 sinks, 0.51 ns latency; <span class="mono text-[10px]">rclk</span>: 1.50 ns period, 24 sinks, 0.45 ns latency) with 34 buffers/18 inverters on M4–M5 (<span class="mono text-[10px]">dwds</span> NDR) achieving 0 ns global skew, 0 DRC/Shorts/Opens, +0.16 ns Setup WNS, and 0 ns Hold TNS.</li>
+        </ul>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="mb-1.5">
+        <div class="flex justify-between items-baseline">
+          <span class="font-bold text-slate-950">Verilog Half Adder: Multi-Abstraction Implementation &amp; Functional Verification — Synopsys VCS</span>
+          <span class="font-semibold text-slate-700 shrink-0">May 2026</span>
+        </div>
+        <ul class="list-disc list-inside space-y-0.5 text-slate-800">
+          <li>Mapped a combinational half adder across Dataflow (<span class="mono text-[10px]">assign</span>), Behavioral (<span class="mono text-[10px]">always @(*)</span>), Gate-Level Structural, and Switch-Level CMOS (<span class="mono text-[10px]">pmos</span>/<span class="mono text-[10px]">nmos</span> networks wired to <span class="mono text-[10px]">supply1 VDD</span>/<span class="mono text-[10px]">supply0 VSS</span> via <span class="mono text-[10px]">nand_sw</span>, <span class="mono text-[10px]">nor_sw</span>, <span class="mono text-[10px]">inverter_sw</span>), verified simultaneously via a SystemVerilog testbench (<span class="mono text-[10px]">tb_top</span>) on Synopsys VCS (<a href="https://github.com/narendaransg/half-adders-at-different-forms" class="text-blue-800 underline mono text-[10px]">github.com/narendaransg/half-adders-at-different-forms</a>).</li>
+        </ul>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="mb-1.5">
+        <div class="flex justify-between items-baseline">
+          <span class="font-bold text-slate-950">GPRS Block Physical Design (<span class="mono text-[10px]">gprs_top</span>) — Synopsys Design Compiler &amp; IC Compiler II</span>
+          <span class="font-semibold text-slate-700 shrink-0">Apr 2026</span>
+        </div>
+        <ul class="list-disc list-inside space-y-0.5 text-slate-800">
+          <li>Executed RTL-to-signoff physical design on a 10-metal-layer block with 27,811 initial cells (33,286 final cells), 16 hard SRAM macros (4 families), 103 track-aligned ports (M5 West / M6 South), and a 391,605.407 &mu;m&sup2; core area.</li>
+          <li>Oriented 16 macros using data-flow flylines (&gt;10 iterations, 16 &mu;m channel spacing, soft blockages) and built an M8/M7/M2 power mesh down to 0.06 &mu;m M1 rails; added 179 missing PG vias to achieve 0 PG DRC and 0 PG shorts.</li>
+          <li>Placed 8,600 DCAP, 76 TIEH, and 121 TIEL cells at 62.39% density (0.12% horizontal congestion); synthesized <span class="mono text-[10px]">mclk</span> (4 ns period, 2,856 sinks, 65 buffers/inverters, M4–M5 <span class="mono text-[10px]">dwds</span> NDR) with 0.14 ns global skew and resolved 34 route shorts via <span class="mono text-[10px]">route_eco</span> (66.25% final utilization, 0 ns Setup WNS/TNS).</li>
+        </ul>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="mb-1.5">
+        <div class="flex justify-between items-baseline">
+          <span class="font-bold text-slate-950">Verilog Multi-Master Bus Arbiter — ChipThink VLSI Hackathon Finalist (Maven Silicon &amp; IEEE)</span>
+          <span class="font-semibold text-slate-700 shrink-0">Apr 2026</span>
+        </div>
+        <ul class="list-disc list-inside space-y-0.5 text-slate-800">
+          <li>Designed and verified an offline Verilog Multi-Master Bus Arbiter for CPU, DMA, and Peripheral contention during the finals at Christ College of Engineering (<a href="https://edaplayground.com/x/JiD3" class="text-blue-800 underline mono text-[10px]">edaplayground.com/x/JiD3</a>).</li>
+          <li>Engineered priority-based CPU arbitration with an 8-clock-cycle fairness counter that forces priority rotation for waiting DMA/Peripheral masters to prevent starvation, complete with hardware debug state outputs and waveform verification.</li>
+        </ul>
+      </div>
+
+      <!-- Project 5 -->
+      <div class="mb-1.5">
+        <div class="flex justify-between items-baseline">
+          <span class="font-bold text-slate-950">Serial-Parallel Multiplier (SPM) RTL-to-GDSII (OpenLane/SKY130) &amp; PLL RTL-to-Routing (Synopsys)</span>
+          <span class="font-semibold text-slate-700 shrink-0">Nov 2025 – Apr 2026</span>
+        </div>
+        <ul class="list-disc list-inside space-y-0.5 text-slate-800">
+          <li>Executed a 70+ step automated RTL-to-GDSII flow for an SPM using Yosys, Verilator, OpenROAD, Magic, and KLayout in the SkyWater 130nm PDK (<span class="mono text-[10px]">sky130_fd_sc_hd</span>), and completed RTL-to-routing with pre-layout simulation for a Phase-Locked Loop (PLL) in Synopsys Design Vision &amp; IC Compiler.</li>
+        </ul>
+      </div>
+
+      <!-- Project 6 -->
+      <div class="mb-1.5">
+        <div class="flex justify-between items-baseline">
+          <span class="font-bold text-slate-950">ASIC Core Physical Implementation (Cadence Innovus) &amp; Memory Block DFT (Cadence Genus/Modus)</span>
+          <span class="font-semibold text-slate-700 shrink-0">Nov 2025</span>
+        </div>
+        <ul class="list-disc list-inside space-y-0.5 text-slate-800">
+          <li><strong>Cadence Innovus PD:</strong> Placed standard cells at 53.189% density (Pre-CTS WNS: 0.846 ns), synthesized clock tree with 0.011 ns skew (Post-CTS WNS improved to 1.377 ns via <span class="mono text-[10px]">optDesign</span>), and routed with 0.00% routing overflow.</li>
+          <li><strong>Cadence Genus &amp; Modus DFT:</strong> Performed scan-chain insertion, stitched scan flops, validated shift/capture modes, cleared DFT rule checks, and generated timing-aware synthesis PPA reports for a memory block.</li>
+        </ul>
+      </div>
+
+      <!-- Project 7 -->
+      <div class="mb-1">
+        <div class="flex justify-between items-baseline">
+          <span class="font-bold text-slate-950">4-Bit Binary Fast Multiplier in IC Level &amp; 8-Bit Verilog Barrel Shifter Synthesis</span>
+          <span class="font-semibold text-slate-700 shrink-0">Oct 2024 – Jan 2025 / Nov 2025</span>
+        </div>
+        <ul class="list-disc list-inside space-y-0.5 text-slate-800">
+          <li>Assembled a breadboard 4-Bit Binary Fast Multiplier (15&times;15 = 225 / <span class="mono text-[10px]">11100001</span>) using discrete AND gate arrays and 4-bit full adders (Oct 2024 – Jan 2025) and analyzed multi-stage multiplexer synthesis of an 8-bit Verilog Logical Shifter (Nov 2025).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- INTERNSHIP -->
+    <section class="mt-2">
+      <h2 class="text-[11px] font-bold uppercase tracking-wider text-blue-950 border-b border-slate-300 pb-0.5 mb-1">Industrial Internship</h2>
+      <div class="flex justify-between items-baseline">
+        <div>
+          <span class="font-bold text-slate-950">Nokia</span> — <span class="italic">Student Intern (Factory Floor &amp; Process Training — Embedded Systems &amp; PCB Design)</span>
+        </div>
+        <span class="font-bold shrink-0">May 2025 – Jun 2025 | Sriperumbudur</span>
+      </div>
+      <p class="text-slate-800 mt-0.5">Gained exposure to live telecommunications hardware factory floor operations, PCB processes, and industrial operational efficiency.</p>
+    </section>
+
+    <!-- CERTIFICATIONS & ACHIEVEMENTS -->
+    <section class="mt-2">
+      <h2 class="text-[11px] font-bold uppercase tracking-wider text-blue-950 border-b border-slate-300 pb-0.5 mb-1">Certifications, Workshops &amp; Leadership</h2>
+      <ul class="list-disc list-inside space-y-0.5 text-slate-800">
+        <li><strong>Physical Design – Back End Certification:</strong> Centre for Chip Design, Easwari Engineering College &amp; VLSIMINDS, Bangalore (21 Apr 2026).</li>
+        <li><strong>VLSI Design Verification – Front End Certification:</strong> Centre for Chip Design, Easwari Engineering College &amp; VLSIMINDS, Bangalore (04 Feb 2026).</li>
+        <li><strong>Two-Day Workshop on Physical Design using Cadence Tools:</strong> Dept. of ECE &amp; Centre for Chip Design, Easwari Engineering College (07–08 Nov 2025).</li>
+        <li><strong>Hackathons &amp; Affiliations:</strong> Finalist, ChipThink VLSI Hackathon (Maven Silicon &amp; IEEE, Apr 2026); Participant, CHIPCRAFT 2.0 (Kalasalingam Academy, Apr 2026); Student Member, IETE (Jul 2024 – Jul 2026) &amp; ISTE (Oct 2024 – Jul 2026).</li>
+      </ul>
+    </section>
+
+  </main>
+
+</body>
+</html>
