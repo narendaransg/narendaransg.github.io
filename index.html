@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Narendaran S G | My RTL-to-GDSII Silicon Journey</title>
-  <meta name="description" content="First-person VLSI & ASIC Portfolio of Narendaran S G — My journey from discrete logic gates and synthesizable RTL to Physical Design signoff." />
+  <meta name="description" content="First-person VLSI & ASIC Portfolio of Narendaran S G — Interactive QoR Dashboards, 3D Metal Stack Inspector, and Live Bus Arbiter RTL Simulator." />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -86,7 +86,7 @@
     .eda-border:hover {
       border-color: rgba(0, 240, 255, 0.45);
       box-shadow: 0 12px 35px -8px rgba(0, 240, 255, 0.18);
-      transform: translateY(-3px);
+      transform: translateY(-2px);
     }
 
     /* Scroll Reveal Animations */
@@ -110,6 +110,21 @@
       0% { stroke-dashoffset: 1200; }
       50% { stroke-dashoffset: 0; }
       100% { stroke-dashoffset: -1200; }
+    }
+
+    /* 3D Metal Stack Isometric Slabs */
+    .metal-slab {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: perspective(700px) rotateX(22deg) scale(0.96);
+    }
+    .metal-slab.active-slab {
+      transform: perspective(700px) rotateX(12deg) scale(1.03) translateX(8px);
+      box-shadow: 0 10px 30px -5px rgba(0, 240, 255, 0.35);
+    }
+
+    /* Animated Progress Bars */
+    .qor-bar-fill {
+      transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* Custom Scrollbar */
@@ -153,11 +168,11 @@
         <span class="px-2 py-0.5 bg-metal-m5/10 border border-metal-m5/40 text-metal-m5 rounded text-sm">ASIC</span>
         <span class="text-white">NARENDARAN_S_G</span>
       </a>
-      <nav class="hidden md:flex items-center space-x-6 text-sm font-mono text-slate-300">
-        <a href="#qor-dashboard" class="hover:text-metal-m5 transition">01.My_QoR_Signoff</a>
-        <a href="#projects" class="hover:text-metal-m5 transition">02.Silicon_Chronicles</a>
-        <a href="#eda-stack" class="hover:text-metal-m5 transition">03.My_Toolchain</a>
-        <a href="#certifications" class="hover:text-metal-m5 transition">04.Milestones</a>
+      <nav class="hidden md:flex items-center space-x-5 text-xs lg:text-sm font-mono text-slate-300">
+        <a href="#qor-dashboard" class="hover:text-metal-m5 transition">01.QoR_Signoff</a>
+        <a href="#interactive-lab" class="hover:text-metal-m5 transition">02.Interactive_Silicon_Lab</a>
+        <a href="#projects" class="hover:text-metal-m5 transition">03.Chronicles</a>
+        <a href="#eda-stack" class="hover:text-metal-m5 transition">04.Toolchain</a>
         <a href="resume.html" class="px-3 py-1 rounded border border-metal-m3/50 text-metal-m3 hover:bg-metal-m3/10 transition">Interactive Resume</a>
         <a href="#contact" class="px-3.5 py-1.5 rounded bg-metal-m5 text-silicon-950 font-semibold hover:bg-cyan-300 transition">Let's Talk</a>
       </nav>
@@ -189,7 +204,7 @@
         </div>
 
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
-          I Turn Abstract <span id="typewriter-headline" class="text-transparent bg-clip-text bg-gradient-to-r from-metal-m5 via-cyan-300 to-metal-m3">RTL into Signoff Silicon</span>.
+          I Turn Abstract <span class="text-transparent bg-clip-text bg-gradient-to-r from-metal-m5 via-cyan-300 to-metal-m3">RTL into Signoff Silicon</span>.
         </h1>
 
         <div class="space-y-3 text-slate-300 text-base leading-relaxed max-w-2xl">
@@ -231,17 +246,14 @@
             <span>View My Interactive Resume</span>
             <span>&rarr;</span>
           </a>
-          <a href="#qor-dashboard" class="px-4 py-2.5 rounded bg-silicon-800 border border-metal-m5/40 text-metal-m5 hover:bg-metal-m5/10 transition">
-            Explore My QoR Logs
+          <a href="#interactive-lab" class="px-4 py-2.5 rounded bg-silicon-800 border border-metal-m3/40 text-metal-m3 hover:bg-metal-m3/10 transition">
+            Launch 3D PDN &amp; RTL Simulators
           </a>
           <a href="https://github.com/narendaransg" target="_blank" rel="noopener" class="px-4 py-2.5 rounded bg-silicon-800 border border-slate-700 text-slate-200 hover:border-metal-m5 hover:text-metal-m5 transition">
             GitHub
           </a>
           <a href="https://www.linkedin.com/in/narendaran-s-g-886273291" target="_blank" rel="noopener" class="px-4 py-2.5 rounded bg-silicon-800 border border-slate-700 text-slate-200 hover:border-metal-m5 hover:text-metal-m5 transition">
             LinkedIn
-          </a>
-          <a href="https://edaplayground.com/x/JiD3" target="_blank" rel="noopener" class="px-4 py-2.5 rounded bg-silicon-800 border border-metal-m3/40 text-metal-m3 hover:bg-metal-m3/10 transition">
-            EDA Playground
           </a>
         </div>
       </div>
@@ -316,13 +328,13 @@
       </svg>
     </div>
 
-    <!-- SECTION 01: INTERACTIVE QOR & TIMING SIGNOFF DASHBOARD -->
+    <!-- SECTION 01: INTERACTIVE QOR & TIMING SIGNOFF DASHBOARD (WITH ANIMATED BARS) -->
     <section id="qor-dashboard" class="space-y-8 scroll-mt-24 reveal">
       <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-800 pb-4 gap-4">
         <div>
           <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">01 // Inside My IC Compiler II Implementation Runs</div>
           <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">How I Drove My Blocks from Floorplan to Signoff</h2>
-          <p class="text-slate-400 text-sm mt-1">Click through each physical stage below to see the exact challenges I faced, the controlled engineering actions I took, and my final QoR tables.</p>
+          <p class="text-slate-400 text-sm mt-1">Click through each physical stage below to see the exact challenges I faced, the controlled engineering actions I took, and my animated QoR telemetry.</p>
         </div>
 
         <!-- Block Selector Buttons -->
@@ -362,7 +374,7 @@
 
       <!-- Dynamic QoR Content Panel -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-silicon-900/90 rounded-xl p-6 eda-border">
-        <!-- Left 7 Cols: Stage Story, Parameters & QoR Table -->
+        <!-- Left 7 Cols: Stage Story, Animated Telemetry Bars & QoR Table -->
         <div class="lg:col-span-7 space-y-5">
           <div class="flex items-center justify-between">
             <div>
@@ -373,11 +385,14 @@
 
           <p id="qor-stage-desc" class="text-sm text-slate-300 leading-relaxed"></p>
 
+          <!-- Animated Telemetry Bars -->
+          <div id="qor-bars-container" class="p-4 rounded-lg bg-silicon-950 border border-slate-800 space-y-3 font-mono text-xs"></div>
+
           <!-- Metric Cards Grid -->
           <div id="qor-metrics-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono"></div>
 
           <!-- Full Progression Mini-Table -->
-          <div class="pt-2">
+          <div class="pt-1">
             <div class="text-xs font-mono text-slate-400 mb-2 uppercase">My Stage-to-Stage QoR Progression Summary</div>
             <div class="overflow-x-auto rounded-lg border border-slate-800">
               <table class="w-full text-left font-mono text-xs">
@@ -424,11 +439,178 @@
       </div>
     </section>
 
-    <!-- SECTION 02: SILICON CHRONICLES (FIRST-PERSON PROJECT STORIES) -->
+    <!-- SECTION 02: INTERACTIVE SILICON LAB (3D METAL STACK + LIVE RTL ARBITER FSM) -->
+    <section id="interactive-lab" class="space-y-8 scroll-mt-24 reveal">
+      <div class="border-b border-slate-800 pb-4">
+        <div class="text-xs font-mono text-metal-m3 uppercase tracking-widest">02 // Interactive Hardware &amp; Physical Architecture Simulators</div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Test My Silicon Architectures Live in Your Browser</h2>
+        <p class="text-slate-400 text-sm mt-1">Inspect my physical metal-layer stack (`M1`–`M8`) on the left, or clock-step my ChipThink Hackathon Multi-Master Bus Arbiter RTL on the right.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- WIDGET A: 3D METAL-LAYER STACK INSPECTOR (M1 - M8) -->
+        <div class="lg:col-span-6 rounded-xl bg-silicon-900/90 p-6 eda-border flex flex-col justify-between space-y-6">
+          <div>
+            <div class="flex items-center justify-between font-mono text-xs text-metal-m5">
+              <span>PHYSICAL DESIGN CROSS-SECTION</span>
+              <span>10-LAYER BEOL STACK</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mt-1">Interactive Metal-Layer Stack (`M1` &ndash; `M8`)</h3>
+            <p class="text-xs text-slate-400 mt-1">Click any metal plane below to see how I allocated power straps, I/O ports, NDR clock trees, and standard cell rails in `gprs_top` and `8-Bit Async FIFO`.</p>
+          </div>
+
+          <!-- 3D Isometric Stack Buttons -->
+          <div class="space-y-2.5 py-2 px-2 font-mono text-xs">
+            <button type="button" onclick="selectMetalLayer('m8m7')" id="slab-m8m7" class="metal-slab active-slab w-full p-3 rounded-lg bg-gradient-to-r from-amber-500/25 via-silicon-800 to-silicon-900 border border-metal-m8 flex items-center justify-between text-left">
+              <div>
+                <span class="text-metal-m8 font-bold">M8 / M7</span> &mdash; <span class="text-white font-semibold">Top-Level Power Delivery Mesh (VDD / VSS)</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-metal-m8/20 text-metal-m8">PDN MESH</span>
+            </button>
+
+            <button type="button" onclick="selectMetalLayer('m6m5_ports')" id="slab-m6m5_ports" class="metal-slab w-full p-3 rounded-lg bg-gradient-to-r from-pink-500/20 via-silicon-800 to-silicon-900 border border-slate-700 hover:border-metal-m6 flex items-center justify-between text-left">
+              <div>
+                <span class="text-metal-m6 font-bold">M6 / M5</span> &mdash; <span class="text-white font-semibold">Track-Aligned Block I/O Port Routing</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-metal-m6/20 text-metal-m6">I/O TRACKS</span>
+            </button>
+
+            <button type="button" onclick="selectMetalLayer('m5m4_cts')" id="slab-m5m4_cts" class="metal-slab w-full p-3 rounded-lg bg-gradient-to-r from-cyan-500/25 via-silicon-800 to-silicon-900 border border-slate-700 hover:border-metal-m5 flex items-center justify-between text-left">
+              <div>
+                <span class="text-metal-m5 font-bold">M5 / M4</span> &mdash; <span class="text-white font-semibold">Clock Tree Synthesis (NDR: dwds)</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-metal-m5/20 text-metal-m5">CTS NDR</span>
+            </button>
+
+            <button type="button" onclick="selectMetalLayer('m2_straps')" id="slab-m2_straps" class="metal-slab w-full p-3 rounded-lg bg-gradient-to-r from-emerald-500/20 via-silicon-800 to-silicon-900 border border-slate-700 hover:border-metal-m3 flex items-center justify-between text-left">
+              <div>
+                <span class="text-metal-m3 font-bold">M2</span> &mdash; <span class="text-white font-semibold">Vertical Power Straps &amp; Via Arrays</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-metal-m3/20 text-metal-m3">VERTICAL PDN</span>
+            </button>
+
+            <button type="button" onclick="selectMetalLayer('m1_rails')" id="slab-m1_rails" class="metal-slab w-full p-3 rounded-lg bg-gradient-to-r from-blue-500/20 via-silicon-800 to-silicon-900 border border-slate-700 hover:border-cyan-400 flex items-center justify-between text-left">
+              <div>
+                <span class="text-cyan-300 font-bold">M1</span> &mdash; <span class="text-white font-semibold">Standard Cell Follow-Pin Rails &amp; DCAPs</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-400/20 text-cyan-300">STD CELLS</span>
+            </button>
+          </div>
+
+          <!-- Selected Metal Layer Telemetry Box -->
+          <div class="p-4 rounded-lg bg-silicon-950 border border-cyan-500/30 font-mono text-xs space-y-2">
+            <div id="metal-detail-title" class="text-metal-m8 font-bold text-sm">M8 / M7 — Top-Level Power Delivery Mesh</div>
+            <p id="metal-detail-desc" class="text-slate-300 leading-relaxed">
+              In gprs_top, I configured M8 straps at 4.64 µm width (19.456 µm pitch) and M7 straps at 1.104 µm width (13.376 µm pitch). In my 8-Bit Async FIFO, I built an M7/M8 top mesh at 0.6 µm width and 18 µm pitch to guarantee low-IR-drop power distribution.
+            </p>
+            <div id="metal-detail-specs" class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800 text-[11px]">
+              <div><span class="text-slate-400">gprs_top:</span> <span class="text-white">M8: 4.64µm | M7: 1.104µm</span></div>
+              <div><span class="text-slate-400">Async FIFO:</span> <span class="text-white">M7/M8: 0.60µm @ 18µm pitch</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WIDGET B: LIVE MULTI-MASTER BUS ARBITER RTL SIMULATOR -->
+        <div class="lg:col-span-6 rounded-xl bg-silicon-900/90 p-6 eda-border flex flex-col justify-between space-y-5">
+          <div>
+            <div class="flex items-center justify-between font-mono text-xs text-metal-m3">
+              <span>LIVE RTL HARDWARE SIMULATOR</span>
+              <span>CHIPTHINK HACKATHON FINALS</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mt-1">Multi-Master Bus Arbiter (8-Cycle Anti-Starvation)</h3>
+            <p class="text-xs text-slate-400 mt-1">
+              Test the exact arbitration logic my team and I built offline. Keep <span class="font-mono text-white">CPU</span> and <span class="font-mono text-white">DMA/Peripheral</span> requests active together and step the clock 8 times to watch the fairness counter override fixed CPU priority!
+            </p>
+          </div>
+
+          <!-- Master Request Toggles -->
+          <div class="grid grid-cols-3 gap-3 font-mono text-xs">
+            <button type="button" id="btn-req-cpu" onclick="toggleArbiterReq('cpu')" class="p-3 rounded-lg bg-metal-m5/15 border border-metal-m5 text-left transition">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white">MASTER 0: CPU</span>
+                <span id="dot-req-cpu" class="w-2.5 h-2.5 rounded-full bg-metal-m5"></span>
+              </div>
+              <div id="txt-req-cpu" class="text-[11px] text-metal-m5 mt-1">req_cpu = 1 (ACTIVE)</div>
+            </button>
+
+            <button type="button" id="btn-req-dma" onclick="toggleArbiterReq('dma')" class="p-3 rounded-lg bg-metal-m3/15 border border-metal-m3 text-left transition">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white">MASTER 1: DMA</span>
+                <span id="dot-req-dma" class="w-2.5 h-2.5 rounded-full bg-metal-m3"></span>
+              </div>
+              <div id="txt-req-dma" class="text-[11px] text-metal-m3 mt-1">req_dma = 1 (ACTIVE)</div>
+            </button>
+
+            <button type="button" id="btn-req-periph" onclick="toggleArbiterReq('periph')" class="p-3 rounded-lg bg-silicon-950 border border-slate-700 text-left transition">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white">MASTER 2: PERIPH</span>
+                <span id="dot-req-periph" class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
+              </div>
+              <div id="txt-req-periph" class="text-[11px] text-slate-400 mt-1">req_periph = 0 (IDLE)</div>
+            </button>
+          </div>
+
+          <!-- Live Hardware Telemetry & Starvation Progress Bar -->
+          <div class="p-4 rounded-lg bg-silicon-950 border border-slate-800 font-mono text-xs space-y-3">
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="p-2 rounded bg-silicon-900 border border-slate-800">
+                <div class="text-[10px] text-slate-400">CLOCK CYCLE</div>
+                <div id="arb-cycle" class="text-lg font-bold text-white">0</div>
+              </div>
+              <div class="p-2 rounded bg-silicon-900 border border-slate-800">
+                <div class="text-[10px] text-slate-400">GRANTED BUS MASTER</div>
+                <div id="arb-grant" class="text-lg font-bold text-metal-m5">CPU (2'b01)</div>
+              </div>
+              <div class="p-2 rounded bg-silicon-900 border border-slate-800">
+                <div class="text-[10px] text-slate-400">WAIT COUNTER</div>
+                <div id="arb-counter" class="text-lg font-bold text-metal-m8">0 / 8 Cycles</div>
+              </div>
+            </div>
+
+            <!-- 8-Cycle Fairness Counter Bar -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-[11px]">
+                <span class="text-slate-400">8-Cycle Anti-Starvation Threshold</span>
+                <span id="arb-status-badge" class="text-metal-m5">PRIORITY: CPU SERVED FIRST</span>
+              </div>
+              <div class="w-full h-2.5 bg-silicon-800 rounded-full overflow-hidden">
+                <div id="arb-wait-bar" class="h-full bg-gradient-to-r from-metal-m5 via-metal-m8 to-metal-m6 transition-all duration-300" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div id="arb-log-line" class="text-[11px] text-slate-300 bg-silicon-900 px-3 py-2 rounded border-l-2 border-metal-m5">
+              [posedge clk] CPU &amp; DMA requesting simultaneously. Serving CPU first; DMA wait_cnt incrementing...
+            </div>
+          </div>
+
+          <!-- Clock Controls -->
+          <div class="flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+            <div class="flex gap-2">
+              <button type="button" onclick="stepArbiterClock()" class="px-4 py-2 rounded bg-metal-m3 text-silicon-950 font-bold hover:bg-emerald-300 transition">
+                Step Clock (posedge clk) +1
+              </button>
+              <button type="button" id="btn-arb-autorun" onclick="toggleArbiterAuto()" class="px-3.5 py-2 rounded bg-silicon-800 border border-metal-m5/40 text-metal-m5 hover:bg-metal-m5/10 transition">
+                Auto-Clock: OFF
+              </button>
+              <button type="button" onclick="resetArbiter()" class="px-3 py-2 rounded bg-silicon-800 border border-slate-700 text-slate-300 hover:text-white transition">
+                Reset
+              </button>
+            </div>
+            <a href="https://edaplayground.com/x/JiD3" target="_blank" rel="noopener" class="text-metal-m3 hover:underline">
+              EDA Playground (x/JiD3) &nearr;
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 03: SILICON CHRONICLES (FIRST-PERSON PROJECT STORIES) -->
     <section id="projects" class="space-y-8 scroll-mt-24 reveal">
       <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-800 pb-4 gap-4">
         <div>
-          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">02 // My Engineering Chronicles Across the Design Cycle</div>
+          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">03 // My Engineering Chronicles Across the Design Cycle</div>
           <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Every Block Tells a Story: From Gates to GDSII</h2>
           <p class="text-slate-400 text-sm mt-1">Filter my work by domain to see how I approach Physical Design, Front-End RTL &amp; Verification, DFT, and Hardware Logic.</p>
         </div>
@@ -645,10 +827,10 @@
       </div>
     </section>
 
-    <!-- SECTION 03: EDA TOOLCHAIN & TECHNICAL SKILLS MATRIX -->
+    <!-- SECTION 04: EDA TOOLCHAIN & TECHNICAL SKILLS MATRIX -->
     <section id="eda-stack" class="space-y-8 scroll-mt-24 reveal">
       <div class="border-b border-slate-800 pb-4">
-        <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">03 // My Semiconductor Engineering Arsenal</div>
+        <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">04 // My Semiconductor Engineering Arsenal</div>
         <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Tools &amp; Methodologies I Work With Daily</h2>
       </div>
 
@@ -712,10 +894,10 @@
       </div>
     </section>
 
-    <!-- SECTION 04: CERTIFICATIONS, WORKSHOPS & HARDWARE EXPOSURE -->
+    <!-- SECTION 05: CERTIFICATIONS, WORKSHOPS & HARDWARE EXPOSURE -->
     <section id="certifications" class="space-y-8 scroll-mt-24 reveal">
       <div class="border-b border-slate-800 pb-4">
-        <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">04 // My Verified Credentials &amp; Industry Exposure</div>
+        <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">05 // My Verified Credentials &amp; Industry Exposure</div>
         <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Certifications, Hackathons &amp; Factory Floor Training</h2>
       </div>
 
@@ -798,11 +980,11 @@
       </div>
     </section>
 
-    <!-- SECTION 05: THE ENGINEER BEHIND THE SILICON (FIRST-PERSON STORY & PHOTO GALLERY) -->
+    <!-- SECTION 06: THE ENGINEER BEHIND THE SILICON (FIRST-PERSON STORY & PHOTO GALLERY) -->
     <section class="rounded-2xl bg-silicon-900/90 p-6 sm:p-8 eda-border reveal">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div class="lg:col-span-5 space-y-4">
-          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">05 // Beyond the Layout Window</div>
+          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">06 // Beyond the Layout Window</div>
           <h2 class="text-2xl font-bold text-white">What Drives My Engineering Discipline</h2>
           <p class="text-sm text-slate-300 leading-relaxed">
             For me, closing timing on a tough ASIC block and life outside the lab share the same core principles. Leadership forged in the <strong class="text-white">National Cadet Corps (NCC)</strong>, perseverance learned through <strong class="text-white">Martial Arts</strong>, and empathy shaped as Treasurer &amp; Volunteer in <strong class="text-white">NSS</strong> define how I work in teams and tackle high-pressure tapeout challenges.
@@ -849,7 +1031,7 @@
       </div>
     </section>
 
-    <!-- SECTION 06: CONTACT & FOOTER -->
+    <!-- SECTION 07: CONTACT & FOOTER -->
     <section id="contact" class="rounded-2xl bg-gradient-to-r from-silicon-900 via-silicon-800 to-silicon-900 p-8 sm:p-10 eda-border reveal">
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div class="space-y-2 max-w-xl">
@@ -892,9 +1074,9 @@
     </div>
   </div>
 
-  <!-- INTERACTIVE JAVASCRIPT: FIRST-PERSON QOR DATA, LIVE TERMINAL & ANIMATIONS -->
+  <!-- INTERACTIVE JAVASCRIPT: QOR + TELEMETRY BARS, 3D METAL STACK, ARBITER FSM & LIVE SHELL -->
   <script>
-    // 1. First-Person QoR Data
+    // 1. First-Person QoR Data + Animated Telemetry Bar Percentages
     const qorData = {
       gprs: {
         badge: "gprs_top.nlib • My Synopsys ICC2 Run (10-Metal, 16 Hard Macros • Apr 2026)",
@@ -911,6 +1093,11 @@
           floorplan: {
             title: "1. My Floorplan, Port Assignment & Data-Driven Macro Placement",
             desc: "When I imported gprs_top into IC Compiler II, I had 27,811 cells and 16 hard SRAM macros across 4 macro families inside a 391,605.41 µm² core area (5 µm core-to-die offset). I aligned all 103 I/O ports cleanly on M5 (West) and M6 (South) tracks with zero unplaced or off-track ports.",
+            bars: [
+              { label: "Core Utilization", valText: "21.18%", pct: 21, color: "bg-metal-m5" },
+              { label: "Port Track Alignment (103/103)", valText: "100% Legal", pct: 100, color: "bg-metal-m3" },
+              { label: "Macro Flyline Optimization (>10 Iters)", valText: "0 Overflow", pct: 100, color: "bg-metal-m8" }
+            ],
             metrics: [
               ["Initial Cells", "27,811"],
               ["Hard Macros", "16 (4 Families)"],
@@ -926,6 +1113,11 @@
           pdn: {
             title: "2. Building the Multi-Layer Power Delivery Network (PDN)",
             desc: "To prevent IR drop across the macro-heavy core, I constructed a multi-tier power mesh spanning M8 (4.64 µm width), M7 (1.104 µm width), and M2 (0.44 µm width) straps down to 0.06 µm M1 standard-cell rails.",
+            bars: [
+              { label: "PG DRC & Short Closure", valText: "0 PG DRC / 0 Shorts", pct: 100, color: "bg-metal-m3" },
+              { label: "Missing PG Via Resolution (179 Fixed)", valText: "100% Connected", pct: 100, color: "bg-metal-m5" },
+              { label: "Decoupling Capacitor (DCAP) Insertion", valText: "8,600 Cells", pct: 88, color: "bg-metal-m8" }
+            ],
             metrics: [
               ["M8 Straps", "W: 4.64µm | Pitch: 19.46µm"],
               ["M7 Straps", "W: 1.104µm | Pitch: 13.38µm"],
@@ -941,6 +1133,11 @@
           placement: {
             title: "3. Congestion-Driven Standard Cell Placement",
             desc: "I placed 30,365 cells (including 8,600 DCAPs, 76 TIEH, and 121 TIEL cells) across 4 path groups (i2r, r2o, i2o, mclk) while enforcing a strict max fanout threshold of 30.",
+            bars: [
+              { label: "Standard Cell Placement Density", valText: "62.39%", pct: 62, color: "bg-metal-m5" },
+              { label: "Setup Timing Closure (WNS / TNS)", valText: "0.00 ns Violations", pct: 100, color: "bg-metal-m3" },
+              { label: "Routing Channel Headroom (100% - 0.12% Cong.)", valText: "99.88% Free", pct: 99, color: "bg-metal-m8" }
+            ],
             metrics: [
               ["Placed Cells", "30,365"],
               ["Placement Density", "62.39% (0.6253)"],
@@ -956,6 +1153,11 @@
           cts: {
             title: "4. Clock Tree Synthesis (CTS) & Skew Balancing",
             desc: "I synthesized the primary clock tree (mclk @ 4 ns period) across 2,856 sequential sinks using 65 clock buffers/inverters and double-width double-spacing (dwds) NDR rules on M4–M5.",
+            bars: [
+              { label: "Post-CTS Core Utilization", valText: "66.27%", pct: 66, color: "bg-metal-m5" },
+              { label: "Global Skew Target (0.14ns vs 0.60ns Max)", valText: "0.14 ns Skew", pct: 92, color: "bg-metal-m3" },
+              { label: "Hold TNS Improvement (-376ns -> -0.46ns)", valText: "99.8% Closed", pct: 99, color: "bg-metal-m8" }
+            ],
             metrics: [
               ["Master Clock", "mclk (4.0 ns Period)"],
               ["Clock Sinks", "2,856 Flip-Flops"],
@@ -971,6 +1173,11 @@
           routing: {
             title: "5. Detailed Routing, Route ECO & PrimeTime Signoff",
             desc: "I drove the 10-layer global and detailed routing across all 33,286 final cells at 66.25% utilization, then executed route_eco and PrimeTime signoff checks.",
+            bars: [
+              { label: "Final Core Utilization (33,286 Cells)", valText: "66.25%", pct: 66, color: "bg-metal-m5" },
+              { label: "Post-ECO Shorts & Opens Closure", valText: "0 Shorts / 0 Opens", pct: 100, color: "bg-metal-m3" },
+              { label: "PrimeTime Signoff STA (Setup & Hold TNS)", valText: "0.00 ns Clean", pct: 100, color: "bg-metal-m8" }
+            ],
             metrics: [
               ["Final Cell Count", "33,286 Cells"],
               ["Final Utilization", "66.25%"],
@@ -1000,6 +1207,11 @@
           floorplan: {
             title: "1. My Compact Core Floorplan & Track-Aligned M5 Ports",
             desc: "For my 8-bit Asynchronous FIFO, I configured a 2,065.428 µm² core floorplan at 63.14% initial utilization with a 1 µm core offset. I placed all 24 I/O ports on Metal 5—inputs on the West/Left and outputs on the East/Right.",
+            bars: [
+              { label: "Initial Core Utilization", valText: "63.14%", pct: 63, color: "bg-metal-m5" },
+              { label: "M5 Port Track Alignment (24/24)", valText: "100% Aligned", pct: 100, color: "bg-metal-m3" },
+              { label: "Setup WNS Margin (+0.40ns)", valText: "+0.40 ns Slack", pct: 95, color: "bg-metal-m8" }
+            ],
             metrics: [
               ["Core Area", "2,065.43 µm²"],
               ["Initial Util", "63.14%"],
@@ -1015,6 +1227,11 @@
           pdn: {
             title: "2. My M7/M8 Top Mesh & M2 Vertical Strap Power Plan",
             desc: "I designed a multi-layer Power Delivery Network combining an M7/M8 top mesh (0.6 µm width, 18 µm pitch) with M2 vertical straps (0.18 µm width, 6 µm pitch) and 0.06 µm M1 standard-cell follow-pin rails.",
+            bars: [
+              { label: "PG Via DRC Resolution (2 Fixed -> 0)", valText: "0 PG DRC", pct: 100, color: "bg-metal-m3" },
+              { label: "PG Short & Connectivity Check", valText: "100% Clean", pct: 100, color: "bg-metal-m5" },
+              { label: "Decoupling Capacitor (DCAP) Density", valText: "97 Cells Placed", pct: 90, color: "bg-metal-m8" }
+            ],
             metrics: [
               ["Top Mesh (M7/M8)", "W: 0.60µm | Pitch: 18µm"],
               ["Vertical Straps (M2)", "W: 0.18µm | Pitch: 6µm"],
@@ -1030,6 +1247,11 @@
           placement: {
             title: "3. Zero-Congestion Standard Cell & Physical Cell Placement",
             desc: "I placed 276 standard logic cells alongside 97 decoupling capacitors (DCAPs) and 2 TIEH cells across 4 path groups (in2reg, reg2out, wclk, rclk).",
+            bars: [
+              { label: "Placement Density", valText: "62.70%", pct: 63, color: "bg-metal-m5" },
+              { label: "Congestion-Free Channels", valText: "0.00% Congestion", pct: 100, color: "bg-metal-m3" },
+              { label: "Pre-CTS Setup Slack (+0.35ns WNS)", valText: "+0.35 ns Met", pct: 92, color: "bg-metal-m8" }
+            ],
             metrics: [
               ["Placement Density", "62.70%"],
               ["DCAP / TIEH Cells", "97 DCAP / 2 TIEH"],
@@ -1045,6 +1267,11 @@
           cts: {
             title: "4. Dual Asynchronous Clock Tree Synthesis (wclk & rclk)",
             desc: "I synthesized independent buffered clock trees for wclk (1.50 ns period, 80 sinks) and rclk (1.50 ns period, 24 sinks) using 34 buffers and 18 inverters per domain on M4–M5 (dwds NDR).",
+            bars: [
+              { label: "Dual-Domain Clock Skew Balancing", valText: "0.00 ns Global Skew", pct: 100, color: "bg-metal-m3" },
+              { label: "wclk Latency (0.51ns vs 0.60ns Target)", valText: "0.51 ns (Met)", pct: 85, color: "bg-metal-m5" },
+              { label: "rclk Latency (0.45ns vs 0.60ns Target)", valText: "0.45 ns (Met)", pct: 75, color: "bg-metal-m8" }
+            ],
             metrics: [
               ["wclk Latency", "0.51 ns (Target <= 0.60ns)"],
               ["rclk Latency", "0.45 ns (Target <= 0.60ns)"],
@@ -1060,6 +1287,11 @@
           routing: {
             title: "5. Detailed Routing & Clean DRC/Timing Signoff",
             desc: "I completed global and detailed routing (route_opt_done.design) at 68.41% final utilization, achieving a completely clean signoff across both clock domains.",
+            bars: [
+              { label: "Final Core Cell Utilization", valText: "68.41%", pct: 68, color: "bg-metal-m5" },
+              { label: "Physical DRC / LVS / Shorts Signoff", valText: "0 DRC / 0 Shorts", pct: 100, color: "bg-metal-m3" },
+              { label: "Final Setup & Hold Timing Closure", valText: "+0.16ns WNS / 0.00ns TNS", pct: 100, color: "bg-metal-m8" }
+            ],
             metrics: [
               ["Final Cell Count", "305 Cells (68.41% Util)"],
               ["Shorts / Opens", "0 Shorts / 0 Opens"],
@@ -1095,6 +1327,28 @@
       fallbackEl.style.display = 'none';
       imgEl.src = stage.img;
       document.getElementById('qor-fallback-filename').textContent = stage.img;
+
+      // Render Animated Telemetry Bars
+      const barsContainer = document.getElementById('qor-bars-container');
+      barsContainer.innerHTML = stage.bars.map(b => `
+        <div class="space-y-1">
+          <div class="flex justify-between text-[11px]">
+            <span class="text-slate-300">${b.label}</span>
+            <span class="font-bold text-white">${b.valText}</span>
+          </div>
+          <div class="w-full h-2 bg-silicon-800 rounded-full overflow-hidden">
+            <div class="qor-bar-fill h-full ${b.color} rounded-full" style="width: 0%" data-target="${b.pct}%"></div>
+          </div>
+        </div>
+      `).join('');
+
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          document.querySelectorAll('.qor-bar-fill').forEach(el => {
+            el.style.width = el.getAttribute('data-target');
+          });
+        }, 30);
+      });
 
       const metricsGrid = document.getElementById('qor-metrics-grid');
       metricsGrid.innerHTML = stage.metrics.map(([label, val]) => `
@@ -1148,7 +1402,215 @@
       openLightbox(stage.img, stage.caption);
     }
 
-    // 2. 100% Functional Interactive Terminal Engine (First-Person & Multi-Command)
+    // 2. Interactive 3D Metal Stack Inspector Logic
+    const metalLayersData = {
+      m8m7: {
+        title: "M8 / M7 — Top-Level Power Delivery Mesh (VDD / VSS)",
+        colorClass: "text-metal-m8",
+        desc: "In gprs_top, I configured M8 straps at 4.64 µm width (19.456 µm pitch) and M7 straps at 1.104 µm width (13.376 µm pitch). In my 8-Bit Async FIFO, I built an M7/M8 top mesh at 0.6 µm width and 18 µm pitch to guarantee low-IR-drop power distribution.",
+        specA: "gprs_top: M8 (4.64µm) | M7 (1.104µm)",
+        specB: "Async FIFO: M7/M8 (0.60µm @ 18µm pitch)"
+      },
+      m6m5_ports: {
+        title: "M6 / M5 — Track-Aligned Block I/O Port Routing",
+        colorClass: "text-metal-m6",
+        desc: "I placed all 103 ports of gprs_top on M6 South (MemWriteBus[63:0], MemWriteValid, MemOverflow, power_ack) and M5 West (MemReadBus[31:0], clock, reset, cs[1:0]). In my Async FIFO, all 24 ports were track-aligned on M5 (West inputs, East outputs) with 0 off-track violations.",
+        specA: "gprs_top: 103 Ports (M6 South / M5 West)",
+        specB: "Async FIFO: 24 Ports (M5 West & East)"
+      },
+      m5m4_cts: {
+        title: "M5 / M4 — Clock Tree Synthesis with Non-Default Routing (dwds)",
+        colorClass: "text-metal-m5",
+        desc: "To shield high-frequency clock trees from coupling noise and RC delay, I routed both mclk (2,856 sinks in gprs_top) and wclk/rclk (80 & 24 sinks in Async FIFO) on M4–M5 using double-width double-spacing (dwds) NDR rules, achieving 0.14 ns and 0.00 ns global skew.",
+        specA: "gprs_top CTS: 2,856 Sinks | 0.14ns Skew",
+        specB: "Async FIFO CTS: wclk/rclk | 0.00ns Skew"
+      },
+      m2_straps: {
+        title: "M2 — Vertical Power Straps & Via Arrays",
+        colorClass: "text-metal-m3",
+        desc: "Bridges the upper M7/M8 mesh down to M1 standard cell rails. In gprs_top, I used 0.44 µm width (9.728 µm pitch) and manually inserted 179 missing PG vias. In my Async FIFO, I used 0.18 µm width (6 µm pitch) and resized via spacing to clear 2 PG DRC violations.",
+        specA: "gprs_top: M2 W=0.44µm | 179 Vias Added",
+        specB: "Async FIFO: M2 W=0.18µm | 0 PG DRC"
+      },
+      m1_rails: {
+        title: "M1 — Standard Cell Follow-Pin Rails & Decoupling Capacitors",
+        colorClass: "text-cyan-300",
+        desc: "Feeds VDD/VSS directly into standard logic cells, TIEH/TIEL cells, and decoupling capacitors (8,600 DCAPs in gprs_top; 97 DCAPs in Async FIFO) using 0.06 µm follow-pin rail structures with zero PG shorts.",
+        specA: "gprs_top: M1 W=0.06µm | 8,600 DCAPs",
+        specB: "Async FIFO: M1 W=0.06µm | 97 DCAPs"
+      }
+    };
+
+    function selectMetalLayer(key) {
+      const data = metalLayersData[key];
+      const titleEl = document.getElementById('metal-detail-title');
+      titleEl.className = `${data.colorClass} font-bold text-sm`;
+      titleEl.textContent = data.title;
+      document.getElementById('metal-detail-desc').textContent = data.desc;
+      document.getElementById('metal-detail-specs').innerHTML = `
+        <div><span class="text-slate-400">Block A:</span> <span class="text-white">${data.specA}</span></div>
+        <div><span class="text-slate-400">Block B:</span> <span class="text-white">${data.specB}</span></div>
+      `;
+
+      ['m8m7', 'm6m5_ports', 'm5m4_cts', 'm2_straps', 'm1_rails'].forEach(id => {
+        const el = document.getElementById('slab-' + id);
+        if (id === key) {
+          el.classList.add('active-slab', 'border-metal-m5');
+        } else {
+          el.classList.remove('active-slab', 'border-metal-m5');
+        }
+      });
+    }
+
+    // 3. Live Multi-Master Bus Arbiter RTL Simulator Logic
+    const arbState = {
+      cycle: 0,
+      req_cpu: true,
+      req_dma: true,
+      req_periph: false,
+      wait_cnt: 0,
+      last_secondary: 'periph',
+      autoTimer: null
+    };
+
+    function toggleArbiterReq(master) {
+      if (master === 'cpu') arbState.req_cpu = !arbState.req_cpu;
+      if (master === 'dma') arbState.req_dma = !arbState.req_dma;
+      if (master === 'periph') arbState.req_periph = !arbState.req_periph;
+      updateArbiterButtons();
+    }
+
+    function updateArbiterButtons() {
+      const cfg = [
+        { key: 'cpu', active: arbState.req_cpu, color: 'metal-m5' },
+        { key: 'dma', active: arbState.req_dma, color: 'metal-m3' },
+        { key: 'periph', active: arbState.req_periph, color: 'metal-m6' }
+      ];
+      cfg.forEach(({ key, active, color }) => {
+        const btn = document.getElementById(`btn-req-${key}`);
+        const dot = document.getElementById(`dot-req-${key}`);
+        const txt = document.getElementById(`txt-req-${key}`);
+        if (active) {
+          btn.className = `p-3 rounded-lg bg-${color}/15 border border-${color} text-left transition`;
+          dot.className = `w-2.5 h-2.5 rounded-full bg-${color}`;
+          txt.className = `text-[11px] text-${color} mt-1`;
+          txt.textContent = `req_${key} = 1 (ACTIVE)`;
+        } else {
+          btn.className = `p-3 rounded-lg bg-silicon-950 border border-slate-700 text-left transition`;
+          dot.className = `w-2.5 h-2.5 rounded-full bg-slate-600`;
+          txt.className = `text-[11px] text-slate-400 mt-1`;
+          txt.textContent = `req_${key} = 0 (IDLE)`;
+        }
+      });
+    }
+
+    function stepArbiterClock() {
+      arbState.cycle++;
+      let grant = "IDLE (2'b00)";
+      let badge = "BUS IDLE";
+      let logMsg = "";
+
+      const secondaryWaiting = arbState.req_dma || arbState.req_periph;
+
+      if (!arbState.req_cpu && !secondaryWaiting) {
+        arbState.wait_cnt = 0;
+        grant = "IDLE (2'b00)";
+        badge = "NO ACTIVE REQUESTS";
+        logMsg = `[Cycle ${arbState.cycle}] All master request lines de-asserted. Bus is IDLE.`;
+      } else if (arbState.req_cpu && !secondaryWaiting) {
+        arbState.wait_cnt = 0;
+        grant = "CPU (2'b01)";
+        badge = "PRIORITY: CPU EXCLUSIVE";
+        logMsg = `[Cycle ${arbState.cycle}] Only CPU requesting bus -> Granted to CPU (wait_cnt = 0).`;
+      } else if (!arbState.req_cpu && secondaryWaiting) {
+        arbState.wait_cnt = 0;
+        if (arbState.req_dma && arbState.req_periph) {
+          if (arbState.last_secondary === 'dma') {
+            grant = "PERIPH (2'b11)";
+            arbState.last_secondary = 'periph';
+          } else {
+            grant = "DMA (2'b10)";
+            arbState.last_secondary = 'dma';
+          }
+          badge = "ROUND-ROBIN: DMA <-> PERIPH";
+          logMsg = `[Cycle ${arbState.cycle}] CPU idle; rotating grant fairly between DMA and Peripheral -> Granted ${grant}.`;
+        } else if (arbState.req_dma) {
+          grant = "DMA (2'b10)";
+          arbState.last_secondary = 'dma';
+          badge = "GRANTED: DMA";
+          logMsg = `[Cycle ${arbState.cycle}] CPU idle -> DMA granted immediate bus access.`;
+        } else {
+          grant = "PERIPH (2'b11)";
+          arbState.last_secondary = 'periph';
+          badge = "GRANTED: PERIPHERAL";
+          logMsg = `[Cycle ${arbState.cycle}] CPU idle -> Peripheral granted immediate bus access.`;
+        }
+      } else {
+        // Contention: CPU + (DMA or Periph) both requesting!
+        if (arbState.wait_cnt < 8) {
+          arbState.wait_cnt++;
+          grant = "CPU (2'b01)";
+          badge = `CONTENTION: CPU SERVED (${arbState.wait_cnt}/8)`;
+          logMsg = `[Cycle ${arbState.cycle}] Contention! Priority 1 serves CPU while waiting master counter increments (${arbState.wait_cnt}/8).`;
+        } else {
+          // 8 cycles reached -> Force priority switch to prevent starvation!
+          if (arbState.req_dma && arbState.req_periph) {
+            if (arbState.last_secondary === 'dma') {
+              grant = "PERIPH (2'b11)";
+              arbState.last_secondary = 'periph';
+            } else {
+              grant = "DMA (2'b10)";
+              arbState.last_secondary = 'dma';
+            }
+          } else if (arbState.req_dma) {
+            grant = "DMA (2'b10)";
+            arbState.last_secondary = 'dma';
+          } else {
+            grant = "PERIPH (2'b11)";
+            arbState.last_secondary = 'periph';
+          }
+          badge = "ANTI-STARVATION OVERRIDE TRIGGERED!";
+          logMsg = `[Cycle ${arbState.cycle}] STARVATION PREVENTED! 8-cycle threshold reached -> Forced priority switch from CPU to ${grant}!`;
+          arbState.wait_cnt = 0;
+        }
+      }
+
+      document.getElementById('arb-cycle').textContent = arbState.cycle;
+      document.getElementById('arb-grant').textContent = grant;
+      document.getElementById('arb-counter').textContent = `${arbState.wait_cnt} / 8 Cycles`;
+      document.getElementById('arb-status-badge').textContent = badge;
+      document.getElementById('arb-wait-bar').style.width = `${(arbState.wait_cnt / 8) * 100}%`;
+      document.getElementById('arb-log-line').textContent = logMsg;
+    }
+
+    function toggleArbiterAuto() {
+      const btn = document.getElementById('btn-arb-autorun');
+      if (arbState.autoTimer) {
+        clearInterval(arbState.autoTimer);
+        arbState.autoTimer = null;
+        btn.textContent = "Auto-Clock: OFF";
+        btn.className = "px-3.5 py-2 rounded bg-silicon-800 border border-metal-m5/40 text-metal-m5 hover:bg-metal-m5/10 transition";
+      } else {
+        stepArbiterClock();
+        arbState.autoTimer = setInterval(stepArbiterClock, 900);
+        btn.textContent = "Auto-Clock: RUNNING";
+        btn.className = "px-3.5 py-2 rounded bg-metal-m5 text-silicon-950 font-bold transition";
+      }
+    }
+
+    function resetArbiter() {
+      if (arbState.autoTimer) toggleArbiterAuto();
+      arbState.cycle = 0;
+      arbState.wait_cnt = 0;
+      document.getElementById('arb-cycle').textContent = "0";
+      document.getElementById('arb-grant').textContent = "CPU (2'b01)";
+      document.getElementById('arb-counter').textContent = "0 / 8 Cycles";
+      document.getElementById('arb-status-badge').textContent = "PRIORITY: CPU SERVED FIRST";
+      document.getElementById('arb-wait-bar').style.width = "0%";
+      document.getElementById('arb-log-line').textContent = "[Reset] Counter cleared. Step the clock to observe multi-master arbitration.";
+    }
+
+    // 4. 100% Functional Interactive Terminal Engine (First-Person & Multi-Command)
     const terminalCommands = {
       help: `Available shell commands (type any command or click a button above):
   whoami      - My engineering bio, education & contact
@@ -1297,7 +1759,6 @@ Design : Serial-Parallel Multiplier (SPM)
       entry.appendChild(pre);
       log.appendChild(entry);
 
-      // Stream lines quickly for an authentic EDA shell feel
       const lines = outputText.split('\n');
       let idx = 0;
       function streamNextLine() {
@@ -1311,7 +1772,6 @@ Design : Serial-Parallel Multiplier (SPM)
       streamNextLine();
     }
 
-    // Arrow Up/Down History & Tab Completion on Terminal Input
     document.addEventListener('DOMContentLoaded', () => {
       const input = document.getElementById('terminal-input');
       if (input) {
@@ -1341,10 +1801,8 @@ Design : Serial-Parallel Multiplier (SPM)
         });
       }
 
-      // Initialize QoR Dashboard
       renderQorDashboard();
 
-      // Initialize Scroll Reveal Observer
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -1356,7 +1814,7 @@ Design : Serial-Parallel Multiplier (SPM)
       document.querySelectorAll('.reveal').forEach(section => observer.observe(section));
     });
 
-    // 3. Project Filter Logic
+    // 5. Project Filter Logic
     function filterProjects(category) {
       document.querySelectorAll('.project-card').forEach(card => {
         if (category === 'all' || card.dataset.category === category) {
@@ -1375,7 +1833,7 @@ Design : Serial-Parallel Multiplier (SPM)
       });
     }
 
-    // 4. Lightbox Modal Logic
+    // 6. Lightbox Modal Logic
     function openLightbox(src, caption) {
       const modal = document.getElementById('lightbox-modal');
       document.getElementById('lightbox-img').src = src;
