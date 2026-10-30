@@ -20,7 +20,7 @@
           },
           colors: {
             silicon: {
-              950: '#060911',
+              950: '#050811',
               900: '#0B101E',
               800: '#11192E',
               700: '#1D2947',
@@ -38,54 +38,42 @@
   </script>
   <style>
     body {
-      background-color: #060911;
+      background-color: #050811;
       color: #E2E8F0;
-      background-image: 
-        linear-gradient(to right, rgba(0, 240, 255, 0.035) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 240, 255, 0.035) 1px, transparent 1px);
-      background-size: 32px 32px;
       overflow-x: hidden;
     }
 
-    /* Animated Silicon Signal Traces in Background */
-    .signal-trace-h {
+    /* Full-Screen Interactive ASIC Layout Canvas */
+    #asic-canvas {
       position: fixed;
-      height: 1px;
-      width: 180px;
-      background: linear-gradient(90deg, transparent, #00F0FF, transparent);
-      opacity: 0.35;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
       z-index: 0;
-      animation: traceH 14s linear infinite;
-    }
-    .signal-trace-v {
-      position: fixed;
-      width: 1px;
-      height: 180px;
-      background: linear-gradient(180deg, transparent, #00E676, transparent);
-      opacity: 0.3;
-      pointer-events: none;
-      z-index: 0;
-      animation: traceV 18s linear infinite;
-    }
-    @keyframes traceH {
-      0% { left: -200px; }
-      100% { left: 110vw; }
-    }
-    @keyframes traceV {
-      0% { top: -200px; }
-      100% { top: 110vh; }
     }
 
-    /* Card Glow & Hover Elevation */
+    /* Subtle radial vignette so foreground cards remain crisp and readable */
+    .die-vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(circle at 50% 35%, rgba(5, 8, 17, 0.25) 0%, rgba(5, 8, 17, 0.78) 85%);
+    }
+
+    /* Card Glow & Glassmorphism over the Silicon Canvas */
     .eda-border {
-      border: 1px solid rgba(0, 240, 255, 0.16);
-      box-shadow: 0 0 25px -5px rgba(0, 240, 255, 0.06);
+      background-color: rgba(11, 16, 30, 0.84);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 240, 255, 0.18);
+      box-shadow: 0 0 25px -5px rgba(0, 240, 255, 0.08);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .eda-border:hover {
-      border-color: rgba(0, 240, 255, 0.45);
-      box-shadow: 0 12px 35px -8px rgba(0, 240, 255, 0.18);
+      border-color: rgba(0, 240, 255, 0.48);
+      box-shadow: 0 12px 35px -8px rgba(0, 240, 255, 0.22);
       transform: translateY(-2px);
     }
 
@@ -129,21 +117,19 @@
 
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: #060911; }
+    ::-webkit-scrollbar-track { background: #050811; }
     ::-webkit-scrollbar-thumb { background: #1D2947; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #00F0FF; }
   </style>
 </head>
 <body class="antialiased selection:bg-metal-m5 selection:text-silicon-950 relative">
 
-  <!-- Ambient Animated Metal Layer Signal Pulses -->
-  <div class="signal-trace-h" style="top: 128px; animation-delay: 0s;"></div>
-  <div class="signal-trace-h" style="top: 512px; animation-delay: 6s;"></div>
-  <div class="signal-trace-v" style="left: 256px; animation-delay: 2s;"></div>
-  <div class="signal-trace-v" style="left: 80%; animation-delay: 9s;"></div>
+  <!-- LIVE INTERACTIVE ASIC FLOORPLAN, MANHATTAN ROUTING & CLOCK-TREE CANVAS -->
+  <canvas id="asic-canvas"></canvas>
+  <div class="die-vignette"></div>
 
   <!-- Top EDA Status Bar -->
-  <div class="bg-silicon-950 border-b border-cyan-500/20 text-[11px] font-mono text-slate-400 px-4 py-1.5 flex flex-wrap justify-between items-center sticky top-0 z-50 backdrop-blur-md bg-opacity-90">
+  <div class="bg-silicon-950/90 border-b border-cyan-500/20 text-[11px] font-mono text-slate-400 px-4 py-1.5 flex flex-wrap justify-between items-center sticky top-0 z-50 backdrop-blur-md">
     <div class="flex items-center space-x-4">
       <span class="flex items-center text-metal-m3 font-semibold">
         <span class="w-2 h-2 rounded-full bg-metal-m3 mr-2 animate-ping"></span>
@@ -152,7 +138,7 @@
       <span class="hidden sm:inline text-slate-600">|</span>
       <span class="hidden sm:inline text-metal-m5">LVS: CLEAN</span>
       <span class="hidden md:inline text-slate-600">|</span>
-      <span class="hidden md:inline text-metal-m8">STACK: RTL &rarr; SYNTHESIS &rarr; DFT &rarr; P&amp;R &rarr; GDSII</span>
+      <span id="die-coords-readout" class="hidden lg:inline text-metal-m8">DIE CURSOR: X=0.000 um, Y=0.000 um</span>
     </div>
     <div class="flex items-center space-x-4">
       <span>WORKSPACE: <strong class="text-slate-200">narendaransg.github.io</strong></span>
@@ -187,7 +173,7 @@
       <div class="lg:col-span-7 space-y-6">
 
         <!-- Engineer Identity Card -->
-        <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-3.5 rounded-2xl bg-silicon-900/80 eda-border max-w-2xl">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-3.5 rounded-2xl eda-border max-w-2xl">
           <div onclick="openLightbox('assets/profile_suit.png', 'Hi, I am Narendaran S G — Final Year ECE Innovator')" class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-metal-m5 shadow-lg shrink-0 cursor-pointer group bg-silicon-800">
             <img src="assets/profile_suit.png" alt="Narendaran S G" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" onerror="this.src='https://ui-avatars.com/api/?name=Narendaran+SG&background=0B101E&color=00F0FF&size=200'" />
             <span class="absolute bottom-1 right-1 w-3 h-3 rounded-full bg-metal-m3 ring-2 ring-silicon-950" title="Available for Core VLSI Opportunities"></span>
@@ -218,22 +204,22 @@
 
         <!-- Key Silicon Highlights Strip -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
-          <div class="p-3 rounded-lg bg-silicon-900/90 eda-border">
+          <div class="p-3 rounded-lg eda-border">
             <div class="text-xs font-mono text-slate-400">LARGEST PD BLOCK</div>
             <div class="text-xl font-mono font-bold text-metal-m5">33,286 Cells</div>
             <div class="text-[11px] font-mono text-slate-400">16 SRAM Macros (ICC2)</div>
           </div>
-          <div class="p-3 rounded-lg bg-silicon-900/90 eda-border">
+          <div class="p-3 rounded-lg eda-border">
             <div class="text-xs font-mono text-slate-400">DUAL-CLK SKEW</div>
             <div class="text-xl font-mono font-bold text-metal-m3">0.000 ns</div>
             <div class="text-[11px] font-mono text-slate-400">Async FIFO CTS Signoff</div>
           </div>
-          <div class="p-3 rounded-lg bg-silicon-900/90 eda-border">
+          <div class="p-3 rounded-lg eda-border">
             <div class="text-xs font-mono text-slate-400">INNOVUS SLACK</div>
             <div class="text-xl font-mono font-bold text-metal-m8">+1.377 ns</div>
             <div class="text-[11px] font-mono text-slate-400">0.00% Route Overflow</div>
           </div>
-          <div class="p-3 rounded-lg bg-silicon-900/90 eda-border">
+          <div class="p-3 rounded-lg eda-border">
             <div class="text-xs font-mono text-slate-400">CHIPTHINK RTL</div>
             <div class="text-xl font-mono font-bold text-metal-m6">Finalist</div>
             <div class="text-[11px] font-mono text-slate-400">Maven Silicon &amp; IEEE</div>
@@ -246,13 +232,13 @@
             <span>View My Interactive Resume</span>
             <span>&rarr;</span>
           </a>
-          <a href="#interactive-lab" class="px-4 py-2.5 rounded bg-silicon-800 border border-metal-m3/40 text-metal-m3 hover:bg-metal-m3/10 transition">
+          <a href="#interactive-lab" class="px-4 py-2.5 rounded bg-silicon-800/90 border border-metal-m3/40 text-metal-m3 hover:bg-metal-m3/10 transition">
             Launch 3D PDN &amp; RTL Simulators
           </a>
-          <a href="https://github.com/narendaransg" target="_blank" rel="noopener" class="px-4 py-2.5 rounded bg-silicon-800 border border-slate-700 text-slate-200 hover:border-metal-m5 hover:text-metal-m5 transition">
+          <a href="https://github.com/narendaransg" target="_blank" rel="noopener" class="px-4 py-2.5 rounded bg-silicon-800/90 border border-slate-700 text-slate-200 hover:border-metal-m5 hover:text-metal-m5 transition">
             GitHub
           </a>
-          <a href="https://www.linkedin.com/in/narendaran-s-g-886273291" target="_blank" rel="noopener" class="px-4 py-2.5 rounded bg-silicon-800 border border-slate-700 text-slate-200 hover:border-metal-m5 hover:text-metal-m5 transition">
+          <a href="https://www.linkedin.com/in/narendaran-s-g-886273291" target="_blank" rel="noopener" class="px-4 py-2.5 rounded bg-silicon-800/90 border border-slate-700 text-slate-200 hover:border-metal-m5 hover:text-metal-m5 transition">
             LinkedIn
           </a>
         </div>
@@ -260,7 +246,7 @@
 
       <!-- Right Column: 100% Functional Interactive EDA Shell / RTL Terminal -->
       <div class="lg:col-span-5">
-        <div id="terminal-container" class="rounded-xl overflow-hidden bg-[#050811] border border-cyan-500/40 shadow-2xl shadow-cyan-500/10">
+        <div id="terminal-container" class="rounded-xl overflow-hidden bg-[#050811]/95 backdrop-blur-md border border-cyan-500/40 shadow-2xl shadow-cyan-500/10">
           <!-- Terminal Window Header -->
           <div class="bg-silicon-800 px-4 py-2.5 border-b border-slate-700/80 flex items-center justify-between">
             <div class="flex items-center space-x-2">
@@ -318,10 +304,10 @@
     </section>
 
     <!-- ANIMATED DIGITAL CLOCK WAVEFORM DIVIDER -->
-    <div class="py-2 overflow-hidden opacity-75">
-      <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 mb-1 px-1">
+    <div class="py-2 overflow-hidden opacity-85">
+      <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-1 px-1">
         <span>CLK_DOMAIN_A: wclk (1.50 ns period | 0.00 ns skew)</span>
-        <span>STA_SIGNOFF: SETUP &amp; HOLD MET</span>
+        <span>MOVE CURSOR TO INSPECT DIE ROUTING &amp; CLOCK H-TREE NODES</span>
       </div>
       <svg class="w-full h-6" viewBox="0 0 1200 24" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
         <path class="clock-wave" d="M0 20 H60 V4 H120 V20 H180 V4 H240 V20 H300 V4 H360 V20 H420 V4 H480 V20 H540 V4 H600 V20 H660 V4 H720 V20 H780 V4 H840 V20 H900 V4 H960 V20 H1020 V4 H1080 V20 H1140 V4 H1200" stroke="#00F0FF" stroke-width="1.5"/>
@@ -354,26 +340,26 @@
           <div class="text-[10px] text-metal-m5">STAGE 01</div>
           <div class="font-bold text-white mt-0.5">1. Floorplan &amp; I/O</div>
         </button>
-        <button type="button" onclick="switchQorStage('pdn')" data-stage="pdn" class="qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition">
+        <button type="button" onclick="switchQorStage('pdn')" data-stage="pdn" class="qor-tab p-3 rounded-lg bg-silicon-900/90 border border-slate-800 text-left hover:border-slate-700 transition">
           <div class="text-[10px] text-slate-400">STAGE 02</div>
           <div class="font-bold text-slate-200 mt-0.5">2. Power Plan (PDN)</div>
         </button>
-        <button type="button" onclick="switchQorStage('placement')" data-stage="placement" class="qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition">
+        <button type="button" onclick="switchQorStage('placement')" data-stage="placement" class="qor-tab p-3 rounded-lg bg-silicon-900/90 border border-slate-800 text-left hover:border-slate-700 transition">
           <div class="text-[10px] text-slate-400">STAGE 03</div>
           <div class="font-bold text-slate-200 mt-0.5">3. Placement</div>
         </button>
-        <button type="button" onclick="switchQorStage('cts')" data-stage="cts" class="qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition">
+        <button type="button" onclick="switchQorStage('cts')" data-stage="cts" class="qor-tab p-3 rounded-lg bg-silicon-900/90 border border-slate-800 text-left hover:border-slate-700 transition">
           <div class="text-[10px] text-slate-400">STAGE 04</div>
           <div class="font-bold text-slate-200 mt-0.5">4. Clock Tree (CTS)</div>
         </button>
-        <button type="button" onclick="switchQorStage('routing')" data-stage="routing" class="qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition col-span-2 sm:col-span-1">
+        <button type="button" onclick="switchQorStage('routing')" data-stage="routing" class="qor-tab p-3 rounded-lg bg-silicon-900/90 border border-slate-800 text-left hover:border-slate-700 transition col-span-2 sm:col-span-1">
           <div class="text-[10px] text-slate-400">STAGE 05</div>
           <div class="font-bold text-slate-200 mt-0.5">5. Routing &amp; Signoff</div>
         </button>
       </div>
 
       <!-- Dynamic QoR Content Panel -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-silicon-900/90 rounded-xl p-6 eda-border">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 rounded-xl p-6 eda-border">
         <!-- Left 7 Cols: Stage Story, Animated Telemetry Bars & QoR Table -->
         <div class="lg:col-span-7 space-y-5">
           <div class="flex items-center justify-between">
@@ -386,7 +372,7 @@
           <p id="qor-stage-desc" class="text-sm text-slate-300 leading-relaxed"></p>
 
           <!-- Animated Telemetry Bars -->
-          <div id="qor-bars-container" class="p-4 rounded-lg bg-silicon-950 border border-slate-800 space-y-3 font-mono text-xs"></div>
+          <div id="qor-bars-container" class="p-4 rounded-lg bg-silicon-950/90 border border-slate-800 space-y-3 font-mono text-xs"></div>
 
           <!-- Metric Cards Grid -->
           <div id="qor-metrics-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono"></div>
@@ -412,7 +398,7 @@
         </div>
 
         <!-- Right 5 Cols: Interactive ICC2 Layout Viewer -->
-        <div class="lg:col-span-5 flex flex-col justify-between bg-silicon-950 rounded-lg border border-slate-800 p-4">
+        <div class="lg:col-span-5 flex flex-col justify-between bg-silicon-950/90 rounded-lg border border-slate-800 p-4">
           <div>
             <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-3">
               <span id="qor-img-caption">IC Compiler II &mdash; Layout View</span>
@@ -450,7 +436,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
         <!-- WIDGET A: 3D METAL-LAYER STACK INSPECTOR (M1 - M8) -->
-        <div class="lg:col-span-6 rounded-xl bg-silicon-900/90 p-6 eda-border flex flex-col justify-between space-y-6">
+        <div class="lg:col-span-6 rounded-xl p-6 eda-border flex flex-col justify-between space-y-6">
           <div>
             <div class="flex items-center justify-between font-mono text-xs text-metal-m5">
               <span>PHYSICAL DESIGN CROSS-SECTION</span>
@@ -499,20 +485,20 @@
           </div>
 
           <!-- Selected Metal Layer Telemetry Box -->
-          <div class="p-4 rounded-lg bg-silicon-950 border border-cyan-500/30 font-mono text-xs space-y-2">
+          <div class="p-4 rounded-lg bg-silicon-950/90 border border-cyan-500/30 font-mono text-xs space-y-2">
             <div id="metal-detail-title" class="text-metal-m8 font-bold text-sm">M8 / M7 — Top-Level Power Delivery Mesh</div>
             <p id="metal-detail-desc" class="text-slate-300 leading-relaxed">
               In gprs_top, I configured M8 straps at 4.64 µm width (19.456 µm pitch) and M7 straps at 1.104 µm width (13.376 µm pitch). In my 8-Bit Async FIFO, I built an M7/M8 top mesh at 0.6 µm width and 18 µm pitch to guarantee low-IR-drop power distribution.
             </p>
             <div id="metal-detail-specs" class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800 text-[11px]">
-              <div><span class="text-slate-400">gprs_top:</span> <span class="text-white">M8: 4.64µm | M7: 1.104µm</span></div>
-              <div><span class="text-slate-400">Async FIFO:</span> <span class="text-white">M7/M8: 0.60µm @ 18µm pitch</span></div>
+              <div><span class="text-slate-400">Block A:</span> <span class="text-white">gprs_top: M8 (4.64µm) | M7 (1.104µm)</span></div>
+              <div><span class="text-slate-400">Block B:</span> <span class="text-white">Async FIFO: M7/M8 (0.60µm @ 18µm pitch)</span></div>
             </div>
           </div>
         </div>
 
         <!-- WIDGET B: LIVE MULTI-MASTER BUS ARBITER RTL SIMULATOR -->
-        <div class="lg:col-span-6 rounded-xl bg-silicon-900/90 p-6 eda-border flex flex-col justify-between space-y-5">
+        <div class="lg:col-span-6 rounded-xl p-6 eda-border flex flex-col justify-between space-y-5">
           <div>
             <div class="flex items-center justify-between font-mono text-xs text-metal-m3">
               <span>LIVE RTL HARDWARE SIMULATOR</span>
@@ -552,7 +538,7 @@
           </div>
 
           <!-- Live Hardware Telemetry & Starvation Progress Bar -->
-          <div class="p-4 rounded-lg bg-silicon-950 border border-slate-800 font-mono text-xs space-y-3">
+          <div class="p-4 rounded-lg bg-silicon-950/90 border border-slate-800 font-mono text-xs space-y-3">
             <div class="grid grid-cols-3 gap-2 text-center">
               <div class="p-2 rounded bg-silicon-900 border border-slate-800">
                 <div class="text-[10px] text-slate-400">CLOCK CYCLE</div>
@@ -618,10 +604,10 @@
         <!-- Filter Buttons -->
         <div class="flex flex-wrap gap-2 font-mono text-xs" id="project-filters">
           <button type="button" onclick="filterProjects('all')" data-filter="all" class="proj-filter px-3 py-1.5 rounded bg-metal-m5 text-silicon-950 font-bold transition">All Stories (9)</button>
-          <button type="button" onclick="filterProjects('pd')" data-filter="pd" class="proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">Physical Design (Back-End)</button>
-          <button type="button" onclick="filterProjects('rtl')" data-filter="rtl" class="proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">RTL &amp; Verification (Front-End)</button>
-          <button type="button" onclick="filterProjects('dft')" data-filter="dft" class="proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">DFT &amp; Synthesis</button>
-          <button type="button" onclick="filterProjects('ic')" data-filter="ic" class="proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">IC-Level Hardware</button>
+          <button type="button" onclick="filterProjects('pd')" data-filter="pd" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">Physical Design (Back-End)</button>
+          <button type="button" onclick="filterProjects('rtl')" data-filter="rtl" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">RTL &amp; Verification (Front-End)</button>
+          <button type="button" onclick="filterProjects('dft')" data-filter="dft" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">DFT &amp; Synthesis</button>
+          <button type="button" onclick="filterProjects('ic')" data-filter="ic" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">IC-Level Hardware</button>
         </div>
       </div>
 
@@ -629,7 +615,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
 
         <!-- 1. 8-Bit Asynchronous FIFO PD -->
-        <article data-category="pd" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
+        <article data-category="pd" class="project-card rounded-xl p-6 eda-border flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">BACK-END PD • ICC2</span>
@@ -652,7 +638,7 @@
         </article>
 
         <!-- 2. GPRS Physical Design -->
-        <article data-category="pd" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
+        <article data-category="pd" class="project-card rounded-xl p-6 eda-border flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">BACK-END PD • ICC2</span>
@@ -675,7 +661,7 @@
         </article>
 
         <!-- 3. Multi-Master Bus Arbiter (ChipThink Hackathon) -->
-        <article data-category="rtl" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
+        <article data-category="rtl" class="project-card rounded-xl p-6 eda-border flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="px-2.5 py-0.5 rounded bg-metal-m3/10 text-metal-m3 border border-metal-m3/30">RTL DESIGN • HACKATHON FINALIST</span>
@@ -698,7 +684,7 @@
         </article>
 
         <!-- 4. Verilog Half Adder Multi-Abstraction & VCS Verification -->
-        <article data-category="rtl" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
+        <article data-category="rtl" class="project-card rounded-xl p-6 eda-border flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="px-2.5 py-0.5 rounded bg-metal-m3/10 text-metal-m3 border border-metal-m3/30">RTL &amp; VERIFICATION • VCS</span>
@@ -719,7 +705,7 @@
         </article>
 
         <!-- 5. OpenLane SKY130 Serial-Parallel Multiplier -->
-        <article data-category="pd" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
+        <article data-category="pd" class="project-card rounded-xl p-6 eda-border flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">OPEN-SOURCE RTL-TO-GDSII</span>
@@ -741,7 +727,7 @@
         </article>
 
         <!-- 6. Cadence Innovus Core PD Flow -->
-        <article data-category="pd" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
+        <article data-category="pd" class="project-card rounded-xl p-6 eda-border flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="px-2.5 py-0.5 rounded bg-metal-m6/10 text-metal-m6 border border-metal-m6/30">BACK-END PD • CADENCE INNOVUS</span>
@@ -763,7 +749,7 @@
         </article>
 
         <!-- 7. Memory Block Design-for-Test (DFT) -->
-        <article data-category="dft" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
+        <article data-category="dft" class="project-card rounded-xl p-6 eda-border flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="px-2.5 py-0.5 rounded bg-metal-m8/10 text-metal-m8 border border-metal-m8/30">DFT &amp; SYNTHESIS • CADENCE GENUS</span>
@@ -785,7 +771,7 @@
         </article>
 
         <!-- 8. Phase-Locked Loop (PLL) RTL-to-Routing -->
-        <article data-category="pd" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
+        <article data-category="pd" class="project-card rounded-xl p-6 eda-border flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">RTL-TO-ROUTING • SYNOPSYS</span>
@@ -807,7 +793,7 @@
         </article>
 
         <!-- 9. 4-Bit Binary Fast Multiplier in IC Level + Barrel Shifter -->
-        <article data-category="ic" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
+        <article data-category="ic" class="project-card rounded-xl p-6 eda-border flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="px-2.5 py-0.5 rounded bg-metal-m8/10 text-metal-m8 border border-metal-m8/30">IC HARDWARE &amp; RTL SYNTHESIS</span>
@@ -835,7 +821,7 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="p-6 rounded-xl bg-silicon-900/90 eda-border space-y-4">
+        <div class="p-6 rounded-xl eda-border space-y-4">
           <div class="text-xs font-mono text-metal-m5 uppercase">Commercial EDA Suite</div>
           <h3 class="text-lg font-bold text-white">Synopsys &amp; Cadence</h3>
           <div class="flex flex-wrap gap-2 font-mono text-xs">
@@ -850,7 +836,7 @@
           </div>
         </div>
 
-        <div class="p-6 rounded-xl bg-silicon-900/90 eda-border space-y-4">
+        <div class="p-6 rounded-xl eda-border space-y-4">
           <div class="text-xs font-mono text-metal-m3 uppercase">Open-Source Silicon</div>
           <h3 class="text-lg font-bold text-white">OpenLane &amp; PDKs</h3>
           <div class="flex flex-wrap gap-2 font-mono text-xs">
@@ -864,7 +850,7 @@
           </div>
         </div>
 
-        <div class="p-6 rounded-xl bg-silicon-900/90 eda-border space-y-4">
+        <div class="p-6 rounded-xl eda-border space-y-4">
           <div class="text-xs font-mono text-metal-m8 uppercase">Back-End &amp; Signoff</div>
           <h3 class="text-lg font-bold text-white">Physical Implementation</h3>
           <div class="flex flex-wrap gap-2 font-mono text-xs">
@@ -878,7 +864,7 @@
           </div>
         </div>
 
-        <div class="p-6 rounded-xl bg-silicon-900/90 eda-border space-y-4">
+        <div class="p-6 rounded-xl eda-border space-y-4">
           <div class="text-xs font-mono text-metal-m6 uppercase">Front-End &amp; Scripting</div>
           <h3 class="text-lg font-bold text-white">RTL &amp; Verification</h3>
           <div class="flex flex-wrap gap-2 font-mono text-xs">
@@ -903,7 +889,7 @@
 
       <!-- 3 Main Certificate Cards with Lightbox Preview -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="rounded-xl bg-silicon-900/90 eda-border p-5 flex flex-col justify-between">
+        <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
           <div class="space-y-3">
             <div class="flex items-center justify-between font-mono text-xs text-metal-m5">
               <span>VLSIMINDS • BENGALURU</span>
@@ -919,7 +905,7 @@
           </button>
         </div>
 
-        <div class="rounded-xl bg-silicon-900/90 eda-border p-5 flex flex-col justify-between">
+        <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
           <div class="space-y-3">
             <div class="flex items-center justify-between font-mono text-xs text-metal-m3">
               <span>VLSIMINDS • BENGALURU</span>
@@ -935,7 +921,7 @@
           </button>
         </div>
 
-        <div class="rounded-xl bg-silicon-900/90 eda-border p-5 flex flex-col justify-between">
+        <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
           <div class="space-y-3">
             <div class="flex items-center justify-between font-mono text-xs text-metal-m6">
               <span>CENTRE FOR CHIP DESIGN</span>
@@ -954,7 +940,7 @@
 
       <!-- Competitive Events & Industrial Hardware Exposure -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-        <div class="p-5 rounded-xl bg-silicon-900/60 border border-slate-800 space-y-2">
+        <div class="p-5 rounded-xl bg-silicon-900/75 backdrop-blur-md border border-slate-800 space-y-2">
           <div class="text-xs font-mono text-metal-m8">FINALIST • MAVEN SILICON &amp; IEEE (APR 2026)</div>
           <h4 class="font-bold text-white">ChipThink VLSI Hackathon (TECHLETICS 4.0)</h4>
           <p class="text-xs text-slate-400 leading-relaxed">
@@ -962,7 +948,7 @@
           </p>
         </div>
 
-        <div class="p-5 rounded-xl bg-silicon-900/60 border border-slate-800 space-y-2">
+        <div class="p-5 rounded-xl bg-silicon-900/75 backdrop-blur-md border border-slate-800 space-y-2">
           <div class="text-xs font-mono text-metal-m5">HARDWARE FORUM (APR 2026)</div>
           <h4 class="font-bold text-white">CHIPCRAFT 2.0 — Kalasalingam Academy</h4>
           <p class="text-xs text-slate-400 leading-relaxed">
@@ -970,7 +956,7 @@
           </p>
         </div>
 
-        <div class="p-5 rounded-xl bg-silicon-900/60 border border-slate-800 space-y-2">
+        <div class="p-5 rounded-xl bg-silicon-900/75 backdrop-blur-md border border-slate-800 space-y-2">
           <div class="text-xs font-mono text-slate-400">INDUSTRIAL HARDWARE EXPOSURE (MAY – JUN 2025)</div>
           <h4 class="font-bold text-white">My Internship at Nokia (Sriperumbudur)</h4>
           <p class="text-xs text-slate-400 leading-relaxed">
@@ -981,7 +967,7 @@
     </section>
 
     <!-- SECTION 06: THE ENGINEER BEHIND THE SILICON (FIRST-PERSON STORY & PHOTO GALLERY) -->
-    <section class="rounded-2xl bg-silicon-900/90 p-6 sm:p-8 eda-border reveal">
+    <section class="rounded-2xl p-6 sm:p-8 eda-border reveal">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div class="lg:col-span-5 space-y-4">
           <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">06 // Beyond the Layout Window</div>
@@ -1032,7 +1018,7 @@
     </section>
 
     <!-- SECTION 07: CONTACT & FOOTER -->
-    <section id="contact" class="rounded-2xl bg-gradient-to-r from-silicon-900 via-silicon-800 to-silicon-900 p-8 sm:p-10 eda-border reveal">
+    <section id="contact" class="rounded-2xl p-8 sm:p-10 eda-border reveal">
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div class="space-y-2 max-w-xl">
           <div class="text-xs font-mono text-metal-m3 uppercase">Open to Core ASIC / VLSI Roles &amp; Internships</div>
@@ -1074,9 +1060,329 @@
     </div>
   </div>
 
-  <!-- INTERACTIVE JAVASCRIPT: QOR + TELEMETRY BARS, 3D METAL STACK, ARBITER FSM & LIVE SHELL -->
+  <!-- INTERACTIVE JAVASCRIPT: CHIP DESIGN BACKGROUND ENGINE + QOR + 3D METAL + ARBITER + TERMINAL -->
   <script>
+    // =========================================================================
+    // 0. INTERACTIVE ASIC FLOORPLAN, MANHATTAN ROUTING & CLOCK-TREE BACKGROUND
+    // =========================================================================
+    (function initAsicCanvas() {
+      const canvas = document.getElementById('asic-canvas');
+      const ctx = canvas.getContext('2d');
+      const coordReadout = document.getElementById('die-coords-readout');
+
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      const pitch = 64; // 64px Manhattan routing track pitch
+      let cols = 0;
+      let rows = 0;
+
+      const mouse = { x: -1000, y: -1000, active: false };
+      let macros = [];
+      let vias = [];
+      let packets = [];
+
+      const layerColors = [
+        { name: 'M5', hex: '#00F0FF', rgba: 'rgba(0, 240, 255, ' },
+        { name: 'M6', hex: '#FF2A85', rgba: 'rgba(255, 42, 133, ' },
+        { name: 'M3', hex: '#00E676', rgba: 'rgba(0, 230, 118, ' },
+        { name: 'M8', hex: '#FFB300', rgba: 'rgba(255, 179, 0, ' }
+      ];
+
+      function buildDieFloorplan() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        cols = Math.ceil(width / pitch);
+        rows = Math.ceil(height / pitch);
+
+        // Place realistic Hard SRAM & IP Macro blocks around the die perimeter
+        macros = [
+          {
+            x: pitch * 1,
+            y: pitch * 2,
+            w: pitch * 3,
+            h: pitch * 2,
+            label: 'SRAM_MACRO_64x32_0',
+            family: 'M6/M5 KEEP-OUT',
+            color: 'rgba(255, 42, 133, 0.08)',
+            border: 'rgba(255, 42, 133, 0.24)'
+          },
+          {
+            x: Math.max(pitch * 6, (cols - 4) * pitch),
+            y: pitch * 2,
+            w: pitch * 3,
+            h: pitch * 3,
+            label: 'SRAM_MACRO_64x32_1',
+            family: 'GPRS_TOP_MEM',
+            color: 'rgba(0, 240, 255, 0.06)',
+            border: 'rgba(0, 240, 255, 0.22)'
+          },
+          {
+            x: pitch * 1,
+            y: Math.max(pitch * 6, (rows - 4) * pitch),
+            w: pitch * 4,
+            h: pitch * 2,
+            label: 'ASYNC_FIFO_DUAL_CLK',
+            family: 'WCLK / RCLK_NDR',
+            color: 'rgba(0, 230, 118, 0.06)',
+            border: 'rgba(0, 230, 118, 0.22)'
+          },
+          {
+            x: Math.max(pitch * 7, (cols - 5) * pitch),
+            y: Math.max(pitch * 7, (rows - 3) * pitch),
+            w: pitch * 4,
+            h: pitch * 2,
+            label: 'PLL_ANALOG_IP_CORE',
+            family: 'SKY130_FD_SC_HD',
+            color: 'rgba(255, 179, 0, 0.06)',
+            border: 'rgba(255, 179, 0, 0.22)'
+          }
+        ];
+
+        // Generate Via intersections across the Manhattan grid
+        vias = [];
+        for (let c = 1; c < cols; c++) {
+          for (let r = 1; r < rows; r++) {
+            if ((c + r) % 2 === 0 || (c * r) % 5 === 0) {
+              vias.push({
+                x: c * pitch,
+                y: r * pitch,
+                type: (c + r) % 3 === 0 ? 'VIA78' : 'VIA56'
+              });
+            }
+          }
+        }
+
+        // Spawn Manhattan Signal Packets
+        const packetCount = Math.min(28, Math.max(14, Math.floor((width * height) / 55000)));
+        packets = [];
+        for (let i = 0; i < packetCount; i++) {
+          packets.push(createPacket());
+        }
+      }
+
+      function createPacket() {
+        const layer = layerColors[Math.floor(Math.random() * layerColors.length)];
+        const horiz = Math.random() > 0.5;
+        const c = Math.floor(Math.random() * cols);
+        const r = Math.floor(Math.random() * rows);
+        const speed = 1.6 + Math.random() * 1.8;
+        return {
+          x: c * pitch,
+          y: r * pitch,
+          vx: horiz ? (Math.random() > 0.5 ? speed : -speed) : 0,
+          vy: !horiz ? (Math.random() > 0.5 ? speed : -speed) : 0,
+          layer: layer,
+          trail: [],
+          maxTrail: 18 + Math.floor(Math.random() * 14),
+          lastTurnGridX: -1,
+          lastTurnGridY: -1
+        };
+      }
+
+      function updateAndDraw() {
+        ctx.clearRect(0, 0, width, height);
+
+        // 1. Draw Manhattan Metal Routing Tracks (M4/M5/M7/M8)
+        ctx.lineWidth = 1;
+        for (let c = 0; c <= cols; c++) {
+          const x = c * pitch;
+          // Every 4th vertical track is a thicker M8/M2 Power Strap
+          if (c % 4 === 0) {
+            ctx.strokeStyle = 'rgba(255, 179, 0, 0.065)';
+            ctx.lineWidth = 2;
+          } else {
+            ctx.strokeStyle = 'rgba(0, 240, 255, 0.032)';
+            ctx.lineWidth = 1;
+          }
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, height);
+          ctx.stroke();
+        }
+
+        for (let r = 0; r <= rows; r++) {
+          const y = r * pitch;
+          if (r % 4 === 0) {
+            ctx.strokeStyle = 'rgba(255, 42, 133, 0.055)';
+            ctx.lineWidth = 1.5;
+          } else {
+            ctx.strokeStyle = 'rgba(0, 230, 118, 0.028)';
+            ctx.lineWidth = 1;
+          }
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(width, y);
+          ctx.stroke();
+        }
+
+        // 2. Draw Hard SRAM Macro Floorplan Blocks & Perimeter Pin Ticks
+        ctx.font = '10px "JetBrains Mono", monospace';
+        macros.forEach(m => {
+          // Macro Fill & Border
+          ctx.fillStyle = m.color;
+          ctx.fillRect(m.x, m.y, m.w, m.h);
+          ctx.strokeStyle = m.border;
+          ctx.lineWidth = 1.2;
+          ctx.strokeRect(m.x, m.y, m.w, m.h);
+
+          // Keep-out Halo Dashed Outer Box
+          ctx.save();
+          ctx.setLineDash([4, 4]);
+          ctx.strokeStyle = 'rgba(148, 163, 184, 0.14)';
+          ctx.strokeRect(m.x - 6, m.y - 6, m.w + 12, m.h + 12);
+          ctx.restore();
+
+          // Internal SRAM Bitcell Array Hatch Lines
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.025)';
+          for (let ix = m.x + 16; ix < m.x + m.w; ix += 16) {
+            ctx.beginPath();
+            ctx.moveTo(ix, m.y);
+            ctx.lineTo(ix, m.y + m.h);
+            ctx.stroke();
+          }
+
+          // Macro Pin Ticks along Top & Bottom Edges
+          ctx.fillStyle = m.border;
+          for (let px = m.x + 12; px < m.x + m.w - 8; px += 14) {
+            ctx.fillRect(px, m.y - 3, 4, 3);
+            ctx.fillRect(px, m.y + m.h, 4, 3);
+          }
+
+          // Macro Label
+          ctx.fillStyle = 'rgba(226, 232, 240, 0.28)';
+          ctx.fillText(m.label, m.x + 8, m.y + 16);
+          ctx.fillStyle = 'rgba(0, 240, 255, 0.24)';
+          ctx.fillText(m.family, m.x + 8, m.y + 30);
+        });
+
+        // 3. Draw Via Squares & Interactive H-Tree Clock Proximity Links
+        vias.forEach(v => {
+          const dx = v.x - mouse.x;
+          const dy = v.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (mouse.active && dist < 170) {
+            const alpha = (1 - dist / 170) * 0.45;
+            // Manhattan L-shape clock branch from cursor to via node
+            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(mouse.x, mouse.y);
+            ctx.lineTo(v.x, mouse.y);
+            ctx.lineTo(v.x, v.y);
+            ctx.stroke();
+
+            ctx.fillStyle = '#00F0FF';
+            ctx.fillRect(v.x - 3, v.y - 3, 6, 6);
+          } else {
+            ctx.fillStyle = v.type === 'VIA78' ? 'rgba(255, 179, 0, 0.16)' : 'rgba(0, 240, 255, 0.13)';
+            ctx.fillRect(v.x - 2, v.y - 2, 4, 4);
+          }
+        });
+
+        // 4. Update & Draw Manhattan Signal Packets along Routing Tracks
+        packets.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+
+          p.trail.push({ x: p.x, y: p.y });
+          if (p.trail.length > p.maxTrail) p.trail.shift();
+
+          // Check if packet is near a grid intersection to make a 90-degree Manhattan turn
+          const nearGridX = Math.round(p.x / pitch) * pitch;
+          const nearGridY = Math.round(p.y / pitch) * pitch;
+          if (
+            Math.abs(p.x - nearGridX) < 2.2 &&
+            Math.abs(p.y - nearGridY) < 2.2 &&
+            (nearGridX !== p.lastTurnGridX || nearGridY !== p.lastTurnGridY)
+          ) {
+            if (Math.random() < 0.28) {
+              p.x = nearGridX;
+              p.y = nearGridY;
+              p.lastTurnGridX = nearGridX;
+              p.lastTurnGridY = nearGridY;
+              const speed = Math.max(Math.abs(p.vx), Math.abs(p.vy));
+              if (p.vx !== 0) {
+                p.vx = 0;
+                p.vy = Math.random() > 0.5 ? speed : -speed;
+              } else {
+                p.vy = 0;
+                p.vx = Math.random() > 0.5 ? speed : -speed;
+              }
+            }
+          }
+
+          // Wrap around die edges
+          if (p.x < -40 || p.x > width + 40 || p.y < -40 || p.y > height + 40) {
+            Object.assign(p, createPacket());
+          }
+
+          // Draw Glowing Comet Trail
+          if (p.trail.length > 1) {
+            for (let i = 1; i < p.trail.length; i++) {
+              const alpha = (i / p.trail.length) * 0.55;
+              ctx.strokeStyle = p.layer.rgba + alpha + ')';
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              ctx.moveTo(p.trail[i - 1].x, p.trail[i - 1].y);
+              ctx.lineTo(p.trail[i].x, p.trail[i].y);
+              ctx.stroke();
+            }
+          }
+
+          // Draw Packet Head (Via Contact Pulse)
+          ctx.fillStyle = p.layer.hex;
+          ctx.fillRect(p.x - 2.5, p.y - 2.5, 5, 5);
+        });
+
+        // 5. Draw EDA Layout Cursor Crosshair & Micron Readout
+        if (mouse.active) {
+          ctx.save();
+          ctx.strokeStyle = 'rgba(0, 240, 255, 0.18)';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([6, 6]);
+
+          ctx.beginPath();
+          ctx.moveTo(mouse.x, 0);
+          ctx.lineTo(mouse.x, height);
+          ctx.moveTo(0, mouse.y);
+          ctx.lineTo(width, mouse.y);
+          ctx.stroke();
+
+          // Small inspection box around cursor
+          ctx.setLineDash([]);
+          ctx.strokeStyle = 'rgba(0, 230, 118, 0.55)';
+          ctx.strokeRect(mouse.x - 10, mouse.y - 10, 20, 20);
+          ctx.restore();
+        }
+
+        requestAnimationFrame(updateAndDraw);
+      }
+
+      window.addEventListener('resize', buildDieFloorplan);
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        mouse.active = true;
+        if (coordReadout) {
+          const umX = (e.clientX * 0.425).toFixed(3);
+          const umY = ((height - e.clientY) * 0.425).toFixed(3);
+          coordReadout.textContent = `DIE CURSOR: X=${umX} um, Y=${umY} um`;
+        }
+      });
+      window.addEventListener('mouseleave', () => {
+        mouse.active = false;
+      });
+
+      buildDieFloorplan();
+      updateAndDraw();
+    })();
+
+    // =========================================================================
     // 1. First-Person QoR Data + Animated Telemetry Bar Percentages
+    // =========================================================================
     const qorData = {
       gprs: {
         badge: "gprs_top.nlib • My Synopsys ICC2 Run (10-Metal, 16 Hard Macros • Apr 2026)",
@@ -1328,7 +1634,6 @@
       imgEl.src = stage.img;
       document.getElementById('qor-fallback-filename').textContent = stage.img;
 
-      // Render Animated Telemetry Bars
       const barsContainer = document.getElementById('qor-bars-container');
       barsContainer.innerHTML = stage.bars.map(b => `
         <div class="space-y-1">
@@ -1352,7 +1657,7 @@
 
       const metricsGrid = document.getElementById('qor-metrics-grid');
       metricsGrid.innerHTML = stage.metrics.map(([label, val]) => `
-        <div class="p-3 rounded bg-silicon-950 border border-slate-800">
+        <div class="p-3 rounded bg-silicon-950/90 border border-slate-800">
           <div class="text-[10px] text-slate-400 uppercase">${label}</div>
           <div class="text-sm font-bold text-white mt-0.5">${val}</div>
         </div>
@@ -1373,7 +1678,7 @@
         if (btn.dataset.stage === currentStage) {
           btn.className = "qor-tab p-3 rounded-lg bg-silicon-800 border border-metal-m5 text-left transition";
         } else {
-          btn.className = "qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition";
+          btn.className = "qor-tab p-3 rounded-lg bg-silicon-900/90 border border-slate-800 text-left hover:border-slate-700 transition";
         }
       });
     }
@@ -1402,7 +1707,9 @@
       openLightbox(stage.img, stage.caption);
     }
 
+    // =========================================================================
     // 2. Interactive 3D Metal Stack Inspector Logic
+    // =========================================================================
     const metalLayersData = {
       m8m7: {
         title: "M8 / M7 — Top-Level Power Delivery Mesh (VDD / VSS)",
@@ -1462,7 +1769,9 @@
       });
     }
 
+    // =========================================================================
     // 3. Live Multi-Master Bus Arbiter RTL Simulator Logic
+    // =========================================================================
     const arbState = {
       cycle: 0,
       req_cpu: true,
@@ -1546,14 +1855,12 @@
           logMsg = `[Cycle ${arbState.cycle}] CPU idle -> Peripheral granted immediate bus access.`;
         }
       } else {
-        // Contention: CPU + (DMA or Periph) both requesting!
         if (arbState.wait_cnt < 8) {
           arbState.wait_cnt++;
           grant = "CPU (2'b01)";
           badge = `CONTENTION: CPU SERVED (${arbState.wait_cnt}/8)`;
           logMsg = `[Cycle ${arbState.cycle}] Contention! Priority 1 serves CPU while waiting master counter increments (${arbState.wait_cnt}/8).`;
         } else {
-          // 8 cycles reached -> Force priority switch to prevent starvation!
           if (arbState.req_dma && arbState.req_periph) {
             if (arbState.last_secondary === 'dma') {
               grant = "PERIPH (2'b11)";
@@ -1610,7 +1917,9 @@
       document.getElementById('arb-log-line').textContent = "[Reset] Counter cleared. Step the clock to observe multi-master arbitration.";
     }
 
+    // =========================================================================
     // 4. 100% Functional Interactive Terminal Engine (First-Person & Multi-Command)
+    // =========================================================================
     const terminalCommands = {
       help: `Available shell commands (type any command or click a button above):
   whoami      - My engineering bio, education & contact
@@ -1828,7 +2137,7 @@ Design : Serial-Parallel Multiplier (SPM)
         if (btn.dataset.filter === category) {
           btn.className = "proj-filter px-3 py-1.5 rounded bg-metal-m5 text-silicon-950 font-bold transition";
         } else {
-          btn.className = "proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition";
+          btn.className = "proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition";
         }
       });
     }
