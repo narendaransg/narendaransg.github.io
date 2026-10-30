@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Narendaran S G | ASIC Physical Design & RTL Verification Portfolio</title>
-  <meta name="description" content="VLSI & ASIC Portfolio of Narendaran S G — Physical Design (Synopsys ICC2, Cadence Innovus, OpenLane) and Front-End RTL Design & Verification." />
+  <title>Narendaran S G | My RTL-to-GDSII Silicon Journey</title>
+  <meta name="description" content="First-person VLSI & ASIC Portfolio of Narendaran S G — My journey from discrete logic gates and synthesizable RTL to Physical Design signoff." />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,15 +44,74 @@
         linear-gradient(to right, rgba(0, 240, 255, 0.035) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(0, 240, 255, 0.035) 1px, transparent 1px);
       background-size: 32px 32px;
+      overflow-x: hidden;
     }
+
+    /* Animated Silicon Signal Traces in Background */
+    .signal-trace-h {
+      position: fixed;
+      height: 1px;
+      width: 180px;
+      background: linear-gradient(90deg, transparent, #00F0FF, transparent);
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+      animation: traceH 14s linear infinite;
+    }
+    .signal-trace-v {
+      position: fixed;
+      width: 1px;
+      height: 180px;
+      background: linear-gradient(180deg, transparent, #00E676, transparent);
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
+      animation: traceV 18s linear infinite;
+    }
+    @keyframes traceH {
+      0% { left: -200px; }
+      100% { left: 110vw; }
+    }
+    @keyframes traceV {
+      0% { top: -200px; }
+      100% { top: 110vh; }
+    }
+
+    /* Card Glow & Hover Elevation */
     .eda-border {
       border: 1px solid rgba(0, 240, 255, 0.16);
       box-shadow: 0 0 25px -5px rgba(0, 240, 255, 0.06);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .eda-border:hover {
-      border-color: rgba(0, 240, 255, 0.4);
-      box-shadow: 0 0 30px -4px rgba(0, 240, 255, 0.14);
+      border-color: rgba(0, 240, 255, 0.45);
+      box-shadow: 0 12px 35px -8px rgba(0, 240, 255, 0.18);
+      transform: translateY(-3px);
     }
+
+    /* Scroll Reveal Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Animated Clock Waveform SVG */
+    .clock-wave {
+      stroke-dasharray: 1200;
+      stroke-dashoffset: 1200;
+      animation: drawWave 8s linear infinite;
+    }
+    @keyframes drawWave {
+      0% { stroke-dashoffset: 1200; }
+      50% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -1200; }
+    }
+
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: #060911; }
@@ -60,22 +119,28 @@
     ::-webkit-scrollbar-thumb:hover { background: #00F0FF; }
   </style>
 </head>
-<body class="antialiased selection:bg-metal-m5 selection:text-silicon-950">
+<body class="antialiased selection:bg-metal-m5 selection:text-silicon-950 relative">
+
+  <!-- Ambient Animated Metal Layer Signal Pulses -->
+  <div class="signal-trace-h" style="top: 128px; animation-delay: 0s;"></div>
+  <div class="signal-trace-h" style="top: 512px; animation-delay: 6s;"></div>
+  <div class="signal-trace-v" style="left: 256px; animation-delay: 2s;"></div>
+  <div class="signal-trace-v" style="left: 80%; animation-delay: 9s;"></div>
 
   <!-- Top EDA Status Bar -->
   <div class="bg-silicon-950 border-b border-cyan-500/20 text-[11px] font-mono text-slate-400 px-4 py-1.5 flex flex-wrap justify-between items-center sticky top-0 z-50 backdrop-blur-md bg-opacity-90">
     <div class="flex items-center space-x-4">
       <span class="flex items-center text-metal-m3 font-semibold">
-        <span class="w-2 h-2 rounded-full bg-metal-m3 mr-2 animate-pulse"></span>
+        <span class="w-2 h-2 rounded-full bg-metal-m3 mr-2 animate-ping"></span>
         DRC: 0 VIOLATIONS
       </span>
       <span class="hidden sm:inline text-slate-600">|</span>
       <span class="hidden sm:inline text-metal-m5">LVS: CLEAN</span>
       <span class="hidden md:inline text-slate-600">|</span>
-      <span class="hidden md:inline text-metal-m8">PROCESS: SKY130 / 10-METAL ASIC</span>
+      <span class="hidden md:inline text-metal-m8">STACK: RTL &rarr; SYNTHESIS &rarr; DFT &rarr; P&amp;R &rarr; GDSII</span>
     </div>
     <div class="flex items-center space-x-4">
-      <a href="tel:+918925401875" class="hover:text-white transition">+91 8925401875</a>
+      <span>WORKSPACE: <strong class="text-slate-200">narendaransg.github.io</strong></span>
       <span class="text-slate-600">|</span>
       <a href="mailto:sgnarendaran@gmail.com" class="text-metal-m5 hover:underline">sgnarendaran@gmail.com</a>
     </div>
@@ -89,80 +154,85 @@
         <span class="text-white">NARENDARAN_S_G</span>
       </a>
       <nav class="hidden md:flex items-center space-x-6 text-sm font-mono text-slate-300">
-        <a href="#qor-dashboard" class="hover:text-metal-m5 transition">01.QoR_Signoff</a>
-        <a href="#projects" class="hover:text-metal-m5 transition">02.Silicon_Projects</a>
-        <a href="#eda-stack" class="hover:text-metal-m5 transition">03.EDA_Toolchain</a>
-        <a href="#certifications" class="hover:text-metal-m5 transition">04.Credentials</a>
+        <a href="#qor-dashboard" class="hover:text-metal-m5 transition">01.My_QoR_Signoff</a>
+        <a href="#projects" class="hover:text-metal-m5 transition">02.Silicon_Chronicles</a>
+        <a href="#eda-stack" class="hover:text-metal-m5 transition">03.My_Toolchain</a>
+        <a href="#certifications" class="hover:text-metal-m5 transition">04.Milestones</a>
         <a href="resume.html" class="px-3 py-1 rounded border border-metal-m3/50 text-metal-m3 hover:bg-metal-m3/10 transition">Interactive Resume</a>
-        <a href="#contact" class="px-3.5 py-1.5 rounded bg-metal-m5 text-silicon-950 font-semibold hover:bg-cyan-300 transition">Contact</a>
+        <a href="#contact" class="px-3.5 py-1.5 rounded bg-metal-m5 text-silicon-950 font-semibold hover:bg-cyan-300 transition">Let's Talk</a>
       </nav>
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20 relative z-10">
 
-    <!-- HERO SECTION + ENGINEER AVATAR + INTERACTIVE RTL/EDA TERMINAL -->
+    <!-- HERO SECTION: MY STORY + INTERACTIVE RTL/EDA TERMINAL -->
     <section class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center pt-2">
-      <!-- Left Column: Profile Header, Bio & Positioning -->
+      <!-- Left Column: First-Person Story & Identity -->
       <div class="lg:col-span-7 space-y-6">
 
-        <!-- Engineer Identity Strip with Formal Avatar -->
+        <!-- Engineer Identity Card -->
         <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-3.5 rounded-2xl bg-silicon-900/80 eda-border max-w-2xl">
-          <div onclick="openLightbox('assets/profile_suit.png', 'Narendaran S G — Final Year ECE Innovator | ASIC & VLSI Engineer')" class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-metal-m5 shadow-lg shrink-0 cursor-pointer group bg-silicon-800">
+          <div onclick="openLightbox('assets/profile_suit.png', 'Hi, I am Narendaran S G — Final Year ECE Innovator')" class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-metal-m5 shadow-lg shrink-0 cursor-pointer group bg-silicon-800">
             <img src="assets/profile_suit.png" alt="Narendaran S G" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" onerror="this.src='https://ui-avatars.com/api/?name=Narendaran+SG&background=0B101E&color=00F0FF&size=200'" />
-            <span class="absolute bottom-1 right-1 w-3 h-3 rounded-full bg-metal-m3 ring-2 ring-silicon-950" title="Open to VLSI Roles"></span>
+            <span class="absolute bottom-1 right-1 w-3 h-3 rounded-full bg-metal-m3 ring-2 ring-silicon-950" title="Available for Core VLSI Opportunities"></span>
           </div>
           <div class="space-y-1">
             <div class="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-full bg-silicon-800 border border-metal-m5/30 text-[11px] font-mono text-metal-m5">
               <span>B.E. ECE (Sep 2023 – Jul 2027) • CGPA: 9.30</span>
             </div>
-            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Narendaran S G</h2>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Hi, I'm Narendaran S G.</h2>
             <p class="text-xs font-mono text-slate-400">
-              Final Year ECE Innovator • Easwari Engineering College (SRM Group), Chennai
+              Final-Year ECE Student @ Easwari Engineering College (SRM Group), Chennai
             </p>
           </div>
         </div>
 
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
-          From Synthesizable <span class="text-transparent bg-clip-text bg-gradient-to-r from-metal-m5 via-cyan-300 to-metal-m3">RTL to Signoff GDSII</span>.
+          I Turn Abstract <span id="typewriter-headline" class="text-transparent bg-clip-text bg-gradient-to-r from-metal-m5 via-cyan-300 to-metal-m3">RTL into Signoff Silicon</span>.
         </h1>
 
-        <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
-          Specializing in <strong class="text-white">ASIC Physical Design (Back-End)</strong>, <strong class="text-white">RTL Design & Functional Verification (Front-End)</strong>, and <strong class="text-white">Design-for-Test (DFT)</strong>. Experienced in driving multi-macro blocks and dual-clock domain architectures to timing, congestion, and DRC signoff using <span class="font-mono text-metal-m5">Synopsys</span>, <span class="font-mono text-metal-m6">Cadence</span>, and <span class="font-mono text-metal-m3">OpenLane SKY130</span> toolflows.
-        </p>
+        <div class="space-y-3 text-slate-300 text-base leading-relaxed max-w-2xl">
+          <p>
+            My fascination with hardware started with a simple question: <em class="text-white">"How does a single line of behavioral Verilog actually become millions of physical transistors and metal tracks that close timing at gigahertz speeds?"</em>
+          </p>
+          <p>
+            That curiosity took me from wiring discrete logic gates on a breadboard to writing synthesizable RTL under strict offline hackathon constraints, validating switch-level CMOS topologies in <span class="font-mono text-metal-m3">Synopsys VCS</span>, stitching scan chains in <span class="font-mono text-metal-m8">Cadence Genus/Modus</span>, and driving macro-heavy blocks all the way to <strong class="text-white">zero-DRC physical signoff</strong> in <span class="font-mono text-metal-m5">Synopsys IC Compiler II</span>, <span class="font-mono text-metal-m6">Cadence Innovus</span>, and <span class="font-mono text-metal-m3">OpenLane SKY130</span>.
+          </p>
+        </div>
 
         <!-- Key Silicon Highlights Strip -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
           <div class="p-3 rounded-lg bg-silicon-900/90 eda-border">
-            <div class="text-xs font-mono text-slate-400">MAX BLOCK SIZE</div>
-            <div class="text-xl font-mono font-bold text-metal-m5">33.2K Cells</div>
+            <div class="text-xs font-mono text-slate-400">LARGEST PD BLOCK</div>
+            <div class="text-xl font-mono font-bold text-metal-m5">33,286 Cells</div>
             <div class="text-[11px] font-mono text-slate-400">16 SRAM Macros (ICC2)</div>
           </div>
           <div class="p-3 rounded-lg bg-silicon-900/90 eda-border">
-            <div class="text-xs font-mono text-slate-400">CLOCK SKEW</div>
+            <div class="text-xs font-mono text-slate-400">DUAL-CLK SKEW</div>
             <div class="text-xl font-mono font-bold text-metal-m3">0.000 ns</div>
-            <div class="text-[11px] font-mono text-slate-400">Async FIFO Dual-CTS</div>
+            <div class="text-[11px] font-mono text-slate-400">Async FIFO CTS Signoff</div>
           </div>
           <div class="p-3 rounded-lg bg-silicon-900/90 eda-border">
-            <div class="text-xs font-mono text-slate-400">INNOVUS WNS</div>
+            <div class="text-xs font-mono text-slate-400">INNOVUS SLACK</div>
             <div class="text-xl font-mono font-bold text-metal-m8">+1.377 ns</div>
             <div class="text-[11px] font-mono text-slate-400">0.00% Route Overflow</div>
           </div>
           <div class="p-3 rounded-lg bg-silicon-900/90 eda-border">
-            <div class="text-xs font-mono text-slate-400">HACKATHON</div>
+            <div class="text-xs font-mono text-slate-400">CHIPTHINK RTL</div>
             <div class="text-xl font-mono font-bold text-metal-m6">Finalist</div>
-            <div class="text-[11px] font-mono text-slate-400">ChipThink (Maven Silicon)</div>
+            <div class="text-[11px] font-mono text-slate-400">Maven Silicon &amp; IEEE</div>
           </div>
         </div>
 
-        <!-- CTA Buttons (Direct link to resume.html) -->
+        <!-- CTA Buttons -->
         <div class="flex flex-wrap gap-3 pt-2 font-mono text-sm">
-          <a href="resume.html" class="px-5 py-2.5 rounded bg-metal-m5 text-silicon-950 font-bold hover:bg-cyan-300 transition flex items-center space-x-2">
-            <span>View Interactive Resume</span>
-            <span>→</span>
+          <a href="resume.html" class="px-5 py-2.5 rounded bg-metal-m5 text-silicon-950 font-bold hover:bg-cyan-300 transition flex items-center space-x-2 shadow-lg shadow-cyan-500/20">
+            <span>View My Interactive Resume</span>
+            <span>&rarr;</span>
           </a>
           <a href="#qor-dashboard" class="px-4 py-2.5 rounded bg-silicon-800 border border-metal-m5/40 text-metal-m5 hover:bg-metal-m5/10 transition">
-            QoR Dashboards
+            Explore My QoR Logs
           </a>
           <a href="https://github.com/narendaransg" target="_blank" rel="noopener" class="px-4 py-2.5 rounded bg-silicon-800 border border-slate-700 text-slate-200 hover:border-metal-m5 hover:text-metal-m5 transition">
             GitHub
@@ -176,66 +246,91 @@
         </div>
       </div>
 
-      <!-- Right Column: Interactive EDA Shell / RTL Terminal -->
+      <!-- Right Column: 100% Functional Interactive EDA Shell / RTL Terminal -->
       <div class="lg:col-span-5">
-        <div class="rounded-xl overflow-hidden bg-[#050811] border border-cyan-500/30 shadow-2xl">
+        <div id="terminal-container" class="rounded-xl overflow-hidden bg-[#050811] border border-cyan-500/40 shadow-2xl shadow-cyan-500/10">
           <!-- Terminal Window Header -->
           <div class="bg-silicon-800 px-4 py-2.5 border-b border-slate-700/80 flex items-center justify-between">
             <div class="flex items-center space-x-2">
               <span class="w-3 h-3 rounded-full bg-rose-500"></span>
               <span class="w-3 h-3 rounded-full bg-amber-400"></span>
               <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
-              <span class="ml-2 text-xs font-mono text-slate-300">icc2_shell / vcs_sim — narendaran@asic-node</span>
+              <span class="ml-2 text-xs font-mono text-slate-300">icc2_shell / vcs_sim &mdash; narendaran@silicon-lab</span>
             </div>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-metal-m5/10 text-metal-m5">INTERACTIVE</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-metal-m3/15 text-metal-m3 border border-metal-m3/30 animate-pulse">LIVE SHELL</span>
           </div>
 
-          <!-- Quick Shell Command Buttons -->
-          <div class="bg-silicon-900/90 px-3 py-2 border-b border-slate-800 flex flex-wrap gap-1.5 text-[11px] font-mono">
-            <span class="text-slate-400 self-center mr-1">Run:</span>
-            <button onclick="runTerminalCmd('report_qor_gprs')" class="px-2 py-0.5 rounded bg-silicon-800 hover:bg-metal-m5/20 text-metal-m5 border border-metal-m5/30 transition">report_qor (gprs_top)</button>
-            <button onclick="runTerminalCmd('report_qor_fifo')" class="px-2 py-0.5 rounded bg-silicon-800 hover:bg-metal-m3/20 text-metal-m3 border border-metal-m3/30 transition">report_clock_qor (fifo)</button>
-            <button onclick="runTerminalCmd('sim_arbiter')" class="px-2 py-0.5 rounded bg-silicon-800 hover:bg-metal-m8/20 text-metal-m8 border border-metal-m8/30 transition">vcs -R bus_arbiter</button>
-            <button onclick="runTerminalCmd('skills')" class="px-2 py-0.5 rounded bg-silicon-800 hover:bg-metal-m6/20 text-metal-m6 border border-metal-m6/30 transition">list_eda_tools</button>
+          <!-- One-Click Preset Shell Commands -->
+          <div class="bg-silicon-900/95 px-3 py-2 border-b border-slate-800 flex flex-wrap gap-1.5 text-[11px] font-mono">
+            <span class="text-slate-400 self-center mr-1">Click or Type:</span>
+            <button type="button" onclick="executeCommand('gprs')" class="px-2 py-0.5 rounded bg-silicon-800 hover:bg-metal-m5/20 text-metal-m5 border border-metal-m5/30 transition">gprs</button>
+            <button type="button" onclick="executeCommand('fifo')" class="px-2 py-0.5 rounded bg-silicon-800 hover:bg-metal-m3/20 text-metal-m3 border border-metal-m3/30 transition">fifo</button>
+            <button type="button" onclick="executeCommand('arbiter')" class="px-2 py-0.5 rounded bg-silicon-800 hover:bg-metal-m8/20 text-metal-m8 border border-metal-m8/30 transition">arbiter</button>
+            <button type="button" onclick="executeCommand('innovus')" class="px-2 py-0.5 rounded bg-silicon-800 hover:bg-metal-m6/20 text-metal-m6 border border-metal-m6/30 transition">innovus</button>
+            <button type="button" onclick="executeCommand('whoami')" class="px-2 py-0.5 rounded bg-silicon-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">whoami</button>
+            <button type="button" onclick="executeCommand('help')" class="px-2 py-0.5 rounded bg-silicon-800 hover:bg-slate-700 text-amber-300 border border-amber-400/30 transition">help</button>
+            <button type="button" onclick="executeCommand('clear')" class="px-2 py-0.5 rounded bg-silicon-800 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 transition">clear</button>
           </div>
 
           <!-- Terminal Output Body -->
-          <div id="terminal-body" class="p-4 font-mono text-xs sm:text-[13px] leading-relaxed h-[360px] overflow-y-auto space-y-2 text-slate-300">
-            <div class="text-slate-500"># Synopsys IC Compiler II / VCS Interactive Portfolio Shell</div>
-            <div class="text-slate-500"># Click a preset command above or type 'help', 'gprs', 'fifo', 'arbiter', 'clear'</div>
-            <div id="terminal-log" class="space-y-2">
-              <div><span class="text-metal-m5">icc2_shell&gt;</span> source ./scripts/signoff_summary.tcl</div>
-              <pre class="text-emerald-400 text-[11px] whitespace-pre-wrap">
-[INFO] Engineer: Narendaran S G (+91 8925401875 | sgnarendaran@gmail.com)
-[INFO] Design 'gprs_top' linked (33,286 cells, 16 Hard Macros, 10 Metal Layers).
-[INFO] Design 'async_fifo_8b' linked (305 cells, wclk/rclk 0ns skew, 0 DRC).
-[INFO] RTL Bus Arbiter & Multi-Abstraction Half-Adder VCS testbenches verified.</pre>
-            </div>
-            <!-- Input Line -->
-            <div class="flex items-center pt-1">
-              <span class="text-metal-m5 mr-2 shrink-0">icc2_shell&gt;</span>
-              <input id="terminal-input" type="text" placeholder="type 'help' and press Enter..." class="bg-transparent border-none outline-none text-white w-full font-mono text-xs" />
+          <div id="terminal-body" onclick="focusTerminalInput()" class="p-4 font-mono text-xs sm:text-[12.5px] leading-relaxed h-[360px] overflow-y-auto space-y-2.5 text-slate-300 cursor-text">
+            <div class="text-slate-500"># Welcome to my interactive IC Compiler II &amp; VCS shell!</div>
+            <div class="text-slate-500"># Type a command below (e.g., 'help', 'whoami', 'gprs', 'fifo', 'arbiter', 'dft', 'openlane', 'ls', 'clear') or click a button above.</div>
+            <div id="terminal-log" class="space-y-2.5">
+              <div><span class="text-metal-m5 font-bold">icc2_shell&gt;</span> source ./my_silicon_journey.tcl</div>
+              <pre class="text-emerald-400 text-[11px] whitespace-pre-wrap leading-relaxed">
+[INFO] Session initialized for Narendaran S G (sgnarendaran@gmail.com)
+[INFO] Loaded 'gprs_top.nlib'    -> 33,286 cells, 16 SRAM macros, 0 Setup WNS/TNS
+[INFO] Loaded 'async_fifo.nlib'  -> Dual-Clock CTS (0.00ns skew), 0 DRC, +0.16ns WNS
+[INFO] Ready. Type 'help' and press Enter.</pre>
             </div>
           </div>
+
+          <!-- Dedicated Bottom Command Input Bar -->
+          <form id="terminal-form" onsubmit="handleTerminalSubmit(event)" class="bg-silicon-900 border-t border-slate-800 px-3.5 py-2.5 flex items-center gap-2 font-mono text-xs">
+            <span class="text-metal-m5 font-bold shrink-0">icc2_shell&gt;</span>
+            <input
+              id="terminal-input"
+              type="text"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Type 'help', 'gprs', 'fifo', 'whoami'..."
+              class="bg-transparent border-none outline-none text-white placeholder-slate-500 w-full font-mono text-xs"
+            />
+            <button type="submit" class="px-2.5 py-1 rounded bg-metal-m5/15 hover:bg-metal-m5 hover:text-silicon-950 text-metal-m5 border border-metal-m5/40 font-semibold transition shrink-0">
+              Run &crarr;
+            </button>
+          </form>
         </div>
       </div>
     </section>
 
+    <!-- ANIMATED DIGITAL CLOCK WAVEFORM DIVIDER -->
+    <div class="py-2 overflow-hidden opacity-75">
+      <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 mb-1 px-1">
+        <span>CLK_DOMAIN_A: wclk (1.50 ns period | 0.00 ns skew)</span>
+        <span>STA_SIGNOFF: SETUP &amp; HOLD MET</span>
+      </div>
+      <svg class="w-full h-6" viewBox="0 0 1200 24" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path class="clock-wave" d="M0 20 H60 V4 H120 V20 H180 V4 H240 V20 H300 V4 H360 V20 H420 V4 H480 V20 H540 V4 H600 V20 H660 V4 H720 V20 H780 V4 H840 V20 H900 V4 H960 V20 H1020 V4 H1080 V20 H1140 V4 H1200" stroke="#00F0FF" stroke-width="1.5"/>
+      </svg>
+    </div>
+
     <!-- SECTION 01: INTERACTIVE QOR & TIMING SIGNOFF DASHBOARD -->
-    <section id="qor-dashboard" class="space-y-8 scroll-mt-24">
+    <section id="qor-dashboard" class="space-y-8 scroll-mt-24 reveal">
       <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-800 pb-4 gap-4">
         <div>
-          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">01 // Back-End Physical Implementation Metrics</div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Interactive QoR & Timing Signoff Explorer</h2>
-          <p class="text-slate-400 text-sm mt-1">Inspect stage-by-stage progression across Floorplan, Power Plan (PDN), Placement, CTS, and Route Signoff in Synopsys IC Compiler II.</p>
+          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">01 // Inside My IC Compiler II Implementation Runs</div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">How I Drove My Blocks from Floorplan to Signoff</h2>
+          <p class="text-slate-400 text-sm mt-1">Click through each physical stage below to see the exact challenges I faced, the controlled engineering actions I took, and my final QoR tables.</p>
         </div>
 
         <!-- Block Selector Buttons -->
         <div class="inline-flex rounded-lg p-1 bg-silicon-900 border border-slate-800 font-mono text-xs self-start">
-          <button id="btn-block-gprs" onclick="switchQorBlock('gprs')" class="px-4 py-2 rounded-md bg-metal-m5 text-silicon-950 font-bold transition">
+          <button type="button" id="btn-block-gprs" onclick="switchQorBlock('gprs')" class="px-4 py-2 rounded-md bg-metal-m5 text-silicon-950 font-bold transition">
             Block A: gprs_top (33.2K Cells)
           </button>
-          <button id="btn-block-fifo" onclick="switchQorBlock('fifo')" class="px-4 py-2 rounded-md text-slate-300 hover:text-white transition">
+          <button type="button" id="btn-block-fifo" onclick="switchQorBlock('fifo')" class="px-4 py-2 rounded-md text-slate-300 hover:text-white transition">
             Block B: 8-Bit Async FIFO (Dual-Clk)
           </button>
         </div>
@@ -243,36 +338,36 @@
 
       <!-- Stage Pipeline Tabs -->
       <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 font-mono text-xs" id="qor-stage-tabs">
-        <button onclick="switchQorStage('floorplan')" data-stage="floorplan" class="qor-tab p-3 rounded-lg bg-silicon-800 border border-metal-m5 text-left transition">
+        <button type="button" onclick="switchQorStage('floorplan')" data-stage="floorplan" class="qor-tab p-3 rounded-lg bg-silicon-800 border border-metal-m5 text-left transition">
           <div class="text-[10px] text-metal-m5">STAGE 01</div>
-          <div class="font-bold text-white mt-0.5">1. Floorplan & I/O</div>
+          <div class="font-bold text-white mt-0.5">1. Floorplan &amp; I/O</div>
         </button>
-        <button onclick="switchQorStage('pdn')" data-stage="pdn" class="qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition">
+        <button type="button" onclick="switchQorStage('pdn')" data-stage="pdn" class="qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition">
           <div class="text-[10px] text-slate-400">STAGE 02</div>
           <div class="font-bold text-slate-200 mt-0.5">2. Power Plan (PDN)</div>
         </button>
-        <button onclick="switchQorStage('placement')" data-stage="placement" class="qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition">
+        <button type="button" onclick="switchQorStage('placement')" data-stage="placement" class="qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition">
           <div class="text-[10px] text-slate-400">STAGE 03</div>
           <div class="font-bold text-slate-200 mt-0.5">3. Placement</div>
         </button>
-        <button onclick="switchQorStage('cts')" data-stage="cts" class="qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition">
+        <button type="button" onclick="switchQorStage('cts')" data-stage="cts" class="qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition">
           <div class="text-[10px] text-slate-400">STAGE 04</div>
           <div class="font-bold text-slate-200 mt-0.5">4. Clock Tree (CTS)</div>
         </button>
-        <button onclick="switchQorStage('routing')" data-stage="routing" class="qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition col-span-2 sm:col-span-1">
+        <button type="button" onclick="switchQorStage('routing')" data-stage="routing" class="qor-tab p-3 rounded-lg bg-silicon-900 border border-slate-800 text-left hover:border-slate-700 transition col-span-2 sm:col-span-1">
           <div class="text-[10px] text-slate-400">STAGE 05</div>
-          <div class="font-bold text-slate-200 mt-0.5">5. Routing & Signoff</div>
+          <div class="font-bold text-slate-200 mt-0.5">5. Routing &amp; Signoff</div>
         </button>
       </div>
 
       <!-- Dynamic QoR Content Panel -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-silicon-900/90 rounded-xl p-6 eda-border">
-        <!-- Left 7 Cols: Stage Parameters & QoR Table -->
+        <!-- Left 7 Cols: Stage Story, Parameters & QoR Table -->
         <div class="lg:col-span-7 space-y-5">
           <div class="flex items-center justify-between">
             <div>
               <span id="qor-badge" class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">gprs_top.nlib</span>
-              <h3 id="qor-stage-title" class="text-xl font-bold text-white mt-2">Floorplanning, Macro Flylines & Port Track Alignment</h3>
+              <h3 id="qor-stage-title" class="text-xl font-bold text-white mt-2">Floorplanning, Macro Flylines &amp; Port Track Alignment</h3>
             </div>
           </div>
 
@@ -283,7 +378,7 @@
 
           <!-- Full Progression Mini-Table -->
           <div class="pt-2">
-            <div class="text-xs font-mono text-slate-400 mb-2 uppercase">Stage-to-Stage QoR Progression Summary</div>
+            <div class="text-xs font-mono text-slate-400 mb-2 uppercase">My Stage-to-Stage QoR Progression Summary</div>
             <div class="overflow-x-auto rounded-lg border border-slate-800">
               <table class="w-full text-left font-mono text-xs">
                 <thead class="bg-silicon-950 text-slate-400 border-b border-slate-800">
@@ -305,8 +400,8 @@
         <div class="lg:col-span-5 flex flex-col justify-between bg-silicon-950 rounded-lg border border-slate-800 p-4">
           <div>
             <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-3">
-              <span id="qor-img-caption">IC Compiler II — Layout View</span>
-              <button onclick="openCurrentQorImage()" class="text-metal-m5 hover:underline flex items-center space-x-1">
+              <span id="qor-img-caption">IC Compiler II &mdash; Layout View</span>
+              <button type="button" onclick="openCurrentQorImage()" class="text-metal-m5 hover:underline flex items-center space-x-1">
                 <span>[Click to Enlarge]</span>
               </button>
             </div>
@@ -315,35 +410,36 @@
               <div id="qor-img-fallback" class="hidden absolute inset-0 flex-col items-center justify-center p-6 text-center font-mono text-xs text-slate-400 bg-silicon-900">
                 <div class="text-metal-m5 mb-1">[ICC2 Layout Screenshot Slot]</div>
                 <div id="qor-fallback-filename" class="text-white font-bold">assets/gprs_macro_flylines.jpg</div>
-                <p class="text-[11px] text-slate-500 mt-2">Drop your screenshot in the /assets/ folder with this exact filename to render live.</p>
+                <p class="text-[11px] text-slate-500 mt-2">Ensure this image is saved in your /assets/ folder with this exact filename.</p>
               </div>
             </div>
           </div>
 
-          <!-- Controlled Engineering Action Callout -->
+          <!-- Controlled Engineering Action Callout (1st Person) -->
           <div class="mt-4 p-3.5 rounded bg-silicon-900 border-l-2 border-metal-m3 font-mono text-xs space-y-1">
-            <div class="text-metal-m3 font-semibold">ENGINEERED CONTROLLED ACTION:</div>
+            <div class="text-metal-m3 font-semibold">HOW I SOLVED THE BOTTLENECK AT THIS STAGE:</div>
             <div id="qor-action-note" class="text-slate-300 leading-relaxed"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 02: SILICON & RTL PROJECTS (WITH LINKEDIN TIMELINES) -->
-    <section id="projects" class="space-y-8 scroll-mt-24">
+    <!-- SECTION 02: SILICON CHRONICLES (FIRST-PERSON PROJECT STORIES) -->
+    <section id="projects" class="space-y-8 scroll-mt-24 reveal">
       <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-800 pb-4 gap-4">
         <div>
-          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">02 // Full-Chip & Block-Level Implementations</div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">RTL-to-GDSII Project Matrix</h2>
+          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">02 // My Engineering Chronicles Across the Design Cycle</div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Every Block Tells a Story: From Gates to GDSII</h2>
+          <p class="text-slate-400 text-sm mt-1">Filter my work by domain to see how I approach Physical Design, Front-End RTL &amp; Verification, DFT, and Hardware Logic.</p>
         </div>
 
         <!-- Filter Buttons -->
         <div class="flex flex-wrap gap-2 font-mono text-xs" id="project-filters">
-          <button onclick="filterProjects('all')" data-filter="all" class="proj-filter px-3 py-1.5 rounded bg-metal-m5 text-silicon-950 font-bold transition">All (9)</button>
-          <button onclick="filterProjects('pd')" data-filter="pd" class="proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">Physical Design (Back-End)</button>
-          <button onclick="filterProjects('rtl')" data-filter="rtl" class="proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">RTL & Verification (Front-End)</button>
-          <button onclick="filterProjects('dft')" data-filter="dft" class="proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">DFT & Synthesis</button>
-          <button onclick="filterProjects('ic')" data-filter="ic" class="proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">IC-Level Hardware</button>
+          <button type="button" onclick="filterProjects('all')" data-filter="all" class="proj-filter px-3 py-1.5 rounded bg-metal-m5 text-silicon-950 font-bold transition">All Stories (9)</button>
+          <button type="button" onclick="filterProjects('pd')" data-filter="pd" class="proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">Physical Design (Back-End)</button>
+          <button type="button" onclick="filterProjects('rtl')" data-filter="rtl" class="proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">RTL &amp; Verification (Front-End)</button>
+          <button type="button" onclick="filterProjects('dft')" data-filter="dft" class="proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">DFT &amp; Synthesis</button>
+          <button type="button" onclick="filterProjects('ic')" data-filter="ic" class="proj-filter px-3 py-1.5 rounded bg-silicon-900 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">IC-Level Hardware</button>
         </div>
       </div>
 
@@ -357,89 +453,86 @@
               <span class="px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">BACK-END PD • ICC2</span>
               <span class="text-slate-400">Apr 2026 – May 2026</span>
             </div>
-            <h3 class="text-lg font-bold text-white">8-Bit Asynchronous FIFO Physical Design & Routing Optimization</h3>
+            <h3 class="text-lg font-bold text-white">Taming Dual Asynchronous Clocks: 8-Bit Async FIFO Physical Design</h3>
             <p class="text-sm text-slate-300 leading-relaxed">
-              End-to-end individual physical implementation in <strong class="text-white">Synopsys IC Compiler II</strong> across independent dual clock domains (`wclk` and `rclk` @ 1.50 ns period) with NDR (`dwds`) clock routing on M4/M5.
+              Taking an 8-bit Asynchronous FIFO from a synthesized netlist to physical signoff taught me how delicate dual-clock balancing really is. In <strong class="text-white">Synopsys IC Compiler II</strong>, I drove the layout across a compact 2,065.43 &mu;m&sup2; core while keeping independent write (`wclk`) and read (`rclk`) domains completely isolated from crosstalk and skew.
             </p>
             <ul class="text-xs font-mono text-slate-300 space-y-1.5 border-t border-slate-800 pt-3">
-              <li>• <span class="text-metal-m5">Floorplan:</span> 2,065.43 µm² core, 24 M5 ports, 97 DCAPs</li>
-              <li>• <span class="text-metal-m5">Dual CTS:</span> `wclk` (80 sinks, 0.51ns lat) / `rclk` (24 sinks, 0.45ns lat)</li>
-              <li>• <span class="text-metal-m3">Skew & DRC:</span> 0.00 ns Global Skew, 0 DRC, 0 Shorts, 0 Opens</li>
-              <li>• <span class="text-metal-m3">Timing:</span> +0.16 ns Setup WNS, 0.00 ns Hold TNS</li>
+              <li>&bull; <span class="text-metal-m5">My Floorplan &amp; PDN:</span> 24 track-aligned M5 ports, 97 DCAPs, and an M7/M8 + M2 power grid cleared to 0 PG DRC.</li>
+              <li>&bull; <span class="text-metal-m5">Dual CTS Balancing:</span> Engineered `wclk` (80 sinks, 0.51ns lat) &amp; `rclk` (24 sinks, 0.45ns lat) on M4–M5 (`dwds` NDR) to <strong class="text-white">0.00 ns global skew</strong>.</li>
+              <li>&bull; <span class="text-metal-m3">Clean Signoff:</span> Closed `route_opt` with 0 shorts, 0 opens, 0 DRC, and +0.16 ns Setup WNS.</li>
             </ul>
           </div>
           <div class="pt-5 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs">
-            <button onclick="openLightbox('assets/fifo_routing.png', '8-Bit Asynchronous FIFO — Final Routed Layout (0 DRC, +0.16ns WNS)')" class="text-metal-m5 hover:underline">Inspect Layout & CTS →</button>
-            <a href="#qor-dashboard" onclick="switchQorBlock('fifo')" class="text-slate-400 hover:text-white">QoR Table ↑</a>
+            <button type="button" onclick="openLightbox('assets/fifo_routing.png', 'My 8-Bit Asynchronous FIFO Final Routed Layout (0 DRC, +0.16ns WNS)')" class="text-metal-m5 hover:underline">Inspect My Layout &rarr;</button>
+            <a href="#qor-dashboard" onclick="switchQorBlock('fifo')" class="text-slate-400 hover:text-white">QoR Logs &uarr;</a>
           </div>
         </article>
 
-        <!-- 2. Verilog Half Adder Multi-Abstraction & VCS Verification -->
-        <article data-category="rtl" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between font-mono text-xs">
-              <span class="px-2.5 py-0.5 rounded bg-metal-m3/10 text-metal-m3 border border-metal-m3/30">RTL & VERIFICATION • VCS</span>
-              <span class="text-slate-400">May 2026</span>
-            </div>
-            <h3 class="text-lg font-bold text-white">Verilog Half Adder: Multi-Abstraction & Switch-Level Verification</h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              Contrasted compilation abstraction levels and transistor topologies across 4 modeling domains, verified simultaneously via a self-checking <strong class="text-white">SystemVerilog (`tb_top`)</strong> environment on <strong class="text-white">Synopsys VCS</strong>.
-            </p>
-            <ul class="text-xs font-mono text-slate-300 space-y-1.5 border-t border-slate-800 pt-3">
-              <li>• <span class="text-metal-m3">Abstractions:</span> Dataflow (`assign`), Behavioral (`always @(*)`), Gate-Level Primitives</li>
-              <li>• <span class="text-metal-m3">Switch-Level CMOS:</span> Physical `pmos`/`nmos` networks wired to `supply1 VDD` / `supply0 VSS` (`nand_sw`, `nor_sw`, `inverter_sw`)</li>
-            </ul>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs">
-            <a href="https://github.com/narendaransg/half-adders-at-different-forms" target="_blank" rel="noopener" class="text-metal-m5 font-semibold hover:underline">GitHub Repository ↗</a>
-          </div>
-        </article>
-
-        <!-- 3. GPRS Physical Design -->
+        <!-- 2. GPRS Physical Design -->
         <article data-category="pd" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">BACK-END PD • ICC2</span>
               <span class="text-slate-400">Apr 2026</span>
             </div>
-            <h3 class="text-lg font-bold text-white">GPRS Core Block Physical Design (`gprs_top`)</h3>
+            <h3 class="text-lg font-bold text-white">Conquering a 16-Macro Heavy Block: GPRS Physical Design (`gprs_top`)</h3>
             <p class="text-sm text-slate-300 leading-relaxed">
-              Full RTL-to-signoff physical implementation of a macro-heavy GPRS block in <strong class="text-white">Synopsys Design Compiler (`dc_shell`) & IC Compiler II (`icc2_shell`)</strong>. Executed data-driven flyline orientation for 16 SRAM macros (4 families).
+              When I transitioned `gprs_top` from <strong class="text-white">Synopsys Design Compiler (`dc_shell`)</strong> into <strong class="text-white">IC Compiler II (`icc2_shell`)</strong>, I had to manage 27,811 initial cells and 16 hard SRAM macros across 10 metal layers. I iterated macro placement over 10 times using data-flow flylines so the center core wouldn't choke during routing.
             </p>
             <ul class="text-xs font-mono text-slate-300 space-y-1.5 border-t border-slate-800 pt-3">
-              <li>• <span class="text-metal-m5">Core Area:</span> 391,605.4 µm² (66.25% Final Util, 10 Metal Layers)</li>
-              <li>• <span class="text-metal-m5">PDN Mesh:</span> M8 (4.64µm), M7 (1.104µm), M2 & M1</li>
-              <li>• <span class="text-metal-m5">CTS:</span> 2,856 sinks (`mclk` 4ns), 0.14 ns Global Skew</li>
-              <li>• <span class="text-metal-m3">Signoff:</span> 34 route shorts resolved via `route_eco`; 0 Setup WNS/TNS</li>
+              <li>&bull; <span class="text-metal-m5">Core &amp; Power:</span> 391,605.4 &mu;m&sup2; core (66.25% final util); fixed 179 missing PG vias across M8/M7/M2 straps.</li>
+              <li>&bull; <span class="text-metal-m5">CTS &amp; Congestion:</span> Balanced 2,856 `mclk` sinks to 0.14 ns global skew with 0.12% placement congestion.</li>
+              <li>&bull; <span class="text-metal-m3">Signoff Closure:</span> Cleared 34 initial routing shorts via `route_eco`, hitting 0.00 ns Setup WNS/TNS.</li>
             </ul>
           </div>
           <div class="pt-5 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs">
-            <button onclick="openLightbox('assets/gprs_routing.jpg', 'gprs_top — Detailed Route & SRAM Macro Signoff in Synopsys ICC2')" class="text-metal-m5 hover:underline">View Layout Gallery →</button>
-            <a href="#qor-dashboard" onclick="switchQorBlock('gprs')" class="text-slate-400 hover:text-white">QoR Table ↑</a>
+            <button type="button" onclick="openLightbox('assets/gprs_routing.jpg', 'My gprs_top 10-Layer Detailed Route & SRAM Macro Signoff in Synopsys ICC2')" class="text-metal-m5 hover:underline">View Flylines &amp; Route &rarr;</button>
+            <a href="#qor-dashboard" onclick="switchQorBlock('gprs')" class="text-slate-400 hover:text-white">QoR Logs &uarr;</a>
           </div>
         </article>
 
-        <!-- 4. Multi-Master Bus Arbiter (ChipThink Hackathon) -->
+        <!-- 3. Multi-Master Bus Arbiter (ChipThink Hackathon) -->
         <article data-category="rtl" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="px-2.5 py-0.5 rounded bg-metal-m3/10 text-metal-m3 border border-metal-m3/30">RTL DESIGN • HACKATHON FINALIST</span>
               <span class="text-slate-400">Apr 2026</span>
             </div>
-            <h3 class="text-lg font-bold text-white">Verilog Multi-Master Bus Arbiter (CPU, DMA, Peripheral)</h3>
+            <h3 class="text-lg font-bold text-white">Zero Internet, Pure RTL: My Multi-Master Bus Arbiter at ChipThink Finals</h3>
             <p class="text-sm text-slate-300 leading-relaxed">
-              Designed and verified completely offline (zero internet/phone access) during the <strong class="text-white">ChipThink VLSI Hackathon Finals</strong> (Maven Silicon & IEEE) at Christ College of Engineering.
+              At the <strong class="text-white">ChipThink VLSI Hackathon</strong> (Maven Silicon &amp; IEEE at Christ College of Engineering), my teammates and I had our phones and internet access completely locked away. Relying purely on our core RTL fundamentals, we architected and verified a deterministic Verilog Multi-Master Bus Arbiter for CPU, DMA, and Peripheral masters, advancing to the finals.
             </p>
             <ul class="text-xs font-mono text-slate-300 space-y-1.5 border-t border-slate-800 pt-3">
-              <li>• <span class="text-metal-m3">Arbitration:</span> Priority CPU serving with controlled grant rotation</li>
-              <li>• <span class="text-metal-m3">Anti-Starvation:</span> 8-clock-cycle fairness counter forces priority switch for waiting DMA/Peripheral</li>
-              <li>• <span class="text-metal-m3">Observability:</span> Hardware debug state output & full waveform validation</li>
+              <li>&bull; <span class="text-metal-m3">Starvation Prevention:</span> I helped implement an 8-clock-cycle fairness counter that forces priority rotation if DMA or Peripherals wait continuously.</li>
+              <li>&bull; <span class="text-metal-m3">Waveform Verified:</span> Built with live hardware debug state tracking to validate all 3-way contention cases.</li>
             </ul>
           </div>
           <div class="pt-5 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs">
             <a href="https://edaplayground.com/x/JiD3" target="_blank" rel="noopener" class="text-metal-m3 font-semibold hover:underline flex items-center space-x-1">
-              <span>Launch on EDA Playground (x/JiD3) ↗</span>
+              <span>Run My Code on EDA Playground (x/JiD3) &nearr;</span>
             </a>
+          </div>
+        </article>
+
+        <!-- 4. Verilog Half Adder Multi-Abstraction & VCS Verification -->
+        <article data-category="rtl" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span class="px-2.5 py-0.5 rounded bg-metal-m3/10 text-metal-m3 border border-metal-m3/30">RTL &amp; VERIFICATION • VCS</span>
+              <span class="text-slate-400">May 2026</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Peeling Back the Compiler: 4-Abstraction Verilog &amp; CMOS Switch Verification</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              I wanted to see how high-level RTL statements map all the way down to physical CMOS transistors. I built the same combinational block across four distinct modeling abstractions and wrote a top-level <strong class="text-white">SystemVerilog testbench (`tb_top`)</strong> in <strong class="text-white">Synopsys VCS</strong> to verify functional parity across all four simultaneously.
+            </p>
+            <ul class="text-xs font-mono text-slate-300 space-y-1.5 border-t border-slate-800 pt-3">
+              <li>&bull; <span class="text-metal-m3">4 Abstractions:</span> Dataflow (`assign`), Behavioral (`always @(*)`), Gate-Level Primitives, and Switch-Level CMOS.</li>
+              <li>&bull; <span class="text-metal-m3">Transistor Networks:</span> Wired physical `pmos` and `nmos` switches directly to `supply1 VDD` and `supply0 VSS` (`nand_sw`, `nor_sw`, `inverter_sw`).</li>
+            </ul>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs">
+            <a href="https://github.com/narendaransg/half-adders-at-different-forms" target="_blank" rel="noopener" class="text-metal-m5 font-semibold hover:underline">Explore My GitHub Repo &nearr;</a>
           </div>
         </article>
 
@@ -450,19 +543,18 @@
               <span class="px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">OPEN-SOURCE RTL-TO-GDSII</span>
               <span class="text-slate-400">Nov 2025 – Apr 2026</span>
             </div>
-            <h3 class="text-lg font-bold text-white">Serial-Parallel Multiplier (SPM) — OpenLane & SKY130 PDK</h3>
+            <h3 class="text-lg font-bold text-white">Stripping Away Proprietary GUIs: OpenLane &amp; SKY130 RTL-to-GDSII</h3>
             <p class="text-sm text-slate-300 leading-relaxed">
-              Executed a 70+ step automated RTL-to-GDSII physical realization pipeline stripping away proprietary GUI wrappers to analyze underlying Tcl scripts and physical algorithms.
+              Commercial EDA tools are powerful, but running a 70+ step open-source pipeline forced me to understand the raw Tcl scripts and algorithms underneath. Starting with my first VSD OpenLane test run and culminating in a complete <strong class="text-white">Serial-Parallel Multiplier (SPM)</strong> tapeout flow, I drove the design to a clean <strong class="text-white">SkyWater 130nm (`sky130_fd_sc_hd`)</strong> GDSII layout.
             </p>
             <ul class="text-xs font-mono text-slate-300 space-y-1.5 border-t border-slate-800 pt-3">
-              <li>• <span class="text-metal-m5">Front-End Synthesis:</span> Yosys logic synthesis & Verilator structural linting</li>
-              <li>• <span class="text-metal-m5">Back-End P&R:</span> OpenROAD floorplanning, tap/filler cell insertion, PDN, placement & CTS (`sky130_fd_sc_hd`)</li>
-              <li>• <span class="text-metal-m3">Polygon Signoff:</span> GDSII inspection in KLayout & Magic</li>
+              <li>&bull; <span class="text-metal-m5">Synthesis &amp; Linting:</span> Yosys logic synthesis &amp; Verilator structural linting.</li>
+              <li>&bull; <span class="text-metal-m5">P&amp;R &amp; Polygon Signoff:</span> OpenROAD floorplan/PDN/CTS, inspected at the polygon level in Magic &amp; KLayout.</li>
             </ul>
           </div>
           <div class="pt-5 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs text-slate-400">
             <span>OpenROAD / Yosys / Magic</span>
-            <span class="text-metal-m5">GDSII Generated</span>
+            <span class="text-metal-m5">SKY130 GDSII Clean</span>
           </div>
         </article>
 
@@ -473,18 +565,18 @@
               <span class="px-2.5 py-0.5 rounded bg-metal-m6/10 text-metal-m6 border border-metal-m6/30">BACK-END PD • CADENCE INNOVUS</span>
               <span class="text-slate-400">Nov 2025</span>
             </div>
-            <h3 class="text-lg font-bold text-white">ASIC Physical Implementation in Cadence Innovus</h3>
+            <h3 class="text-lg font-bold text-white">Achieving 0.00% Route Overflow &amp; 0.011 ns Skew in Cadence Innovus</h3>
             <p class="text-sm text-slate-300 leading-relaxed">
-              Executed complete standard-cell placement, timing optimization (`timeDesign` / `optDesign`), Clock Tree Synthesis, and detailed signal routing for an ASIC core block using the <strong class="text-white">Cadence Innovus</strong> suite (S2C & ChipIN Centre workshop).
+              Working alongside my peers during our intensive <strong class="text-white">S2C Limited &amp; ChipIN Centre</strong> workshop, I crossed a major milestone by executing the complete core physical implementation flow inside <strong class="text-white">Cadence Innovus</strong>—watching our timing slack improve at every stage.
             </p>
             <ul class="text-xs font-mono text-slate-300 space-y-1.5 border-t border-slate-800 pt-3">
-              <li>• <span class="text-metal-m6">Placement Density:</span> 53.189% with Pre-CTS WNS of +0.846 ns</li>
-              <li>• <span class="text-metal-m6">CTS Skew & Slack:</span> Ultra-balanced 0.011 ns clock skew; Post-CTS WNS improved to +1.377 ns</li>
-              <li>• <span class="text-metal-m3">Route Closure:</span> 0.00% Routing Overflow across all allocated tracks</li>
+              <li>&bull; <span class="text-metal-m6">Placement (`timeDesign`):</span> 53.189% density with a strong Pre-CTS WNS of +0.846 ns.</li>
+              <li>&bull; <span class="text-metal-m6">CTS (`optDesign`):</span> Balanced the clock network to an ultra-low <strong class="text-white">0.011 ns skew</strong>, boosting Post-CTS WNS to +1.377 ns.</li>
+              <li>&bull; <span class="text-metal-m3">Detailed Route:</span> Completed physical interconnection with <strong class="text-white">0.00% Routing Overflow</strong>.</li>
             </ul>
           </div>
           <div class="pt-5 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs">
-            <button onclick="openLightbox('assets/cert_cadence.png', 'Workshop on Physical Design using Cadence Tools — 7th & 8th Nov 2025')" class="text-metal-m6 hover:underline">View Cadence Credential →</button>
+            <button type="button" onclick="openLightbox('assets/cert_cadence.png', 'My Certificate — Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="text-metal-m6 hover:underline">View My Cadence Certificate &rarr;</button>
           </div>
         </article>
 
@@ -492,21 +584,21 @@
         <article data-category="dft" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
-              <span class="px-2.5 py-0.5 rounded bg-metal-m8/10 text-metal-m8 border border-metal-m8/30">DFT & SYNTHESIS • CADENCE GENUS</span>
+              <span class="px-2.5 py-0.5 rounded bg-metal-m8/10 text-metal-m8 border border-metal-m8/30">DFT &amp; SYNTHESIS • CADENCE GENUS</span>
               <span class="text-slate-400">Nov 2025</span>
             </div>
-            <h3 class="text-lg font-bold text-white">Memory Block Design-for-Test (DFT) & Scan Insertion</h3>
+            <h3 class="text-lg font-bold text-white">Making Silicon Testable: Memory Block DFT in Cadence Genus &amp; Modus</h3>
             <p class="text-sm text-slate-300 leading-relaxed">
-              Implemented end-to-end manufacturability testability for a memory block using <strong class="text-white">Cadence Genus Synthesis Solution</strong> integrated with <strong class="text-white">Cadence Modus</strong> (S2C & ChipIN Centre).
+              A chip that passes simulation can still fail during manufacturing if you can't observe its internal states. Using the <strong class="text-white">Cadence Genus–Modus integration</strong>, my team and I implemented end-to-end Design-for-Test (DFT) for a memory block.
             </p>
             <ul class="text-xs font-mono text-slate-300 space-y-1.5 border-t border-slate-800 pt-3">
-              <li>• <span class="text-metal-m8">Scan Methodology:</span> Stitched scan flip-flops and validated shift/capture modes for maximum controllability & observability</li>
-              <li>• <span class="text-metal-m8">Signoff Reports:</span> Resolved all DFT rule violations and generated clean PPA (Power, Performance, Area) synthesized netlist reports</li>
+              <li>&bull; <span class="text-metal-m8">Scan-Chain Stitching:</span> Replaced standard flops with scan flops and validated shift and capture modes to maximize controllability and observability.</li>
+              <li>&bull; <span class="text-metal-m8">Timing-Aware Synthesis:</span> Cleared all DFT rule checks and generated clean area, power, and timing (PPA) reports.</li>
             </ul>
           </div>
           <div class="pt-5 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs text-slate-400">
-            <span>Cadence Genus + Modus Flow</span>
-            <span class="text-metal-m3">DFT Clean ✓</span>
+            <span>Cadence Genus + Modus</span>
+            <span class="text-metal-m3">Scan Connectivity Verified &check;</span>
           </div>
         </article>
 
@@ -517,18 +609,18 @@
               <span class="px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">RTL-TO-ROUTING • SYNOPSYS</span>
               <span class="text-slate-400">2025</span>
             </div>
-            <h3 class="text-lg font-bold text-white">Phase-Locked Loop (PLL) Design & Implementation</h3>
+            <h3 class="text-lg font-bold text-white">My First Full Flow Milestone: PLL Design from RTL to Routing</h3>
             <p class="text-sm text-slate-300 leading-relaxed">
-              Taken from Register-Transfer Level (RTL) code through logic synthesis in <strong class="text-white">Synopsys Design Vision</strong> to physical placement, CTS, routing, and pre-layout functional verification in <strong class="text-white">Synopsys IC Compiler</strong> at the Centre for Chip Design Lab.
+              At our college's <strong class="text-white">Centre for Chip Design Lab (ChipIN Centre)</strong>, my peers and I took on our first deep dive into the commercial <strong class="text-white">Synopsys</strong> toolchain—driving a Phase-Locked Loop (PLL) all the way from RTL code through Synthesis, Placement, CTS, Routing, and pre-layout functional simulation.
             </p>
             <ul class="text-xs font-mono text-slate-300 space-y-1.5 border-t border-slate-800 pt-3">
-              <li>• <span class="text-metal-m5">Toolchain:</span> Synopsys Design Vision & IC Compiler</li>
-              <li>• <span class="text-metal-m5">Verification:</span> Pre-layout functional simulation & timing validation</li>
+              <li>&bull; <span class="text-metal-m5">Toolchain Used:</span> Synopsys Design Vision &amp; Synopsys IC Compiler.</li>
+              <li>&bull; <span class="text-metal-m5">Foundation Built:</span> Sparked my core focus on bridging front-end RTL decisions with back-end physical realities.</li>
             </ul>
           </div>
           <div class="pt-5 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs text-slate-400">
-            <span>Centre for Chip Design</span>
-            <span class="text-metal-m3">RTL-to-Route ✓</span>
+            <span>Synopsys Design Vision / ICC</span>
+            <span class="text-metal-m3">Pre-Layout Verified &check;</span>
           </div>
         </article>
 
@@ -536,16 +628,16 @@
         <article data-category="ic" class="project-card rounded-xl bg-silicon-900/90 eda-border p-6 flex flex-col justify-between">
           <div class="space-y-4">
             <div class="flex items-center justify-between font-mono text-xs">
-              <span class="px-2.5 py-0.5 rounded bg-metal-m8/10 text-metal-m8 border border-metal-m8/30">IC HARDWARE & RTL SYNTHESIS</span>
+              <span class="px-2.5 py-0.5 rounded bg-metal-m8/10 text-metal-m8 border border-metal-m8/30">IC HARDWARE &amp; RTL SYNTHESIS</span>
               <span class="text-slate-400">Oct 2024 – Nov 2025</span>
             </div>
-            <h3 class="text-lg font-bold text-white">4-Bit IC Binary Fast Multiplier & 8-Bit Barrel Shifter</h3>
+            <h3 class="text-lg font-bold text-white">Where It Started: My Breadboard 4-Bit Fast Multiplier &amp; Barrel Shifter Synthesis</h3>
             <p class="text-sm text-slate-300 leading-relaxed">
-              Constructed a hardware 4-bit binary multiplier (`A[3:0] × B[3:0]`, verified up to `15 × 15 = 225 / 11100001₂`, Oct 2024 – Jan 2025) using discrete AND gate arrays and 4-bit full adders. Paired with RTL synthesis analysis of an 8-bit combinatorial Barrel Shifter (`assign {SHL, SHR} = {A << shamt, A >> shamt};`, Nov 2025).
+              Before automating layouts in EDA tools, I built arithmetic hardware by hand on a breadboard—wiring discrete AND gate arrays for partial products and 4-bit full adders to multiply `15 × 15 = 225 (11100001₂)`. Later, practicing on EWskills, I saw how a single Verilog line (`assign {SHL, SHR} = {A << shamt, A >> shamt};`) synthesizes into a massive multi-stage multiplexer barrel shifter.
             </p>
           </div>
           <div class="pt-5 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs">
-            <button onclick="openLightbox('assets/ic_multiplier.png', '4-Bit Binary Fast Multiplier (15 x 15 = 225 / 11100001) Hardware Implementation')" class="text-metal-m8 hover:underline">View Hardware Photo →</button>
+            <button type="button" onclick="openLightbox('assets/ic_multiplier.png', 'My Breadboard 4-Bit Binary Fast Multiplier (15 x 15 = 225 / 11100001)')" class="text-metal-m8 hover:underline">See My Breadboard Build &rarr;</button>
             <span class="text-slate-400">ALU Foundations</span>
           </div>
         </article>
@@ -554,17 +646,16 @@
     </section>
 
     <!-- SECTION 03: EDA TOOLCHAIN & TECHNICAL SKILLS MATRIX -->
-    <section id="eda-stack" class="space-y-8 scroll-mt-24">
+    <section id="eda-stack" class="space-y-8 scroll-mt-24 reveal">
       <div class="border-b border-slate-800 pb-4">
-        <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">03 // Semiconductor Engineering Stack</div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">EDA Toolchains, HDLs & Signoff Methodologies</h2>
+        <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">03 // My Semiconductor Engineering Arsenal</div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Tools &amp; Methodologies I Work With Daily</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Synopsys & Cadence Commercial EDA -->
         <div class="p-6 rounded-xl bg-silicon-900/90 eda-border space-y-4">
           <div class="text-xs font-mono text-metal-m5 uppercase">Commercial EDA Suite</div>
-          <h3 class="text-lg font-bold text-white">Synopsys & Cadence</h3>
+          <h3 class="text-lg font-bold text-white">Synopsys &amp; Cadence</h3>
           <div class="flex flex-wrap gap-2 font-mono text-xs">
             <span class="px-2.5 py-1 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/30">Synopsys IC Compiler II (icc2_shell)</span>
             <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-200">Design Compiler (dc_shell)</span>
@@ -577,10 +668,9 @@
           </div>
         </div>
 
-        <!-- Open-Source RTL-to-GDSII -->
         <div class="p-6 rounded-xl bg-silicon-900/90 eda-border space-y-4">
           <div class="text-xs font-mono text-metal-m3 uppercase">Open-Source Silicon</div>
-          <h3 class="text-lg font-bold text-white">OpenLane & PDKs</h3>
+          <h3 class="text-lg font-bold text-white">OpenLane &amp; PDKs</h3>
           <div class="flex flex-wrap gap-2 font-mono text-xs">
             <span class="px-2.5 py-1 rounded bg-silicon-800 text-metal-m3 border border-metal-m3/30">OpenLane Flow</span>
             <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-200">OpenROAD</span>
@@ -592,25 +682,23 @@
           </div>
         </div>
 
-        <!-- Physical Design & DFT Signoff -->
         <div class="p-6 rounded-xl bg-silicon-900/90 eda-border space-y-4">
-          <div class="text-xs font-mono text-metal-m8 uppercase">Back-End & Signoff</div>
+          <div class="text-xs font-mono text-metal-m8 uppercase">Back-End &amp; Signoff</div>
           <h3 class="text-lg font-bold text-white">Physical Implementation</h3>
           <div class="flex flex-wrap gap-2 font-mono text-xs">
-            <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-200">Floorplanning & Flyline Macro Placement</span>
+            <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-200">Floorplanning &amp; Flyline Macro Placement</span>
             <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-200">Multi-Layer PDN Mesh (M1–M8)</span>
             <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-200">Congestion-Driven Placement</span>
-            <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-200">Multi-Clock CTS & NDR</span>
-            <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-200">STA / Setup & Hold Closure</span>
+            <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-200">Multi-Clock CTS &amp; NDR</span>
+            <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-200">STA / Setup &amp; Hold Closure</span>
             <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-200">DRC / LVS / Route ECO</span>
             <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-200">Scan-Chain Insertion (DFT)</span>
           </div>
         </div>
 
-        <!-- Front-End HDLs & Verification -->
         <div class="p-6 rounded-xl bg-silicon-900/90 eda-border space-y-4">
-          <div class="text-xs font-mono text-metal-m6 uppercase">Front-End & Scripting</div>
-          <h3 class="text-lg font-bold text-white">RTL & Verification</h3>
+          <div class="text-xs font-mono text-metal-m6 uppercase">Front-End &amp; Scripting</div>
+          <h3 class="text-lg font-bold text-white">RTL &amp; Verification</h3>
           <div class="flex flex-wrap gap-2 font-mono text-xs">
             <span class="px-2.5 py-1 rounded bg-silicon-800 text-metal-m6 border border-metal-m6/30">Verilog HDL</span>
             <span class="px-2.5 py-1 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/30">SystemVerilog HVL</span>
@@ -625,15 +713,14 @@
     </section>
 
     <!-- SECTION 04: CERTIFICATIONS, WORKSHOPS & HARDWARE EXPOSURE -->
-    <section id="certifications" class="space-y-8 scroll-mt-24">
+    <section id="certifications" class="space-y-8 scroll-mt-24 reveal">
       <div class="border-b border-slate-800 pb-4">
-        <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">04 // Verified Credentials & Benchmarks</div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">VLSI Certifications, Hackathons & Industry Exposure</h2>
+        <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">04 // My Verified Credentials &amp; Industry Exposure</div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Certifications, Hackathons &amp; Factory Floor Training</h2>
       </div>
 
       <!-- 3 Main Certificate Cards with Lightbox Preview -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Cert 1: PD Back End -->
         <div class="rounded-xl bg-silicon-900/90 eda-border p-5 flex flex-col justify-between">
           <div class="space-y-3">
             <div class="flex items-center justify-between font-mono text-xs text-metal-m5">
@@ -642,15 +729,14 @@
             </div>
             <h3 class="text-lg font-bold text-white">Physical Design – Back End</h3>
             <p class="text-xs text-slate-300 leading-relaxed">
-              Centre for Chip Design, Easwari Engineering College in association with VLSIMINDS. Covered Floorplanning, PDN, Placement, CTS, Routing, and Signoff DRC/STA closure.
+              Completed through the Centre for Chip Design at Easwari Engineering College in association with VLSIMINDS. Here I mastered floorplanning, PDN synthesis, congestion-aware placement, CTS skew balancing, and DRC/STA closure.
             </p>
           </div>
-          <button onclick="openLightbox('assets/cert_pd_backend.png', 'Certificate of Recognition — Physical Design Back End (VLSIMINDS & EEC, 21 Apr 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:bg-metal-m5 hover:text-silicon-950 font-mono text-xs text-metal-m5 border border-metal-m5/30 transition font-semibold">
-            View Certificate Image →
+          <button type="button" onclick="openLightbox('assets/cert_pd_backend.png', 'My Certificate of Recognition — Physical Design Back End (VLSIMINDS & EEC, 21 Apr 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:bg-metal-m5 hover:text-silicon-950 font-mono text-xs text-metal-m5 border border-metal-m5/30 transition font-semibold">
+            View My Certificate &rarr;
           </button>
         </div>
 
-        <!-- Cert 2: DV Front End -->
         <div class="rounded-xl bg-silicon-900/90 eda-border p-5 flex flex-col justify-between">
           <div class="space-y-3">
             <div class="flex items-center justify-between font-mono text-xs text-metal-m3">
@@ -659,15 +745,14 @@
             </div>
             <h3 class="text-lg font-bold text-white">VLSI Design Verification – Front End</h3>
             <p class="text-xs text-slate-300 leading-relaxed">
-              Centre for Chip Design, Easwari Engineering College in association with VLSIMINDS. Focused on Verification Strategy, SystemVerilog OOP Testbenches, Functional Coverage (CDV), and UVM Fundamentals.
+              Completed through Easwari Engineering College &amp; VLSIMINDS. Focused on building comprehensive test plans, OOP SystemVerilog testbenches, Coverage-Driven Verification (CDV), and UVM fundamentals to catch logical bugs before synthesis.
             </p>
           </div>
-          <button onclick="openLightbox('assets/cert_dv_frontend.png', 'Certificate of Recognition — VLSI Design Verification Front End (VLSIMINDS & EEC, 04 Feb 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:bg-metal-m3 hover:text-silicon-950 font-mono text-xs text-metal-m3 border border-metal-m3/30 transition font-semibold">
-            View Certificate Image →
+          <button type="button" onclick="openLightbox('assets/cert_dv_frontend.png', 'My Certificate of Recognition — VLSI Design Verification Front End (VLSIMINDS & EEC, 04 Feb 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:bg-metal-m3 hover:text-silicon-950 font-mono text-xs text-metal-m3 border border-metal-m3/30 transition font-semibold">
+            View My Certificate &rarr;
           </button>
         </div>
 
-        <!-- Cert 3: Cadence PD Workshop -->
         <div class="rounded-xl bg-silicon-900/90 eda-border p-5 flex flex-col justify-between">
           <div class="space-y-3">
             <div class="flex items-center justify-between font-mono text-xs text-metal-m6">
@@ -676,11 +761,11 @@
             </div>
             <h3 class="text-lg font-bold text-white">Physical Design using Cadence Tools</h3>
             <p class="text-xs text-slate-300 leading-relaxed">
-              Intensive hands-on workshop organized by Dept. of ECE & Centre for Chip Design, Easwari Engineering College utilizing Cadence Innovus & Genus flows.
+              Hands-on workshop organized by the Dept. of ECE &amp; Centre for Chip Design at Easwari Engineering College where I trained directly on Cadence Innovus and Genus flows.
             </p>
           </div>
-          <button onclick="openLightbox('assets/cert_cadence.png', 'Certificate of Participation — Two Day Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:bg-metal-m6 hover:text-silicon-950 font-mono text-xs text-metal-m6 border border-metal-m6/30 transition font-semibold">
-            View Certificate Image →
+          <button type="button" onclick="openLightbox('assets/cert_cadence.png', 'My Certificate of Participation — Two Day Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:bg-metal-m6 hover:text-silicon-950 font-mono text-xs text-metal-m6 border border-metal-m6/30 transition font-semibold">
+            View My Certificate &rarr;
           </button>
         </div>
       </div>
@@ -688,10 +773,10 @@
       <!-- Competitive Events & Industrial Hardware Exposure -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
         <div class="p-5 rounded-xl bg-silicon-900/60 border border-slate-800 space-y-2">
-          <div class="text-xs font-mono text-metal-m8">FINALIST • MAVEN SILICON & IEEE (APR 2026)</div>
+          <div class="text-xs font-mono text-metal-m8">FINALIST • MAVEN SILICON &amp; IEEE (APR 2026)</div>
           <h4 class="font-bold text-white">ChipThink VLSI Hackathon (TECHLETICS 4.0)</h4>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Cleared Round 1 and competed in the offline finals at Christ College of Engineering, Irinjalakuda, designing a synthesizable Multi-Master Bus Arbiter from scratch without internet access.
+            Cleared Round 1 and competed in the offline finals at Christ College of Engineering, Irinjalakuda—proving to myself that I can design and debug synthesizable RTL under strict time pressure with zero internet access.
           </p>
         </div>
 
@@ -699,65 +784,65 @@
           <div class="text-xs font-mono text-metal-m5">HARDWARE FORUM (APR 2026)</div>
           <h4 class="font-bold text-white">CHIPCRAFT 2.0 — Kalasalingam Academy</h4>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Benchmarked core digital electronics and hardware architecture methodologies during the Euphoria Techno Management Meet.
+            Participated in this inter-institutional forum during the Euphoria Techno Management Meet to pressure-test and benchmark my hardware design methodologies against peers from across the region.
           </p>
         </div>
 
         <div class="p-5 rounded-xl bg-silicon-900/60 border border-slate-800 space-y-2">
-          <div class="text-xs font-mono text-slate-400">HARDWARE & PCB EXPOSURE (MAY – JUN 2025)</div>
-          <h4 class="font-bold text-white">Nokia — Student Intern</h4>
+          <div class="text-xs font-mono text-slate-400">INDUSTRIAL HARDWARE EXPOSURE (MAY – JUN 2025)</div>
+          <h4 class="font-bold text-white">My Internship at Nokia (Sriperumbudur)</h4>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Completed industrial electronics & PCB manufacturing floor process training at Nokia's Sriperumbudur telecommunications infrastructure facility.
+            Spent two months on the live factory floor at Nokia's telecommunications infrastructure facility, gaining firsthand exposure to industrial PCB workflows, embedded hardware assembly, and process efficiency.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 05: THE ENGINEER BEHIND THE SILICON (PHOTO GALLERY) -->
-    <section class="rounded-2xl bg-silicon-900/90 p-6 sm:p-8 eda-border">
+    <!-- SECTION 05: THE ENGINEER BEHIND THE SILICON (FIRST-PERSON STORY & PHOTO GALLERY) -->
+    <section class="rounded-2xl bg-silicon-900/90 p-6 sm:p-8 eda-border reveal">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div class="lg:col-span-5 space-y-4">
-          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">05 // Engineer Profile</div>
-          <h2 class="text-2xl font-bold text-white">Engineering Ideas, Embedding Precision, Leading Change.</h2>
+          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">05 // Beyond the Layout Window</div>
+          <h2 class="text-2xl font-bold text-white">What Drives My Engineering Discipline</h2>
           <p class="text-sm text-slate-300 leading-relaxed">
-            Driven by discipline, curiosity, and challenge, I channel my passion for VLSI and Embedded Systems into creating meaningful, efficient solutions. Leadership through NCC, perseverance from Martial Arts, and empathy shaped by NSS define my journey—thriving in fast-evolving spaces where ideas turn into impactful silicon technologies.
+            For me, closing timing on a tough ASIC block and life outside the lab share the same core principles. Leadership forged in the <strong class="text-white">National Cadet Corps (NCC)</strong>, perseverance learned through <strong class="text-white">Martial Arts</strong>, and empathy shaped as Treasurer &amp; Volunteer in <strong class="text-white">NSS</strong> define how I work in teams and tackle high-pressure tapeout challenges.
           </p>
           <div class="pt-2 flex flex-wrap gap-2 font-mono text-xs">
             <span class="px-2.5 py-1 rounded bg-silicon-800 text-metal-m5">Chennai, Tamil Nadu</span>
-            <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-300">IETE & ISTE Member</span>
+            <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-300">IETE &amp; ISTE Member</span>
             <span class="px-2.5 py-1 rounded bg-silicon-800 text-slate-300">CGPA: 9.30</span>
           </div>
         </div>
 
         <!-- 3-Photo Interactive Showcase -->
         <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div onclick="openLightbox('assets/profile_suit.png', 'Narendaran S G — Professional Profile')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
+          <div onclick="openLightbox('assets/profile_suit.png', 'Professional Profile — Ready for Core Semiconductor Challenges')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
             <div class="h-56 overflow-hidden">
-              <img src="assets/profile_suit.png" alt="Narendaran S G Suit" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
+              <img src="assets/profile_suit.png" alt="Narendaran S G Formal" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
             </div>
             <div class="p-2.5 font-mono text-[11px] text-slate-300 flex justify-between items-center border-t border-slate-800">
-              <span>01 // Formal</span>
-              <span class="text-metal-m5">↗</span>
+              <span>01 // Professional</span>
+              <span class="text-metal-m5">&nearr;</span>
             </div>
           </div>
 
-          <div onclick="openLightbox('assets/profile_candid.png', 'Narendaran S G — Candid Profile')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
+          <div onclick="openLightbox('assets/profile_candid.png', 'Stepping Out — Curiosity & Perspective')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
             <div class="h-56 overflow-hidden">
               <img src="assets/profile_candid.png" alt="Narendaran S G Candid" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
             </div>
             <div class="p-2.5 font-mono text-[11px] text-slate-300 flex justify-between items-center border-t border-slate-800">
               <span>02 // Candid</span>
-              <span class="text-metal-m5">↗</span>
+              <span class="text-metal-m5">&nearr;</span>
             </div>
           </div>
 
-          <div onclick="openLightbox('assets/profile_nature.png', 'Narendaran S G — Beyond the Lab')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
+          <div onclick="openLightbox('assets/profile_nature.png', 'Staying Grounded Outside the Lab')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
             <div class="h-56 overflow-hidden">
-              <img src="assets/profile_nature.png" alt="Narendaran S G Nature" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
+              <img src="assets/profile_nature.png" alt="Narendaran S G Grounded" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
             </div>
             <div class="p-2.5 font-mono text-[11px] text-slate-300 flex justify-between items-center border-t border-slate-800">
               <span>03 // Grounded</span>
-              <span class="text-metal-m5">↗</span>
+              <span class="text-metal-m5">&nearr;</span>
             </div>
           </div>
         </div>
@@ -765,24 +850,24 @@
     </section>
 
     <!-- SECTION 06: CONTACT & FOOTER -->
-    <section id="contact" class="rounded-2xl bg-gradient-to-r from-silicon-900 via-silicon-800 to-silicon-900 p-8 sm:p-10 eda-border">
+    <section id="contact" class="rounded-2xl bg-gradient-to-r from-silicon-900 via-silicon-800 to-silicon-900 p-8 sm:p-10 eda-border reveal">
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div class="space-y-2 max-w-xl">
-          <div class="text-xs font-mono text-metal-m3 uppercase">Open to Core ASIC / VLSI Opportunities</div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-white">Ready for Physical Design, RTL & Verification Roles.</h2>
+          <div class="text-xs font-mono text-metal-m3 uppercase">Open to Core ASIC / VLSI Roles &amp; Internships</div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-white">Let's Build the Next Generation of Silicon Together.</h2>
           <p class="text-sm text-slate-300">
-            Reach out directly via phone, email, or LinkedIn for core semiconductor internships and graduate engineering roles.
+            I am actively looking for opportunities in <strong class="text-white">Physical Design (Back-End)</strong>, <strong class="text-white">RTL Design &amp; Verification (Front-End)</strong>, and <strong class="text-white">Synthesis/DFT</strong>. Drop me an email or connect with me on LinkedIn!
           </p>
         </div>
         <div class="flex flex-wrap gap-3 font-mono text-sm">
           <a href="mailto:sgnarendaran@gmail.com" class="px-5 py-3 rounded bg-metal-m5 text-silicon-950 font-bold hover:bg-cyan-300 transition">
             sgnarendaran@gmail.com
           </a>
-          <a href="tel:+918925401875" class="px-5 py-3 rounded bg-silicon-950 border border-metal-m3/50 text-metal-m3 hover:bg-metal-m3/10 transition">
-            +91 8925401875
+          <a href="https://www.linkedin.com/in/narendaran-s-g-886273291" target="_blank" rel="noopener" class="px-5 py-3 rounded bg-silicon-950 border border-metal-m3/50 text-metal-m3 hover:bg-metal-m3/10 transition">
+            Connect on LinkedIn &nearr;
           </a>
           <a href="resume.html" class="px-5 py-3 rounded bg-silicon-950 border border-slate-700 text-white hover:border-metal-m5 transition">
-            Open Resume ↗
+            Interactive Resume &nearr;
           </a>
         </div>
       </div>
@@ -790,8 +875,8 @@
 
   </main>
 
-  <footer class="border-t border-slate-800/80 py-8 text-center font-mono text-xs text-slate-500">
-    <div>Narendaran S G • +91 8925401875 • sgnarendaran@gmail.com • Chennai, India</div>
+  <footer class="border-t border-slate-800/80 py-8 text-center font-mono text-xs text-slate-500 relative z-10">
+    <div>Crafted by Narendaran S G &bull; sgnarendaran@gmail.com &bull; Chennai, Tamil Nadu, India</div>
   </footer>
 
   <!-- LIGHTBOX MODAL FOR LAYOUT SCREENSHOTS, CERTIFICATES & PHOTOS -->
@@ -799,7 +884,7 @@
     <div onclick="event.stopPropagation()" class="max-w-5xl w-full bg-silicon-900 border border-metal-m5/40 rounded-xl overflow-hidden shadow-2xl">
       <div class="px-4 py-3 bg-silicon-950 border-b border-slate-800 flex items-center justify-between font-mono text-xs">
         <span id="lightbox-caption" class="text-metal-m5 font-semibold">Preview</span>
-        <button onclick="closeLightbox()" class="px-2.5 py-1 rounded bg-silicon-800 text-slate-300 hover:text-white">ESC / Close ✕</button>
+        <button type="button" onclick="closeLightbox()" class="px-2.5 py-1 rounded bg-silicon-800 text-slate-300 hover:text-white">ESC / Close &#10005;</button>
       </div>
       <div class="p-4 bg-silicon-950 flex items-center justify-center max-h-[80vh] overflow-auto">
         <img id="lightbox-img" src="" alt="Enlarged Preview" class="max-h-[75vh] w-auto object-contain rounded" />
@@ -807,11 +892,12 @@
     </div>
   </div>
 
-  <!-- INTERACTIVE JAVASCRIPT: QOR DATA, TERMINAL & FILTERS -->
+  <!-- INTERACTIVE JAVASCRIPT: FIRST-PERSON QOR DATA, LIVE TERMINAL & ANIMATIONS -->
   <script>
+    // 1. First-Person QoR Data
     const qorData = {
       gprs: {
-        badge: "gprs_top.nlib • Synopsys ICC2 (10-Metal, 16 Hard Macros • Apr 2026)",
+        badge: "gprs_top.nlib • My Synopsys ICC2 Run (10-Metal, 16 Hard Macros • Apr 2026)",
         progression: [
           ["Cell Count", "27,811", "30,365", "33,323", "33,286"],
           ["Core Utilization", "21.18%", "62.53%", "66.27%", "66.25%"],
@@ -823,8 +909,8 @@
         ],
         stages: {
           floorplan: {
-            title: "1. Floorplan, Port Assignment & Data-Driven Macro Placement",
-            desc: "Configured 391,605.41 µm² core area with 5 µm core-to-die spacing. Placed 16 SRAM macros (4 families) using data-flow flylines across >10 iterations with 16 µm channel spacing and soft blockages, achieving 0 unplaced/off-track ports.",
+            title: "1. My Floorplan, Port Assignment & Data-Driven Macro Placement",
+            desc: "When I imported gprs_top into IC Compiler II, I had 27,811 cells and 16 hard SRAM macros across 4 macro families inside a 391,605.41 µm² core area (5 µm core-to-die offset). I aligned all 103 I/O ports cleanly on M5 (West) and M6 (South) tracks with zero unplaced or off-track ports.",
             metrics: [
               ["Initial Cells", "27,811"],
               ["Hard Macros", "16 (4 Families)"],
@@ -834,12 +920,12 @@
               ["Port Legality", "0 Off-Track / 0 Illegal"]
             ],
             img: "assets/gprs_macro_flylines.jpg",
-            caption: "gprs_top — Data-Flow Flylines & 16 SRAM Macro Placement (icc2_shell)",
-            action: "Iterated macro placement >10 times using data-flow flylines and applied soft channel blockages (16 µm spacing) to eliminate cross-chip wirelength bottlenecks."
+            caption: "My gprs_top Data-Flow Flylines & 16 SRAM Macro Orientation in icc2_shell",
+            action: "I iterated macro placement over 10 times using data-flow flylines (compute_dff_connections) and placed soft blockages with 16 µm channel spacing so standard cells wouldn't get trapped between macros."
           },
           pdn: {
-            title: "2. Multi-Layer Power Delivery Network (PDN) Synthesis",
-            desc: "Engineered a multi-tier power mesh across M8, M7, and M2 straps down to M1 standard-cell rails (0.06 µm width) across a single voltage domain.",
+            title: "2. Building the Multi-Layer Power Delivery Network (PDN)",
+            desc: "To prevent IR drop across the macro-heavy core, I constructed a multi-tier power mesh spanning M8 (4.64 µm width), M7 (1.104 µm width), and M2 (0.44 µm width) straps down to 0.06 µm M1 standard-cell rails.",
             metrics: [
               ["M8 Straps", "W: 4.64µm | Pitch: 19.46µm"],
               ["M7 Straps", "W: 1.104µm | Pitch: 13.38µm"],
@@ -850,11 +936,11 @@
             ],
             img: "assets/gprs_macro_flylines.jpg",
             caption: "gprs_top — Floorplan & Power Planning Architecture",
-            action: "Detected 179 missing PG connectivity vias during initial PG checks; resolved 100% of violations using manual/scripted add_vias array insertion."
+            action: "My initial PG connectivity check flagged 179 missing vias. Instead of ignoring them, I used targeted add_vias commands to stitch every missing intersection and reach 0 PG violations."
           },
           placement: {
             title: "3. Congestion-Driven Standard Cell Placement",
-            desc: "Placed 30,365 cells (including 8,600 DCAPs, 76 TIEH, and 121 TIEL cells) across 4 path groups (i2r, r2o, i2o, mclk) with a constrained fanout threshold of 30.",
+            desc: "I placed 30,365 cells (including 8,600 DCAPs, 76 TIEH, and 121 TIEL cells) across 4 path groups (i2r, r2o, i2o, mclk) while enforcing a strict max fanout threshold of 30.",
             metrics: [
               ["Placed Cells", "30,365"],
               ["Placement Density", "62.39% (0.6253)"],
@@ -864,12 +950,12 @@
               ["TIEH / TIEL Cells", "76 TIEH / 121 TIEL"]
             ],
             img: "assets/gprs_placement_density.jpg",
-            caption: "gprs_top — Standard Cell Placement Density Map (62.39% Util)",
-            action: "Mitigated 13 Max_Trans and 303 high-capacitance net violations via targeted buffer insertion, net splitting, and cell upsizing while maintaining 0.00 ns Setup TNS."
+            caption: "My gprs_top Cell Density Heatmap in ICC2 (62.39% Utilization)",
+            action: "When I saw 13 max_transition and 303 high-capacitance net violations after initial placement, I resolved them using buffer insertion, net splitting, and cell upsizing while keeping Setup TNS at 0.00 ns."
           },
           cts: {
             title: "4. Clock Tree Synthesis (CTS) & Skew Balancing",
-            desc: "Built and balanced the primary clock network (mclk @ 4 ns period) across 2,856 sequential sinks using 65 clock buffers/inverters and double-width double-spacing (dwds) NDR rules on M4–M5.",
+            desc: "I synthesized the primary clock tree (mclk @ 4 ns period) across 2,856 sequential sinks using 65 clock buffers/inverters and double-width double-spacing (dwds) NDR rules on M4–M5.",
             metrics: [
               ["Master Clock", "mclk (4.0 ns Period)"],
               ["Clock Sinks", "2,856 Flip-Flops"],
@@ -880,11 +966,11 @@
             ],
             img: "assets/gprs_placement_density.jpg",
             caption: "gprs_top — Post-CTS Density & Clock Distribution",
-            action: "Achieved 0.14 ns global skew across 2,856 sinks with 0.00 ns Setup TNS and reduced Hold TNS from -227.91 ns down to -0.46 ns."
+            action: "By applying M4–M5 dwds Non-Default Routing rules, I locked global skew to 0.14 ns across 2,856 sinks and slashed Hold TNS from -227.91 ns down to just -0.46 ns."
           },
           routing: {
             title: "5. Detailed Routing, Route ECO & PrimeTime Signoff",
-            desc: "Completed 10-layer global and detailed routing across 33,286 final cells. Executed route_eco to clear all 34 initial routing shorts and 32 DRC violations, achieving clean final signoff.",
+            desc: "I drove the 10-layer global and detailed routing across all 33,286 final cells at 66.25% utilization, then executed route_eco and PrimeTime signoff checks.",
             metrics: [
               ["Final Cell Count", "33,286 Cells"],
               ["Final Utilization", "66.25%"],
@@ -894,13 +980,13 @@
               ["Signoff Crosstalk", "0 Violations"]
             ],
             img: "assets/gprs_routing.jpg",
-            caption: "gprs_top — Final 10-Layer Detailed Route Layout (route_opt_done.design)",
-            action: "Resolved 34 initial routing shorts and 32 DRC violations via targeted route_eco iterations and closed residual minor hold/slew violations in PrimeTime signoff."
+            caption: "My Final 10-Layer Detailed Route Layout for gprs_top (route_opt_done.design)",
+            action: "Initial detailed routing left 34 routing shorts and 32 DRC violations. I ran targeted route_eco iterations to clear every short and closed residual slew/hold checks in PrimeTime."
           }
         }
       },
       fifo: {
-        badge: "asynchronous_fifo.nlib • Synopsys ICC2 (Dual Clock • Apr – May 2026)",
+        badge: "asynchronous_fifo.nlib • My Synopsys ICC2 Run (Dual Clock • Apr – May 2026)",
         progression: [
           ["Cell Count", "346", "276", "305", "305"],
           ["Core Utilization", "63.14%", "62.70%", "68.41%", "68.41%"],
@@ -912,8 +998,8 @@
         ],
         stages: {
           floorplan: {
-            title: "1. Compact Core Floorplan & Track-Aligned M5 Port Placement",
-            desc: "Structured a compact 2,065.428 µm² core floorplan at 63.14% initial utilization with 1 µm core-to-die offset. Placed all 24 I/O ports cleanly on Metal 5 (Inputs on West/Left, Outputs on East/Right).",
+            title: "1. My Compact Core Floorplan & Track-Aligned M5 Ports",
+            desc: "For my 8-bit Asynchronous FIFO, I configured a 2,065.428 µm² core floorplan at 63.14% initial utilization with a 1 µm core offset. I placed all 24 I/O ports on Metal 5—inputs on the West/Left and outputs on the East/Right.",
             metrics: [
               ["Core Area", "2,065.43 µm²"],
               ["Initial Util", "63.14%"],
@@ -923,12 +1009,12 @@
               ["Off-Track Ports", "0 (100% Track Aligned)"]
             ],
             img: "assets/fifo_floorplan_ports.png",
-            caption: "8-Bit Async FIFO — Floorplan & M5 Port Placement (port_placement_done.design)",
-            action: "Separated input and output port groups across West and East M5 tracks to prevent cross-core signal detouring."
+            caption: "My 8-Bit Async FIFO Floorplan & M5 Port Placement (port_placement_done.design)",
+            action: "By cleanly segregating input ports on the West and output ports on the East on M5 tracks, I prevented cross-chip signal detouring before placement even began."
           },
           pdn: {
-            title: "2. M7/M8 Top Mesh & M2 Vertical Strap Power Plan",
-            desc: "Constructed a multi-layer Power Delivery Network pairing an M7/M8 top mesh (0.6 µm width, 18 µm pitch) with M2 vertical straps (0.18 µm width, 6 µm pitch) and 0.06 µm M1 standard cell rails.",
+            title: "2. My M7/M8 Top Mesh & M2 Vertical Strap Power Plan",
+            desc: "I designed a multi-layer Power Delivery Network combining an M7/M8 top mesh (0.6 µm width, 18 µm pitch) with M2 vertical straps (0.18 µm width, 6 µm pitch) and 0.06 µm M1 standard-cell follow-pin rails.",
             metrics: [
               ["Top Mesh (M7/M8)", "W: 0.60µm | Pitch: 18µm"],
               ["Vertical Straps (M2)", "W: 0.18µm | Pitch: 6µm"],
@@ -938,12 +1024,12 @@
               ["DCAP Cells", "97 Physical Cells"]
             ],
             img: "assets/fifo_powerplan.png",
-            caption: "8-Bit Async FIFO — Multi-Layer Power Mesh (powerplan.design)",
-            action: "Identified 2 minimum-spacing PG via DRC violations during PG verification; resized via definitions and cleared to 0 PG DRC violations."
+            caption: "My 8-Bit Async FIFO Multi-Layer Power Mesh (powerplan.design)",
+            action: "When PG verification flagged 2 minimum-spacing via DRC violations, I modified the via definitions and sizing to achieve a 100% DRC-clean power grid."
           },
           placement: {
             title: "3. Zero-Congestion Standard Cell & Physical Cell Placement",
-            desc: "Placed 276 standard logic cells alongside 97 decoupling capacitors (DCAPs) and 2 TIEH cells across 4 path groups (in2reg, reg2out, wclk, rclk) with zero vertical or horizontal congestion.",
+            desc: "I placed 276 standard logic cells alongside 97 decoupling capacitors (DCAPs) and 2 TIEH cells across 4 path groups (in2reg, reg2out, wclk, rclk).",
             metrics: [
               ["Placement Density", "62.70%"],
               ["DCAP / TIEH Cells", "97 DCAP / 2 TIEH"],
@@ -953,12 +1039,12 @@
               ["Setup TNS", "0.00 ns"]
             ],
             img: "assets/fifo_placement.png",
-            caption: "8-Bit Async FIFO — Standard Cell Placement (placement_done.design)",
-            action: "Achieved +0.35 ns positive setup slack and 0% routing congestion prior to clock tree synthesis."
+            caption: "My 8-Bit Async FIFO Standard Cell Placement (placement_done.design)",
+            action: "I achieved 0.00% vertical and horizontal congestion with +0.35 ns positive setup slack right out of placement, leaving ample headroom for dual-clock CTS."
           },
           cts: {
             title: "4. Dual Asynchronous Clock Tree Synthesis (wclk & rclk)",
-            desc: "Synthesized independent buffered clock trees for wclk (1.50 ns period, 80 sinks) and rclk (1.50 ns period, 24 sinks) using M4–M5 double-width double-spacing (dwds) NDR rules.",
+            desc: "I synthesized independent buffered clock trees for wclk (1.50 ns period, 80 sinks) and rclk (1.50 ns period, 24 sinks) using 34 buffers and 18 inverters per domain on M4–M5 (dwds NDR).",
             metrics: [
               ["wclk Latency", "0.51 ns (Target <= 0.60ns)"],
               ["rclk Latency", "0.45 ns (Target <= 0.60ns)"],
@@ -968,12 +1054,12 @@
               ["Hold TNS", "0.00 ns (Clean)"]
             ],
             img: "assets/fifo_cts_tree.png",
-            caption: "8-Bit Async FIFO — Clock Tree Latency & Fanout Graph (wclk / rclk)",
-            action: "Balanced high-fanout wclk (80 sinks) and rclk (24 sinks) to 0.00 ns global skew and sub-0.51 ns insertion delay with zero timing violations."
+            caption: "My 8-Bit Async FIFO Clock Tree Latency Graph (cts_completed.design)",
+            action: "Even though wclk drove 80 sequential sinks and rclk drove 24 sinks, I balanced both trees to 0.00 ns global skew and sub-0.51 ns latency with zero timing violations."
           },
           routing: {
             title: "5. Detailed Routing & Clean DRC/Timing Signoff",
-            desc: "Finalized global and detailed routing (route_opt_done.design) at 68.41% final utilization with 0 shorts, 0 opens, 0 DRC violations, 0 antenna violations, and +0.16 ns positive setup slack.",
+            desc: "I completed global and detailed routing (route_opt_done.design) at 68.41% final utilization, achieving a completely clean signoff across both clock domains.",
             metrics: [
               ["Final Cell Count", "305 Cells (68.41% Util)"],
               ["Shorts / Opens", "0 Shorts / 0 Opens"],
@@ -983,8 +1069,8 @@
               ["Final Setup/Hold TNS", "0.00 ns / 0.00 ns"]
             ],
             img: "assets/fifo_routing.png",
-            caption: "8-Bit Async FIFO — Final Routed Layout (route_opt_done.design)",
-            action: "Closed full physical signoff with zero DRC/LVS violations and positive setup/hold margins across both asynchronous clock domains."
+            caption: "My 8-Bit Async FIFO Final Routed Layout (route_opt_done.design)",
+            action: "Closed full physical signoff with 0 shorts, 0 opens, 0 DRC violations, +0.16 ns positive Setup WNS, and 0.00 ns Hold TNS."
           }
         }
       }
@@ -1062,76 +1148,215 @@
       openLightbox(stage.img, stage.caption);
     }
 
-    const terminalOutputs = {
-      help: `Available commands:
-  report_qor_gprs   - Display Synopsys ICC2 QoR summary for gprs_top
-  report_qor_fifo   - Display Dual-Clock CTS & Route QoR for 8-Bit Async FIFO
-  sim_arbiter       - Run VCS waveform check on Multi-Master Bus Arbiter
-  skills            - List commercial & open-source EDA toolchains
-  clear             - Clear terminal output`,
-      report_qor_gprs: `****************************************
+    // 2. 100% Functional Interactive Terminal Engine (First-Person & Multi-Command)
+    const terminalCommands = {
+      help: `Available shell commands (type any command or click a button above):
+  whoami      - My engineering bio, education & contact
+  gprs        - My Synopsys ICC2 QoR report for gprs_top (33.2K cells, 16 macros)
+  fifo        - My Dual-Clock CTS & route_opt signoff for 8-Bit Async FIFO
+  arbiter     - My VCS simulation log for the ChipThink Multi-Master Bus Arbiter
+  innovus     - My Cadence Innovus placement, CTS & routing signoff report
+  dft         - My Cadence Genus & Modus scan-chain DFT summary
+  openlane    - My OpenLane SKY130 RTL-to-GDSII pipeline summary
+  skills      - List my commercial & open-source EDA toolchains
+  ls          - List all design blocks in my workspace
+  clear       - Clear terminal screen`,
+
+      whoami: `Engineer : Narendaran S G
+Degree   : B.E. ECE (2023-2027), Easwari Engineering College (CGPA: 9.30)
+Focus    : ASIC Physical Design (Back-End), RTL Verification (Front-End) & DFT
+Email    : sgnarendaran@gmail.com
+Story    : I love bridging the gap between synthesizable RTL and DRC-clean silicon.`,
+
+      ls: `Workspace Directories & Design Libraries:
+  drwxr-xr-x  gprs_top.nlib/              (Synopsys ICC2 - 33,286 cells, 16 SRAM macros)
+  drwxr-xr-x  asynchronous_fifo.nlib/     (Synopsys ICC2 - Dual Clock CTS, 0 DRC)
+  drwxr-xr-x  cadence_innovus_core/       (Cadence Innovus - +1.377ns WNS, 0% overflow)
+  drwxr-xr-x  genus_modus_memory_dft/     (Cadence Genus/Modus - Scan Chain Stitched)
+  drwxr-xr-x  openlane_sky130_spm/        (OpenROAD/Yosys/Magic - 130nm GDSII)
+  -rw-r--r--  multi_master_arbiter.v      (EDA Playground: x/JiD3)
+  -rw-r--r--  half_adder_4abstractions.sv (Synopsys VCS Verified)`,
+
+      gprs: `****************************************
 Report : qor (Design: gprs_top)
-Tool   : Synopsys IC Compiler II
+Tool   : Synopsys IC Compiler II (icc2_shell)
+Author : Narendaran S G
 ****************************************
-Cell Count (Final)       : 33,286 (16 Hard Macros)
-Core Area / Utilization  : 391,605.41 um^2 / 66.25%
-Clock Tree (mclk @ 4ns)  : 2,856 Sinks | Global Skew: 0.14 ns
-Routing DRC / Shorts     : 0 Shorts, 0 Opens (Post route_eco)
-Timing Signoff           : Setup WNS: 0.00 ns | Setup TNS: 0.00 ns`,
-      report_qor_fifo: `****************************************
+Cell Count (Initial -> Final) : 27,811 -> 33,286 Cells (16 Hard SRAM Macros)
+Core Area / Final Utilization : 391,605.41 um^2 / 66.25% (10 Metal Layers)
+Power Delivery Network (PDN)  : M8/M7/M2 mesh -> M1 rails (179 missing vias fixed -> 0 DRC)
+Clock Tree (mclk @ 4.0ns)     : 2,856 Sinks | Global Skew: 0.14 ns | Max Latency: 0.63 ns
+Routing & Signoff Closure     : 34 shorts resolved via route_eco -> 0 Opens, 0 Shorts, 0.00ns Setup WNS`,
+
+      fifo: `****************************************
 Report : clock_qor & route_opt (Design: async_fifo_8b)
-Tool   : Synopsys IC Compiler II
+Tool   : Synopsys IC Compiler II (icc2_shell)
+Author : Narendaran S G
 ****************************************
-Core Area / Utilization  : 2,065.43 um^2 / 68.41% (305 Cells, 97 DCAPs)
-wclk (1.5ns, 80 sinks)   : Max Latency = 0.51 ns | Global Skew = 0.00 ns
-rclk (1.5ns, 24 sinks)   : Max Latency = 0.45 ns | Global Skew = 0.00 ns
-Signoff Timing & DRC     : Setup WNS = +0.16 ns | Hold TNS = 0.00 ns | 0 DRC`,
-      sim_arbiter: `$ vcs -full64 -sverilog multi_master_arbiter.v tb_arbiter.sv -R
+Core Area / Final Utilization : 2,065.43 um^2 / 68.41% (305 Final Cells, 97 DCAPs)
+wclk Domain (1.50ns, 80 sinks): Max Latency = 0.51 ns | Global Skew = 0.00 ns (M4-M5 dwds)
+rclk Domain (1.50ns, 24 sinks): Max Latency = 0.45 ns | Global Skew = 0.00 ns (M4-M5 dwds)
+Signoff Timing & DRC          : Setup WNS = +0.16 ns | Hold TNS = 0.00 ns | 0 DRC / 0 Shorts`,
+
+      arbiter: `$ vcs -full64 -sverilog multi_master_arbiter.v tb_arbiter.sv -R
 Chronologic VCS simulator copyright 1991-2026
-[SIM] Testing CPU, DMA, and Peripheral simultaneous contention...
-[PASS] Priority 1: CPU served immediately on cycle 1.
-[PASS] Starvation Counter triggered at cycle 8 -> Forced grant switch to DMA/Peripheral.
-[PASS] Deterministic grant rotation & debug state verified. (EDA Playground: x/JiD3)`,
-      skills: `EDA Toolchains & Languages:
-  • Commercial EDA : Synopsys ICC2, Design Compiler, VCS, PrimeTime | Cadence Innovus, Genus, Modus
+[SIM] Compiling my offline ChipThink Hackathon Finals RTL...
+[PASS] Contention Test 1: CPU priority served immediately on cycle 1.
+[PASS] Contention Test 2: 8-cycle fairness counter triggered -> Forced grant switch to DMA/Peripheral.
+[PASS] Starvation prevented & debug state output verified. (Live link: edaplayground.com/x/JiD3)`,
+
+      innovus: `****************************************
+Report : timeDesign & routeDesign (Cadence Innovus)
+Author : Narendaran S G
+****************************************
+Standard Cell Placement : 53.189% density | Pre-CTS WNS  = +0.846 ns
+Clock Tree Synthesis    : 0.011 ns Skew   | Post-CTS WNS = +1.377 ns (optDesign)
+Detailed Signal Routing : 0.00% Routing Overflow (Clean track allocation)`,
+
+      dft: `****************************************
+Report : report_dft & scan_chains (Cadence Genus + Modus)
+Author : Narendaran S G
+****************************************
+Target Block     : Memory Block Synthesized Netlist
+Scan Methodology : Scan flip-flops stitched; Shift & Capture modes verified
+Signoff Result   : 0 DFT rule violations | Clean Area, Power & Timing (PPA) reports`,
+
+      openlane: `****************************************
+Flow   : OpenLane Automated 70+ Step RTL-to-GDSII
+PDK    : SkyWater 130nm (sky130_fd_sc_hd)
+Design : Serial-Parallel Multiplier (SPM)
+****************************************
+1. Synthesis & Linting : Yosys & Verilator clean
+2. Physical Design     : OpenROAD Floorplan, Tap/Filler insertion, PDN, Placement & CTS
+3. Polygon Signoff     : Final GDSII layout verified in Magic & KLayout`,
+
+      skills: `My Semiconductor & EDA Stack:
+  • Commercial EDA : Synopsys ICC2, Design Compiler, Design Vision, VCS, PrimeTime | Cadence Innovus, Genus, Modus
   • Open-Source    : OpenLane, OpenROAD, Yosys, Verilator, Magic, KLayout (SKY130 PDK)
-  • HDLs & Verif   : Verilog, SystemVerilog, UVM Fundamentals, Functional Coverage, Tcl`
+  • HDLs & Verif   : Verilog, SystemVerilog, UVM Fundamentals, Coverage-Driven Verification (CDV), Tcl`
     };
 
-    function runTerminalCmd(cmdKey) {
+    const cmdAliases = {
+      'report_qor': 'gprs',
+      'report_qor_gprs': 'gprs',
+      'report_clock_qor': 'fifo',
+      'report_qor_fifo': 'fifo',
+      'sim_arbiter': 'arbiter',
+      'vcs': 'arbiter',
+      'list_eda_tools': 'skills',
+      'dir': 'ls',
+      'resume': 'whoami'
+    };
+
+    const cmdHistory = [];
+    let historyIdx = -1;
+
+    function focusTerminalInput() {
+      const input = document.getElementById('terminal-input');
+      if (input) input.focus();
+    }
+
+    function handleTerminalSubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('terminal-input');
+      const rawVal = input.value.trim();
+      if (!rawVal) return;
+      input.value = '';
+      executeCommand(rawVal);
+    }
+
+    function executeCommand(rawCmd) {
       const log = document.getElementById('terminal-log');
       const body = document.getElementById('terminal-body');
-      const key = cmdKey.trim().toLowerCase();
+      const cleanCmd = rawCmd.trim();
+      const lowerKey = cleanCmd.toLowerCase();
 
-      if (key === 'clear') {
-        log.innerHTML = '';
+      cmdHistory.push(cleanCmd);
+      historyIdx = cmdHistory.length;
+
+      if (lowerKey === 'clear' || lowerKey === 'cls') {
+        log.innerHTML = `<div class="text-slate-500"># Terminal cleared. Type 'help' to see available commands.</div>`;
+        body.scrollTop = body.scrollHeight;
         return;
       }
 
-      const mapAlias = {
-        gprs: 'report_qor_gprs',
-        fifo: 'report_qor_fifo',
-        arbiter: 'sim_arbiter'
-      };
-      const resolved = mapAlias[key] || key;
-      const response = terminalOutputs[resolved] || `Command '${cmdKey}' not recognized. Type 'help' for available commands.`;
+      const resolvedKey = cmdAliases[lowerKey] || lowerKey;
+      const outputText = terminalCommands[resolvedKey] ||
+        `[ERROR] Command '${cleanCmd}' not found. Type 'help' or click a preset button above (try: gprs, fifo, arbiter, innovus, dft, openlane, whoami, ls).`;
 
       const entry = document.createElement('div');
-      entry.innerHTML = `
-        <div><span class="text-metal-m5">icc2_shell&gt;</span> ${cmdKey}</div>
-        <pre class="text-emerald-400 text-[11px] whitespace-pre-wrap mt-1">${response}</pre>
-      `;
+      entry.className = 'space-y-1 pt-1 border-t border-slate-800/50';
+
+      const cmdLine = document.createElement('div');
+      cmdLine.innerHTML = `<span class="text-metal-m5 font-bold">icc2_shell&gt;</span> <span class="text-white">${cleanCmd}</span>`;
+
+      const pre = document.createElement('pre');
+      pre.className = (terminalCommands[resolvedKey] ? 'text-emerald-400' : 'text-amber-400') + ' text-[11px] whitespace-pre-wrap leading-relaxed';
+
+      entry.appendChild(cmdLine);
+      entry.appendChild(pre);
       log.appendChild(entry);
-      body.scrollTop = body.scrollHeight;
+
+      // Stream lines quickly for an authentic EDA shell feel
+      const lines = outputText.split('\n');
+      let idx = 0;
+      function streamNextLine() {
+        if (idx < lines.length) {
+          pre.textContent += (idx > 0 ? '\n' : '') + lines[idx];
+          idx++;
+          body.scrollTop = body.scrollHeight;
+          setTimeout(streamNextLine, 18);
+        }
+      }
+      streamNextLine();
     }
 
-    document.getElementById('terminal-input').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && this.value.trim() !== '') {
-        runTerminalCmd(this.value);
-        this.value = '';
+    // Arrow Up/Down History & Tab Completion on Terminal Input
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.getElementById('terminal-input');
+      if (input) {
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (historyIdx > 0) {
+              historyIdx--;
+              input.value = cmdHistory[historyIdx];
+            }
+          } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (historyIdx < cmdHistory.length - 1) {
+              historyIdx++;
+              input.value = cmdHistory[historyIdx];
+            } else {
+              historyIdx = cmdHistory.length;
+              input.value = '';
+            }
+          } else if (e.key === 'Tab') {
+            e.preventDefault();
+            const partial = input.value.trim().toLowerCase();
+            if (!partial) return;
+            const match = Object.keys(terminalCommands).find(k => k.startsWith(partial));
+            if (match) input.value = match;
+          }
+        });
       }
+
+      // Initialize QoR Dashboard
+      renderQorDashboard();
+
+      // Initialize Scroll Reveal Observer
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.reveal').forEach(section => observer.observe(section));
     });
 
+    // 3. Project Filter Logic
     function filterProjects(category) {
       document.querySelectorAll('.project-card').forEach(card => {
         if (category === 'all' || card.dataset.category === category) {
@@ -1150,6 +1375,7 @@ Chronologic VCS simulator copyright 1991-2026
       });
     }
 
+    // 4. Lightbox Modal Logic
     function openLightbox(src, caption) {
       const modal = document.getElementById('lightbox-modal');
       document.getElementById('lightbox-img').src = src;
@@ -1167,8 +1393,6 @@ Chronologic VCS simulator copyright 1991-2026
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeLightbox();
     });
-
-    renderQorDashboard();
   </script>
 </body>
 </html>
