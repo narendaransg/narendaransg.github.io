@@ -56,7 +56,7 @@
     html.light-theme {
       --bg-primary: #F8FAFC;
       --text-primary: #0F172A;
-      --card-bg: rgba(255, 255, 255, 0.92);
+      --card-bg: rgba(255, 255, 255, 0.95);
       --card-border: rgba(2, 132, 199, 0.25);
       --vignette: radial-gradient(circle at 50% 30%, rgba(248, 250, 252, 0.45) 0%, rgba(241, 245, 249, 0.92) 90%);
     }
@@ -73,10 +73,11 @@
     html.light-theme .text-slate-300 { color: #334155 !important; }
     html.light-theme .text-slate-400 { color: #475569 !important; }
     html.light-theme .bg-silicon-950,
-    html.light-theme .bg-silicon-950\/90 { background-color: #F1F5F9 !important; }
+    html.light-theme .bg-silicon-950\/90 { background-color: #E2E8F0 !important; }
     html.light-theme .bg-silicon-900,
     html.light-theme .bg-silicon-900\/75,
-    html.light-theme .bg-silicon-900\/90 { background-color: rgba(255, 255, 255, 0.9) !important; }
+    html.light-theme .bg-silicon-900\/80,
+    html.light-theme .bg-silicon-900\/90 { background-color: rgba(255, 255, 255, 0.94) !important; }
     html.light-theme .bg-silicon-800,
     html.light-theme .bg-silicon-800\/90 { background-color: #E2E8F0 !important; color: #0F172A !important; }
     html.light-theme .border-slate-800,
@@ -86,11 +87,12 @@
     html.light-theme .text-metal-m3 { color: #059669 !important; }
     html.light-theme .text-metal-m8 { color: #D97706 !important; }
     html.light-theme .text-metal-m6 { color: #DB2777 !important; }
-    /* Keep Linux Terminal Dark Even in Light Mode for Authentic Workstation Look */
+    
+    /* Keep Linux Terminal Dark Even in Light Mode */
     html.light-theme #linux-terminal-window .text-white { color: #F8FAFC !important; }
     html.light-theme #linux-terminal-window .text-slate-300 { color: #CBD5E1 !important; }
-
-    /* Full-Screen Subtle ASIC Layout Canvas */
+    
+    /* Fixed Viewport Background Silicon Canvas */
     #asic-canvas {
       position: fixed;
       top: 0;
@@ -99,7 +101,11 @@
       height: 100vh;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.42; /* Subtle, non-distracting background opacity */
+      opacity: 0.58; /* Dynamic signoff trails visibility back */
+      transition: opacity 0.35s ease;
+    }
+    html.light-theme #asic-canvas {
+      opacity: 0.42; /* Visible, legible trails for Light Mode */
     }
 
     .die-vignette {
@@ -123,8 +129,11 @@
       box-shadow: 0 10px 30px -8px rgba(0, 240, 255, 0.16);
       transform: translateY(-2px);
     }
+    html.light-theme .eda-border:hover {
+      border-color: rgba(2, 132, 199, 0.5) !important;
+    }
 
-    /* Instant Sub-Page View Switching Animations */
+    /* App-View Tab Transitions */
     .app-view {
       display: none;
       opacity: 0;
@@ -139,20 +148,29 @@
       transform: translateY(0) scale(1);
     }
 
-    /* Active Top Navigation Pill */
+    /* Primary Interactive Navigation States */
+    .nav-tab-btn {
+      color: #94A3B8;
+    }
+    html.light-theme .nav-tab-btn {
+      color: #334155 !important;
+    }
+    html.light-theme .nav-tab-btn:hover {
+      color: #0284C7 !important;
+    }
     .nav-tab-btn.active-nav {
-      background-color: rgba(0, 240, 255, 0.14);
+      background-color: rgba(0, 240, 255, 0.12);
       color: #00F0FF;
-      border-color: rgba(0, 240, 255, 0.45);
+      border-color: rgba(0, 240, 255, 0.35);
       font-weight: 600;
     }
     html.light-theme .nav-tab-btn.active-nav {
-      background-color: rgba(2, 132, 199, 0.12);
-      color: #0284C7;
-      border-color: rgba(2, 132, 199, 0.45);
+      background-color: rgba(2, 132, 199, 0.1);
+      color: #0284C7 !important;
+      border-color: rgba(2, 132, 199, 0.35);
     }
 
-    /* 3D Metal Stack Slabs (Mobile Safe) */
+    /* Custom Responsive 3D Metal Layers */
     .metal-slab {
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -170,20 +188,21 @@
       transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Custom Scrollbar */
+    /* Scrollbars */
     ::-webkit-scrollbar { width: 7px; height: 7px; }
     ::-webkit-scrollbar-track { background: #050811; }
+    html.light-theme ::-webkit-scrollbar-track { background: #F1F5F9; }
     ::-webkit-scrollbar-thumb { background: #1D2947; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #00F0FF; }
   </style>
 </head>
 <body class="antialiased selection:bg-metal-m5 selection:text-silicon-950 relative min-h-screen flex flex-col justify-between">
 
-  <!-- SUBTLE INTERACTIVE ASIC FLOORPLAN + PARTICLE TRANSITION CANVAS -->
+  <!-- DYNAMIC SILICON CANVAS FOR PULSING SIGNALS & MOUSE-TRAIL CONVERGENCE -->
   <canvas id="asic-canvas"></canvas>
   <div class="die-vignette"></div>
 
-  <!-- Top EDA Status Bar -->
+  <!-- Status Bar -->
   <div class="bg-silicon-950/90 border-b border-cyan-500/20 text-[10px] sm:text-[11px] font-mono text-slate-400 px-3 sm:px-6 py-1.5 flex justify-between items-center sticky top-0 z-50 backdrop-blur-md">
     <div class="flex items-center space-x-3">
       <span class="flex items-center text-metal-m3 font-semibold">
@@ -200,16 +219,14 @@
     </div>
   </div>
 
-  <!-- Main Multi-View Top Navigation Bar -->
+  <!-- Desktop & Tablet Global Navigation -->
   <header class="border-b border-slate-800/80 bg-silicon-900/80 backdrop-blur-md sticky top-[28px] sm:top-[29px] z-40">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
-      <!-- Brand Logo (Clicks back to Home view) -->
       <button type="button" onclick="switchPageView('home', event)" class="font-mono font-bold text-sm sm:text-base tracking-tight flex items-center space-x-2 text-left shrink-0">
         <span class="px-2 py-0.5 bg-metal-m5/10 border border-metal-m5/40 text-metal-m5 rounded text-xs">ASIC</span>
         <span class="text-white">NARENDARAN_S_G</span>
       </button>
 
-      <!-- Desktop Sub-Page Tabs -->
       <nav class="hidden lg:flex items-center space-x-1.5 text-xs font-mono text-slate-300">
         <button type="button" data-view="home" onclick="switchPageView('home', event)" class="nav-tab-btn active-nav px-3 py-1.5 rounded-lg border border-transparent hover:text-metal-m5 transition">
           01.Home
@@ -228,9 +245,7 @@
         </button>
       </nav>
 
-      <!-- Right Action Controls: Theme Toggle, Resume Link & Mobile Hamburger -->
       <div class="flex items-center space-x-2 font-mono text-xs">
-        <!-- Dark / Light Theme Toggle -->
         <button type="button" id="theme-toggle-btn" onclick="toggleSiteTheme()" title="Toggle Dark / Light Datasheet Theme" class="px-2.5 py-1.5 rounded-lg bg-silicon-800 border border-slate-700 hover:border-metal-m5 text-slate-200 transition flex items-center gap-1.5">
           <span id="theme-icon">&#9789;</span>
           <span id="theme-label" class="hidden sm:inline text-[11px]">Dark</span>
@@ -240,7 +255,6 @@
           Resume
         </a>
 
-        <!-- Mobile Hamburger Button -->
         <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg bg-silicon-800 border border-slate-700 text-slate-200 hover:text-metal-m5" aria-label="Open Navigation Menu">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path id="hamburger-icon-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -249,7 +263,7 @@
       </div>
     </div>
 
-    <!-- Mobile Slide-Down Navigation Drawer -->
+    <!-- Slide-Down Mobile Drawer -->
     <div id="mobile-nav-drawer" class="hidden lg:hidden border-t border-slate-800 bg-silicon-950/95 backdrop-blur-lg px-4 py-3 space-y-1.5 font-mono text-xs">
       <button type="button" data-view="home" onclick="switchPageView('home', event); toggleMobileMenu(false);" class="nav-tab-btn active-nav w-full text-left px-3 py-2.5 rounded-lg border border-transparent flex justify-between items-center">
         <span>01 // Home &amp; Linux Workstation</span>
@@ -280,20 +294,19 @@
   </header>
 
   <!-- =========================================================================
-       MULTI-VIEW WORKSPACE CONTAINER (ONLY 1 VIEW DISPLAYS AT A TIME)
+       SUB-VIEW CONTAINER
        ========================================================================= -->
   <main class="max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 relative z-10 flex-grow">
 
     <!-- =======================================================================
-         VIEW 01: HOME (STORY + LINUX EDA WORKSTATION + TOP 3 FEATURED PREVIEWS)
+         VIEW 01: HOME (STORY + LINUX EDA WORKSTATION)
          ======================================================================= -->
     <section id="view-home" class="app-view active-view view-visible space-y-12">
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <!-- Left 7 Cols: First-Person Intro -->
         <div class="lg:col-span-7 space-y-5">
           <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-3.5 rounded-2xl eda-border max-w-2xl">
-            <div onclick="openLightbox('assets/profile_suit.png', 'Hi, I am Narendaran S G — Final Year ECE Innovator')" class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 border-metal-m5 shadow-lg shrink-0 cursor-pointer group bg-silicon-800">
+            <div onclick="openLightbox('assets/profile_suit.png', 'Narendaran S G — Final Year ECE Student')" class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 border-metal-m5 shadow-lg shrink-0 cursor-pointer group bg-silicon-800">
               <img src="assets/profile_suit.png" alt="Narendaran S G" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" onerror="this.src='https://ui-avatars.com/api/?name=Narendaran+SG&background=0B101E&color=00F0FF&size=200'" />
               <span class="absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full bg-metal-m3 ring-2 ring-silicon-950"></span>
             </div>
@@ -308,7 +321,7 @@
             </div>
           </div>
 
-          <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+          <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight animate-fade-in">
             I Turn Abstract <span class="text-transparent bg-clip-text bg-gradient-to-r from-metal-m5 via-cyan-300 to-metal-m3">RTL into Signoff Silicon</span>.
           </h1>
 
@@ -321,7 +334,7 @@
             </p>
           </div>
 
-          <!-- Key Silicon Highlights Strip -->
+          <!-- Highlight Metric Badges -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
             <div onclick="switchPageView('qor', event)" class="cursor-pointer p-3 rounded-lg eda-border">
               <div class="text-[10px] font-mono text-slate-400">LARGEST PD BLOCK</div>
@@ -345,7 +358,6 @@
             </div>
           </div>
 
-          <!-- Primary Navigation CTA Buttons -->
           <div class="flex flex-wrap gap-2.5 pt-1 font-mono text-xs sm:text-sm">
             <button type="button" onclick="switchPageView('qor', event)" class="px-4 py-2.5 rounded-lg bg-metal-m5 text-silicon-950 font-bold hover:bg-cyan-300 transition shadow-lg shadow-cyan-500/20">
               Explore QoR Signoff &rarr;
@@ -359,10 +371,8 @@
           </div>
         </div>
 
-        <!-- Right 5 Cols: Authentic Linux EDA Workstation Terminal -->
         <div class="lg:col-span-5">
           <div id="linux-terminal-window" class="rounded-xl overflow-hidden bg-[#060A12] border border-slate-700/90 shadow-2xl">
-            <!-- Linux Window Titlebar -->
             <div class="bg-[#0F172A] px-3.5 py-2 border-b border-slate-800 flex items-center justify-between">
               <div class="flex items-center space-x-2">
                 <span class="w-3 h-3 rounded-full bg-rose-500"></span>
@@ -373,7 +383,6 @@
               <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">RHEL 8.9 EDA</span>
             </div>
 
-            <!-- Linux Quick-Command Bar -->
             <div class="bg-[#090E1A] px-3 py-1.5 border-b border-slate-800/80 flex flex-wrap gap-1.5 text-[10.5px] font-mono">
               <span class="text-slate-400 self-center">Quick:</span>
               <button type="button" onclick="executeCommand('neofetch')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 transition">neofetch</button>
@@ -384,7 +393,6 @@
               <button type="button" onclick="executeCommand('clear')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">clear</button>
             </div>
 
-            <!-- Terminal Scrollable Log -->
             <div id="terminal-body" onclick="focusTerminalInput()" class="p-3.5 font-mono text-[11.5px] leading-relaxed h-[330px] sm:h-[350px] overflow-y-auto space-y-2 text-slate-300 cursor-text">
               <div class="text-slate-500">Last login: RHEL 8.9_x86_64 (Synopsys ICC2 / VCS / Cadence Innovus)</div>
               <div id="terminal-log" class="space-y-2">
@@ -399,7 +407,6 @@
               </div>
             </div>
 
-            <!-- Linux Prompt Input Form -->
             <form id="terminal-form" onsubmit="handleTerminalSubmit(event)" class="bg-[#090E1A] border-t border-slate-800 px-3 py-2 flex items-center gap-1.5 font-mono text-xs">
               <span class="shrink-0 text-[11px]">
                 <span class="text-emerald-400 font-bold">narendaran@asic</span>:<span class="text-cyan-400 font-bold">~</span>$
@@ -420,7 +427,7 @@
         </div>
       </div>
 
-      <!-- Featured 3-Card Preview Strip on Home Page -->
+      <!-- Feature Grid Preview -->
       <div class="pt-4 border-t border-slate-800/80 space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
@@ -480,7 +487,7 @@
     </section>
 
     <!-- =======================================================================
-         VIEW 02: PHYSICAL DESIGN QOR & TIMING SIGNOFF EXPLORER
+         VIEW 02: PHYSICAL DESIGN QOR EXPLORER
          ======================================================================= -->
     <section id="view-qor" class="app-view space-y-8">
       <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-800 pb-4 gap-4">
@@ -524,7 +531,7 @@
         </button>
       </div>
 
-      <!-- Dynamic QoR Content Panel -->
+      <!-- Stage Telemetry -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 rounded-xl p-4 sm:p-6 eda-border">
         <div class="lg:col-span-7 space-y-5">
           <div>
@@ -534,15 +541,12 @@
 
           <p id="qor-stage-desc" class="text-xs sm:text-sm text-slate-300 leading-relaxed"></p>
 
-          <!-- Animated Telemetry Bars -->
           <div id="qor-bars-container" class="p-3.5 rounded-lg bg-silicon-950/90 border border-slate-800 space-y-3 font-mono text-xs"></div>
 
-          <!-- Metric Cards Grid -->
           <div id="qor-metrics-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 font-mono"></div>
 
-          <!-- Full Progression Mini-Table -->
           <div class="pt-1">
-            <div class="text-xs font-mono text-slate-400 mb-2 uppercase">My Stage-to-Stage QoR Progression Summary (Swipe Horizontally on Mobile)</div>
+            <div class="text-xs font-mono text-slate-400 mb-2 uppercase">My Stage-to-Stage QoR Progression Summary</div>
             <div class="overflow-x-auto rounded-lg border border-slate-800">
               <table class="w-full text-left font-mono text-xs min-w-[480px]">
                 <thead class="bg-silicon-950 text-slate-400 border-b border-slate-800">
@@ -560,7 +564,6 @@
           </div>
         </div>
 
-        <!-- Right 5 Cols: Interactive ICC2 Layout Viewer -->
         <div class="lg:col-span-5 flex flex-col justify-between bg-silicon-950/90 rounded-lg border border-slate-800 p-4">
           <div>
             <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-3">
@@ -587,7 +590,7 @@
     </section>
 
     <!-- =======================================================================
-         VIEW 03: INTERACTIVE SILICON LAB (3D METAL STACK + BUS ARBITER + ADDONS)
+         VIEW 03: SILICON LAB (3D METAL + BUS ARBITER)
          ======================================================================= -->
     <section id="view-lab" class="app-view space-y-8">
       <div class="border-b border-slate-800 pb-4">
@@ -649,7 +652,7 @@
             </div>
           </div>
 
-          <!-- WIDGET B: LIVE MULTI-MASTER BUS ARBITER RTL SIMULATOR -->
+          <!-- WIDGET B: LIVE BUS ARBITER RTL SIMULATOR -->
           <div class="lg:col-span-6 rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between space-y-4">
             <div>
               <div class="flex items-center justify-between font-mono text-xs text-metal-m3">
@@ -742,7 +745,7 @@
     </section>
 
     <!-- =======================================================================
-         VIEW 04: ALL 9 SILICON CHRONICLES & EDA TOOLCHAIN MATRIX
+         VIEW 04: ALL 9 SILICON CHRONICLES & EDA TOOLCHAIN
          ======================================================================= -->
     <section id="view-projects" class="app-view space-y-12">
       <div class="space-y-6">
@@ -842,7 +845,7 @@
                 Built a combinational half adder across Dataflow (`assign`), Behavioral (`always @(*)`), Gate-Level, and Switch-Level CMOS (`pmos`/`nmos` wired to `VDD`/`VSS`), verified simultaneously via a SystemVerilog testbench (`tb_top`) in <strong class="text-white">Synopsys VCS</strong>.
               </p>
             </div>
-            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+            <div class="pt-4 mt-4 border-t border-slate-800/85 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
               <a href="https://github.com/narendaransg/half-adders-at-different-forms" target="_blank" rel="noopener" class="text-metal-m5 font-semibold hover:underline">GitHub Repo &nearr;</a>
             </div>
           </article>
@@ -877,7 +880,7 @@
                 Placed standard cells at 53.189% density (Pre-CTS WNS: +0.846 ns), balanced the clock tree to <strong class="text-white">0.011 ns skew</strong> (boosting Post-CTS WNS to +1.377 ns), and completed routing with <strong class="text-white">0.00% overflow</strong>.
               </p>
             </div>
-            <div class="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs">
+            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
               <button type="button" onclick="openLightbox('assets/cert_cadence.png', 'My Certificate — Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="text-metal-m6 hover:underline">View Cadence Certificate &rarr;</button>
             </div>
           </article>
@@ -930,7 +933,7 @@
                 Built a discrete IC 4-bit binary multiplier (`15 × 15 = 225 / 11100001₂`) on a breadboard using AND gate arrays and 4-bit full adders, paired with RTL synthesis analysis of an 8-bit combinatorial Barrel Shifter.
               </p>
             </div>
-            <div class="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs">
+            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
               <button type="button" onclick="openLightbox('assets/ic_multiplier.png', 'My Breadboard 4-Bit Binary Fast Multiplier (15 x 15 = 225 / 11100001)')" class="text-metal-m8 hover:underline">See Hardware Build &rarr;</button>
               <span class="text-slate-400">ALU Foundations</span>
             </div>
@@ -939,7 +942,7 @@
         </div>
       </div>
 
-      <!-- EDA Toolchain Matrix -->
+      <!-- Skill Categories Matrix -->
       <div class="space-y-6 pt-6 border-t border-slate-800">
         <div>
           <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">My Semiconductor Engineering Arsenal</div>
@@ -1003,7 +1006,7 @@
     </section>
 
     <!-- =======================================================================
-         VIEW 05: CREDENTIALS, PERSONAL STORY GALLERY & CONTACT
+         VIEW 05: CREDENTIALS, STORY & CONTACT
          ======================================================================= -->
     <section id="view-credentials" class="app-view space-y-10">
       <div class="border-b border-slate-800 pb-4">
@@ -1011,7 +1014,7 @@
         <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Certifications, Industry Exposure &amp; Beyond the Lab</h2>
       </div>
 
-      <!-- 3 Main Certificate Cards -->
+      <!-- Verified Certification Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
           <div class="space-y-3">
@@ -1062,7 +1065,7 @@
         </div>
       </div>
 
-      <!-- Hackathons & Nokia Internship -->
+      <!-- Exposure and Leadership Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div class="p-5 rounded-xl eda-border space-y-2">
           <div class="text-xs font-mono text-metal-m8">FINALIST • MAVEN SILICON &amp; IEEE (APR 2026)</div>
@@ -1089,7 +1092,7 @@
         </div>
       </div>
 
-      <!-- Personal Gallery & Story -->
+      <!-- Human Narrative and Casual Side -->
       <div class="rounded-2xl p-6 sm:p-8 eda-border">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div class="lg:col-span-5 space-y-4">
@@ -1134,7 +1137,7 @@
         </div>
       </div>
 
-      <!-- Contact Callout -->
+      <!-- Action Footer Strip -->
       <div class="rounded-2xl p-6 sm:p-8 eda-border flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div class="space-y-1.5 max-w-xl">
           <div class="text-xs font-mono text-metal-m3 uppercase">Open to Core ASIC / VLSI Roles &amp; Internships</div>
@@ -1159,42 +1162,46 @@
 
   </main>
 
+  <!-- Global Attribution Footer -->
   <footer class="border-t border-slate-800/80 py-5 text-center font-mono text-[11px] text-slate-500 relative z-10">
     <div>Crafted by Narendaran S G &bull; sgnarendaran@gmail.com &bull; Chennai, Tamil Nadu, India</div>
   </footer>
 
-  <!-- LIGHTBOX MODAL -->
-  <div id="lightbox-modal" onclick="closeLightbox()" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm items-center justify-center p-4">
+  <!-- Lightbox -->
+  <div id="lightbox-modal" onclick="closeLightbox()" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm items-center justify-center p-4 animate-fade-in">
     <div onclick="event.stopPropagation()" class="max-w-5xl w-full bg-silicon-900 border border-metal-m5/40 rounded-xl overflow-hidden shadow-2xl">
       <div class="px-4 py-3 bg-silicon-950 border-b border-slate-800 flex items-center justify-between font-mono text-xs">
         <span id="lightbox-caption" class="text-metal-m5 font-semibold truncate mr-2">Preview</span>
         <button type="button" onclick="closeLightbox()" class="px-2.5 py-1 rounded bg-silicon-800 text-slate-300 hover:text-white shrink-0">ESC / Close &#10005;</button>
       </div>
-      <div class="p-4 bg-silicon-950 flex items-center justify-center max-h-[80vh] overflow-auto">
+      <div class="p-4 bg-silicon-950 flex items-center justify-center max-h-[80vh] overflow-auto animate-zoom-in">
         <img id="lightbox-img" src="" alt="Enlarged Preview" class="max-h-[75vh] w-auto object-contain rounded" />
       </div>
     </div>
   </div>
 
-  <!-- CORE JAVASCRIPT: SUB-PAGE ROUTER, PARTICLE BURSTS, THEME TOGGLE, SUBTLE CANVAS & LINUX SHELL -->
   <script>
     // =========================================================================
-    // 0. DARK / LIGHT THEME ENGINE
+    // 0. VISUALLY CALIBRATED DARK / LIGHT THEME ENGINE
     // =========================================================================
     function applySiteTheme(theme) {
       const htmlEl = document.documentElement;
       const iconEl = document.getElementById('theme-icon');
       const labelEl = document.getElementById('theme-label');
+      
       if (theme === 'light') {
         htmlEl.classList.add('light-theme');
         htmlEl.classList.remove('dark');
         if (iconEl) iconEl.innerHTML = '&#9728;';
         if (labelEl) labelEl.textContent = 'Light';
+        // Redraw canvas with lighter contrast parameters on switch
+        triggerCanvasRefresh();
       } else {
         htmlEl.classList.remove('light-theme');
         htmlEl.classList.add('dark');
         if (iconEl) iconEl.innerHTML = '&#9789;';
         if (labelEl) labelEl.textContent = 'Dark';
+        triggerCanvasRefresh();
       }
       localStorage.setItem('narendaran_site_theme', theme);
     }
@@ -1204,11 +1211,17 @@
       applySiteTheme(current === 'dark' ? 'light' : 'dark');
     }
 
-    // Initialize saved theme immediately
     applySiteTheme(localStorage.getItem('narendaran_site_theme') || 'dark');
 
+    function triggerCanvasRefresh() {
+      const canvas = document.getElementById('asic-canvas');
+      if (canvas && typeof canvas.triggerRedraw === 'function') {
+        canvas.triggerRedraw();
+      }
+    }
+
     // =========================================================================
-    // 1. INSTANT SUB-PAGE VIEW ROUTER + PARTICLE BURST ON TRANSITION
+    // 1. DYNAMIC SUB-VIEW TAB ROUTER WITH PARTICLE BURSTS
     // =========================================================================
     let transitionParticles = [];
 
@@ -1281,9 +1294,9 @@
     }
 
     // =========================================================================
-    // 2. SUBTLE, LOW-OPACITY SILICON CANVAS + MICRO-FONT PIN LABELS (7.5px)
+    // 2. RE-ENGINEERED HIGH-CONTRAST SILICON CANVAS WITH MOUSE-TRAIL CONVERGENCE
     // =========================================================================
-    (function initSubtleAsicCanvas() {
+    (function initInteractiveSiliconCanvas() {
       const canvas = document.getElementById('asic-canvas');
       const ctx = canvas.getContext('2d');
       const coordReadout = document.getElementById('die-coords-readout');
@@ -1298,6 +1311,7 @@
       let macros = [];
       let vias = [];
       let packets = [];
+      let customTraceNodes = []; // Coordinates of mouse-generated micro-nodes
 
       const layerColors = [
         { name: 'M5', hex: '#00F0FF', rgba: 'rgba(0, 240, 255, ' },
@@ -1306,7 +1320,7 @@
         { name: 'M8', hex: '#FFB300', rgba: 'rgba(255, 179, 0, ' }
       ];
 
-      function buildDieFloorplan() {
+      function buildAsicGrid() {
         width = window.innerWidth;
         height = window.innerHeight;
         canvas.width = width;
@@ -1317,23 +1331,23 @@
         macros = [
           {
             x: pitch * 1,
-            y: pitch * 2,
+            y: pitch * 2.2,
             w: pitch * 2.5,
             h: pitch * 1.6,
             label: 'SRAM_64x32_0',
             family: 'M6/M5',
-            color: 'rgba(255, 42, 133, 0.035)',
-            border: 'rgba(255, 42, 133, 0.14)'
+            color: 'rgba(255, 42, 133, 0.045)',
+            border: 'rgba(255, 42, 133, 0.16)'
           },
           {
             x: Math.max(pitch * 5, (cols - 3.5) * pitch),
-            y: pitch * 2,
+            y: pitch * 2.2,
             w: pitch * 2.5,
             h: pitch * 2,
             label: 'GPRS_MEM_1',
             family: 'ICC2',
-            color: 'rgba(0, 240, 255, 0.03)',
-            border: 'rgba(0, 240, 255, 0.14)'
+            color: 'rgba(0, 240, 255, 0.04)',
+            border: 'rgba(0, 240, 255, 0.16)'
           }
         ];
 
@@ -1346,7 +1360,7 @@
           }
         }
 
-        const packetCount = Math.min(16, Math.max(8, Math.floor((width * height) / 85000)));
+        const packetCount = Math.min(22, Math.max(12, Math.floor((width * height) / 64000)));
         packets = [];
         for (let i = 0; i < packetCount; i++) {
           packets.push(createPacket());
@@ -1358,7 +1372,7 @@
         const horiz = Math.random() > 0.5;
         const c = Math.floor(Math.random() * cols);
         const r = Math.floor(Math.random() * rows);
-        const speed = 1.2 + Math.random() * 1.3;
+        const speed = 1.4 + Math.random() * 1.6;
         return {
           x: c * pitch,
           y: r * pitch,
@@ -1366,7 +1380,7 @@
           vy: !horiz ? (Math.random() > 0.5 ? speed : -speed) : 0,
           layer: layer,
           trail: [],
-          maxTrail: 14,
+          maxTrail: 16,
           lastTurnGridX: -1,
           lastTurnGridY: -1
         };
@@ -1375,11 +1389,15 @@
       function updateAndDraw() {
         ctx.clearRect(0, 0, width, height);
 
-        // 1. Subtle Manhattan Tracks
+        const isLight = document.documentElement.classList.contains('light-theme');
+
+        // Draw Manhattan Interconnect Grids
         ctx.lineWidth = 1;
         for (let c = 0; c <= cols; c++) {
           const x = c * pitch;
-          ctx.strokeStyle = c % 4 === 0 ? 'rgba(255, 179, 0, 0.04)' : 'rgba(0, 240, 255, 0.02)';
+          ctx.strokeStyle = c % 4 === 0 
+            ? (isLight ? 'rgba(2, 132, 199, 0.035)' : 'rgba(255, 179, 0, 0.05)') 
+            : (isLight ? 'rgba(2, 132, 199, 0.015)' : 'rgba(0, 240, 255, 0.03)');
           ctx.beginPath();
           ctx.moveTo(x, 0);
           ctx.lineTo(x, height);
@@ -1387,35 +1405,66 @@
         }
         for (let r = 0; r <= rows; r++) {
           const y = r * pitch;
-          ctx.strokeStyle = r % 4 === 0 ? 'rgba(255, 42, 133, 0.035)' : 'rgba(0, 230, 118, 0.018)';
+          ctx.strokeStyle = r % 4 === 0 
+            ? (isLight ? 'rgba(220, 38, 38, 0.025)' : 'rgba(255, 42, 133, 0.045)') 
+            : (isLight ? 'rgba(5, 150, 105, 0.015)' : 'rgba(0, 230, 118, 0.025)');
           ctx.beginPath();
           ctx.moveTo(0, y);
           ctx.lineTo(width, y);
           ctx.stroke();
         }
 
-        // 2. Micro-Font (7.5px) Hard Macro Blocks (Desktop only to keep mobile ultra-clean)
+        // Draw Hard Macro Sub-blocks on background
         if (width > 768) {
           ctx.font = '7.5px "JetBrains Mono", monospace';
           macros.forEach(m => {
-            ctx.fillStyle = m.color;
+            ctx.fillStyle = isLight ? 'rgba(2, 132, 199, 0.025)' : m.color;
             ctx.fillRect(m.x, m.y, m.w, m.h);
-            ctx.strokeStyle = m.border;
+            ctx.strokeStyle = isLight ? 'rgba(2, 132, 199, 0.09)' : m.border;
             ctx.lineWidth = 0.8;
             ctx.strokeRect(m.x, m.y, m.w, m.h);
 
-            ctx.fillStyle = 'rgba(148, 163, 184, 0.22)';
-            ctx.fillText(`${m.label} [${m.family}]`, m.x + 6, m.y + 11);
+            ctx.fillStyle = isLight ? 'rgba(15, 23, 42, 0.22)' : 'rgba(148, 163, 184, 0.35)';
+            ctx.fillText(`${m.label}`, m.x + 6, m.y + 11);
           });
         }
 
-        // 3. Subtle Via Contacts
         vias.forEach(v => {
-          ctx.fillStyle = 'rgba(0, 240, 255, 0.09)';
+          ctx.fillStyle = isLight ? 'rgba(2, 132, 199, 0.08)' : 'rgba(0, 240, 255, 0.12)';
           ctx.fillRect(v.x - 1.5, v.y - 1.5, 3, 3);
         });
 
-        // 4. Manhattan Signal Pulses
+        // Push mouse movement micro-nodes onto background
+        if (mouse.active && Math.random() < 0.4) {
+          customTraceNodes.push({
+            x: mouse.x + (Math.random() - 0.5) * 25,
+            y: mouse.y + (Math.random() - 0.5) * 25,
+            life: 1.0,
+            color: layerColors[Math.floor(Math.random() * layerColors.length)].hex
+          });
+        }
+
+        // Animated Interactive Mouse Glow Interconnects
+        if (mouse.active) {
+          customTraceNodes.forEach((node, idx) => {
+            node.life -= 0.014;
+            if (node.life <= 0) {
+              customTraceNodes.splice(idx, 1);
+            } else {
+              ctx.lineWidth = 0.8;
+              ctx.strokeStyle = node.color + Math.round(node.life * 28).toString(16).padStart(2, '0');
+              ctx.beginPath();
+              ctx.moveTo(mouse.x, mouse.y);
+              ctx.lineTo(node.x, node.y);
+              ctx.stroke();
+
+              ctx.fillStyle = node.color;
+              ctx.fillRect(node.x - 1, node.y - 1, 2, 2);
+            }
+          });
+        }
+
+        // Draw and animate standard signal packets
         packets.forEach(p => {
           p.x += p.vx;
           p.y += p.vy;
@@ -1429,7 +1478,7 @@
             Math.abs(p.y - nearGridY) < 2 &&
             (nearGridX !== p.lastTurnGridX || nearGridY !== p.lastTurnGridY)
           ) {
-            if (Math.random() < 0.25) {
+            if (Math.random() < 0.28) {
               p.x = nearGridX;
               p.y = nearGridY;
               p.lastTurnGridX = nearGridX;
@@ -1451,9 +1500,9 @@
 
           if (p.trail.length > 1) {
             for (let i = 1; i < p.trail.length; i++) {
-              const alpha = (i / p.trail.length) * 0.35;
+              const alpha = (i / p.trail.length) * (isLight ? 0.38 : 0.55);
               ctx.strokeStyle = p.layer.rgba + alpha + ')';
-              ctx.lineWidth = 1.5;
+              ctx.lineWidth = 1.6;
               ctx.beginPath();
               ctx.moveTo(p.trail[i - 1].x, p.trail[i - 1].y);
               ctx.lineTo(p.trail[i].x, p.trail[i].y);
@@ -1464,7 +1513,7 @@
           ctx.fillRect(p.x - 1.5, p.y - 1.5, 3, 3);
         });
 
-        // 5. Render Page-Transition Particle Bursts
+        // Sub-page switch burst animation render
         for (let i = transitionParticles.length - 1; i >= 0; i--) {
           const pt = transitionParticles[i];
           pt.x += pt.vx;
@@ -1484,7 +1533,8 @@
         requestAnimationFrame(updateAndDraw);
       }
 
-      window.addEventListener('resize', buildDieFloorplan);
+      canvas.triggerRedraw = () => buildAsicGrid();
+      window.addEventListener('resize', buildAsicGrid);
       window.addEventListener('mousemove', (e) => {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
@@ -1495,8 +1545,11 @@
           coordReadout.textContent = `DIE CURSOR: X=${umX} um, Y=${umY} um`;
         }
       });
+      window.addEventListener('mouseleave', () => {
+        mouse.active = false;
+      });
 
-      buildDieFloorplan();
+      buildAsicGrid();
       updateAndDraw();
     })();
 
@@ -2276,5 +2329,6 @@ HDLs & Verif   : Verilog, SystemVerilog, UVM Fundamentals, Coverage-Driven Verif
   <!-- External Modular Add-Ons -->
   <script src="chip-borders.js"></script>
   <script src="silicon-addons.js"></script>
+  <script src="chip-mascot.js"></script>
 </body>
 </html>
