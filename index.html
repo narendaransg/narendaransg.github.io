@@ -28,265 +28,123 @@
           },
           colors: {
             silicon: {
-              950: '#050811',
-              900: '#0B101E',
-              800: '#11192E',
-              700: '#1D2947',
+              950: '#070709',
+              900: '#111217',
+              800: '#181920',
+              700: '#262730',
             },
             metal: {
-              m5: '#00F0FF',     // Cyan M5
-              m6: '#FF2A85',     // Magenta M6
-              m3: '#00E676',     // Emerald M3
-              m8: '#FFB300',     // Amber M8
+              m5: '#F5B041',     // 24K Wirebond Gold
+              m6: '#FFD166',     // Bright Gold
+              m3: '#10B981',     // Emerald Signoff Pass
+              m8: '#F59E0B',     // Warm Amber Clock
             }
           }
         }
       }
     }
   </script>
-  <style>
-    :root {
-      --bg-primary: #050811;
-      --text-primary: #E2E8F0;
-      --card-bg: rgba(11, 16, 30, 0.82);
-      --card-border: rgba(0, 240, 255, 0.16);
-      --vignette: radial-gradient(circle at 50% 30%, rgba(5, 8, 17, 0.35) 0%, rgba(5, 8, 17, 0.88) 90%);
-    }
 
-    html.light-theme {
-      --bg-primary: #F8FAFC;
-      --text-primary: #0F172A;
-      --card-bg: rgba(255, 255, 255, 0.95);
-      --card-border: rgba(2, 132, 199, 0.25);
-      --vignette: radial-gradient(circle at 50% 30%, rgba(248, 250, 252, 0.45) 0%, rgba(241, 245, 249, 0.92) 90%);
-    }
-
-    body {
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-      overflow-x: hidden;
-      transition: background-color 0.35s ease, color 0.35s ease;
-    }
-
-    /* Light-Theme Overrides for Utility Classes */
-    html.light-theme .text-white { color: #0F172A !important; }
-    html.light-theme .text-slate-300 { color: #334155 !important; }
-    html.light-theme .text-slate-400 { color: #475569 !important; }
-    html.light-theme .bg-silicon-950,
-    html.light-theme .bg-silicon-950\/90 { background-color: #E2E8F0 !important; }
-    html.light-theme .bg-silicon-900,
-    html.light-theme .bg-silicon-900\/75,
-    html.light-theme .bg-silicon-900\/80,
-    html.light-theme .bg-silicon-900\/90 { background-color: rgba(255, 255, 255, 0.94) !important; }
-    html.light-theme .bg-silicon-800,
-    html.light-theme .bg-silicon-800\/90 { background-color: #E2E8F0 !important; color: #0F172A !important; }
-    html.light-theme .border-slate-800,
-    html.light-theme .border-slate-800\/80,
-    html.light-theme .border-slate-700 { border-color: #CBD5E1 !important; }
-    html.light-theme .text-metal-m5 { color: #0284C7 !important; }
-    html.light-theme .text-metal-m3 { color: #059669 !important; }
-    html.light-theme .text-metal-m8 { color: #D97706 !important; }
-    html.light-theme .text-metal-m6 { color: #DB2777 !important; }
-    
-    /* Keep Linux Terminal Dark Even in Light Mode */
-    html.light-theme #linux-terminal-window .text-white { color: #F8FAFC !important; }
-    html.light-theme #linux-terminal-window .text-slate-300 { color: #CBD5E1 !important; }
-    
-    /* Fixed Viewport Background Silicon Canvas */
-    #asic-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.58; /* Dynamic signoff trails visibility back */
-      transition: opacity 0.35s ease;
-    }
-    html.light-theme #asic-canvas {
-      opacity: 0.42; /* Visible, legible trails for Light Mode */
-    }
-
-    .die-vignette {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-      background: var(--vignette);
-    }
-
-    /* Card Glow & Glassmorphism */
-    .eda-border {
-      background-color: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--card-border);
-      box-shadow: 0 4px 24px -6px rgba(0, 240, 255, 0.07);
-      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .eda-border:hover {
-      border-color: rgba(0, 240, 255, 0.42);
-      box-shadow: 0 10px 30px -8px rgba(0, 240, 255, 0.16);
-      transform: translateY(-2px);
-    }
-    html.light-theme .eda-border:hover {
-      border-color: rgba(2, 132, 199, 0.5) !important;
-    }
-
-    /* App-View Tab Transitions */
-    .app-view {
-      display: none;
-      opacity: 0;
-      transform: translateY(14px) scale(0.992);
-      transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1), transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .app-view.active-view {
-      display: block;
-    }
-    .app-view.view-visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    /* Primary Interactive Navigation States */
-    .nav-tab-btn {
-      color: #94A3B8;
-    }
-    html.light-theme .nav-tab-btn {
-      color: #334155 !important;
-    }
-    html.light-theme .nav-tab-btn:hover {
-      color: #0284C7 !important;
-    }
-    .nav-tab-btn.active-nav {
-      background-color: rgba(0, 240, 255, 0.12);
-      color: #00F0FF;
-      border-color: rgba(0, 240, 255, 0.35);
-      font-weight: 600;
-    }
-    html.light-theme .nav-tab-btn.active-nav {
-      background-color: rgba(2, 132, 199, 0.1);
-      color: #0284C7 !important;
-      border-color: rgba(2, 132, 199, 0.35);
-    }
-
-    /* Custom Responsive 3D Metal Layers */
-    .metal-slab {
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @media (min-width: 640px) {
-      .metal-slab {
-        transform: perspective(700px) rotateX(18deg) scale(0.98);
-      }
-      .metal-slab.active-slab {
-        transform: perspective(700px) rotateX(8deg) scale(1.02) translateX(6px);
-        box-shadow: 0 8px 25px -5px rgba(0, 240, 255, 0.3);
-      }
-    }
-
-    .qor-bar-fill {
-      transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* Scrollbars */
-    ::-webkit-scrollbar { width: 7px; height: 7px; }
-    ::-webkit-scrollbar-track { background: #050811; }
-    html.light-theme ::-webkit-scrollbar-track { background: #F1F5F9; }
-    ::-webkit-scrollbar-thumb { background: #1D2947; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #00F0FF; }
-  </style>
+  <!-- External Black & Gold / Warm Ivory Theme Stylesheet (File 1 of 4) -->
+  <link rel="stylesheet" href="portfolio-theme.css" />
 </head>
 <body class="antialiased selection:bg-metal-m5 selection:text-silicon-950 relative min-h-screen flex flex-col justify-between">
 
-  <!-- DYNAMIC SILICON CANVAS FOR PULSING SIGNALS & MOUSE-TRAIL CONVERGENCE -->
+  <!-- INTERACTIVE SILICON ROUTING & CURSOR CONVERGENCE CANVAS -->
   <canvas id="asic-canvas"></canvas>
   <div class="die-vignette"></div>
 
-  <!-- Status Bar -->
-  <div class="bg-silicon-950/90 border-b border-cyan-500/20 text-[10px] sm:text-[11px] font-mono text-slate-400 px-3 sm:px-6 py-1.5 flex justify-between items-center sticky top-0 z-50 backdrop-blur-md">
+  <!-- Top EDA Status Bar -->
+  <div id="top-status-bar" class="text-[10px] sm:text-[11px] font-mono text-slate-400 px-3 sm:px-6 py-1.5 flex justify-between items-center sticky top-0 z-50 backdrop-blur-md">
     <div class="flex items-center space-x-3">
       <span class="flex items-center text-metal-m3 font-semibold">
         <span class="w-2 h-2 rounded-full bg-metal-m3 mr-1.5 animate-ping"></span>
         DRC: 0 VIOLATIONS
       </span>
-      <span class="hidden sm:inline text-slate-600">|</span>
-      <span class="hidden sm:inline text-metal-m5">LVS: CLEAN</span>
-      <span class="hidden lg:inline text-slate-600">|</span>
-      <span id="die-coords-readout" class="hidden lg:inline text-slate-500">DIE CURSOR: X=0.00 um, Y=0.00 um</span>
+      <span class="hidden sm:inline text-slate-500">|</span>
+      <span class="hidden sm:inline text-metal-m5 font-semibold">LVS: CLEAN</span>
+      <span class="hidden lg:inline text-slate-500">|</span>
+      <span id="die-coords-readout" class="hidden lg:inline text-slate-400">DIE CURSOR: X=0.00 um, Y=0.00 um</span>
     </div>
     <div class="flex items-center space-x-3">
-      <a href="mailto:sgnarendaran@gmail.com" class="text-metal-m5 hover:underline truncate max-w-[180px] sm:max-w-none">sgnarendaran@gmail.com</a>
+      <a href="mailto:sgnarendaran@gmail.com" class="text-metal-m5 font-medium hover:underline truncate max-w-[180px] sm:max-w-none">sgnarendaran@gmail.com</a>
     </div>
   </div>
 
-  <!-- Desktop & Tablet Global Navigation -->
-  <header class="border-b border-slate-800/80 bg-silicon-900/80 backdrop-blur-md sticky top-[28px] sm:top-[29px] z-40">
+  <!-- Main Navigation Bar (Wording B + Style 1 Sliding Gold Underline) -->
+  <header id="main-navbar" class="sticky top-[28px] sm:top-[29px] z-40 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
+      <!-- Brand Identity -->
       <button type="button" onclick="switchPageView('home', event)" class="font-mono font-bold text-sm sm:text-base tracking-tight flex items-center space-x-2 text-left shrink-0">
-        <span class="px-2 py-0.5 bg-metal-m5/10 border border-metal-m5/40 text-metal-m5 rounded text-xs">ASIC</span>
-        <span class="text-white">NARENDARAN_S_G</span>
+        <span class="px-2 py-0.5 bg-metal-m5/15 border border-metal-m5/50 text-metal-m5 rounded text-xs">ASIC</span>
+        <span class="text-white">NARENDARAN S G</span>
       </button>
 
-      <nav class="hidden lg:flex items-center space-x-1.5 text-xs font-mono text-slate-300">
-        <button type="button" data-view="home" onclick="switchPageView('home', event)" class="nav-tab-btn active-nav px-3 py-1.5 rounded-lg border border-transparent hover:text-metal-m5 transition">
-          01.Home
+      <!-- Desktop Sub-Page Navigation (Wording B — Clean Words, No Numbers) -->
+      <nav class="hidden lg:flex items-center space-x-3 text-xs sm:text-sm font-mono">
+        <button type="button" data-view="home" onclick="switchPageView('home', event)" class="nav-tab-btn active-nav">
+          Overview
         </button>
-        <button type="button" data-view="qor" onclick="switchPageView('qor', event)" class="nav-tab-btn px-3 py-1.5 rounded-lg border border-transparent hover:text-metal-m5 transition">
-          02.QoR_Signoff
+        <button type="button" data-view="qor" onclick="switchPageView('qor', event)" class="nav-tab-btn">
+          Physical Design
         </button>
-        <button type="button" data-view="lab" onclick="switchPageView('lab', event)" class="nav-tab-btn px-3 py-1.5 rounded-lg border border-transparent hover:text-metal-m5 transition">
-          03.Silicon_Lab
+        <button type="button" data-view="lab" onclick="switchPageView('lab', event)" class="nav-tab-btn">
+          Interactive Lab
         </button>
-        <button type="button" data-view="projects" onclick="switchPageView('projects', event)" class="nav-tab-btn px-3 py-1.5 rounded-lg border border-transparent hover:text-metal-m5 transition">
-          04.Chronicles (9)
+        <button type="button" data-view="projects" onclick="switchPageView('projects', event)" class="nav-tab-btn">
+          Chronicles
         </button>
-        <button type="button" data-view="credentials" onclick="switchPageView('credentials', event)" class="nav-tab-btn px-3 py-1.5 rounded-lg border border-transparent hover:text-metal-m5 transition">
-          05.Credentials
+        <button type="button" data-view="credentials" onclick="switchPageView('credentials', event)" class="nav-tab-btn">
+          Credentials
         </button>
       </nav>
 
+      <!-- Right Action Controls: Theme Toggle, Resume & Mobile Menu -->
       <div class="flex items-center space-x-2 font-mono text-xs">
-        <button type="button" id="theme-toggle-btn" onclick="toggleSiteTheme()" title="Toggle Dark / Light Datasheet Theme" class="px-2.5 py-1.5 rounded-lg bg-silicon-800 border border-slate-700 hover:border-metal-m5 text-slate-200 transition flex items-center gap-1.5">
+        <button type="button" id="theme-toggle-btn" onclick="toggleSiteTheme()" title="Switch between Obsidian Gold (Dark) and Warm Ivory (Light)" class="px-2.5 py-1.5 rounded-lg bg-silicon-800 border border-metal-m5/40 hover:border-metal-m5 text-white transition flex items-center gap-1.5">
           <span id="theme-icon">&#9789;</span>
-          <span id="theme-label" class="hidden sm:inline text-[11px]">Dark</span>
+          <span id="theme-label" class="hidden sm:inline text-[11px] font-semibold">Dark</span>
         </button>
 
-        <a href="resume.html" class="hidden sm:inline-flex px-3 py-1.5 rounded-lg border border-metal-m3/50 text-metal-m3 hover:bg-metal-m3/10 font-semibold transition">
-          Resume
+        <a href="resume.html" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-metal-m3/60 text-metal-m3 hover:bg-metal-m3/10 font-semibold transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span>Resume</span>
         </a>
 
-        <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg bg-silicon-800 border border-slate-700 text-slate-200 hover:text-metal-m5" aria-label="Open Navigation Menu">
+        <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg bg-silicon-800 border border-slate-700 text-white hover:text-metal-m5" aria-label="Open Navigation Menu">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path id="hamburger-icon-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
       </div>
     </div>
 
-    <!-- Slide-Down Mobile Drawer -->
+    <!-- Mobile Slide-Down Navigation Drawer (Clean Wording B) -->
     <div id="mobile-nav-drawer" class="hidden lg:hidden border-t border-slate-800 bg-silicon-950/95 backdrop-blur-lg px-4 py-3 space-y-1.5 font-mono text-xs">
-      <button type="button" data-view="home" onclick="switchPageView('home', event); toggleMobileMenu(false);" class="nav-tab-btn active-nav w-full text-left px-3 py-2.5 rounded-lg border border-transparent flex justify-between items-center">
-        <span>01 // Home &amp; Linux Workstation</span>
+      <button type="button" data-view="home" onclick="switchPageView('home', event); toggleMobileMenu(false);" class="nav-tab-btn active-nav w-full text-left py-2.5 flex justify-between items-center">
+        <span>Overview &amp; Linux Workstation</span>
         <span>&rarr;</span>
       </button>
-      <button type="button" data-view="qor" onclick="switchPageView('qor', event); toggleMobileMenu(false);" class="nav-tab-btn w-full text-left px-3 py-2.5 rounded-lg border border-transparent flex justify-between items-center">
-        <span>02 // Physical Design QoR Signoff</span>
+      <button type="button" data-view="qor" onclick="switchPageView('qor', event); toggleMobileMenu(false);" class="nav-tab-btn w-full text-left py-2.5 flex justify-between items-center">
+        <span>Physical Design (QoR Signoff)</span>
         <span>&rarr;</span>
       </button>
-      <button type="button" data-view="lab" onclick="switchPageView('lab', event); toggleMobileMenu(false);" class="nav-tab-btn w-full text-left px-3 py-2.5 rounded-lg border border-transparent flex justify-between items-center">
-        <span>03 // 3D Metal Stack &amp; RTL Simulators</span>
+      <button type="button" data-view="lab" onclick="switchPageView('lab', event); toggleMobileMenu(false);" class="nav-tab-btn w-full text-left py-2.5 flex justify-between items-center">
+        <span>Interactive Lab (3D Stack &amp; RTL Sim)</span>
         <span>&rarr;</span>
       </button>
-      <button type="button" data-view="projects" onclick="switchPageView('projects', event); toggleMobileMenu(false);" class="nav-tab-btn w-full text-left px-3 py-2.5 rounded-lg border border-transparent flex justify-between items-center">
-        <span>04 // All 9 Silicon Chronicles &amp; EDA Stack</span>
+      <button type="button" data-view="projects" onclick="switchPageView('projects', event); toggleMobileMenu(false);" class="nav-tab-btn w-full text-left py-2.5 flex justify-between items-center">
+        <span>Chronicles &amp; EDA Toolchain</span>
         <span>&rarr;</span>
       </button>
-      <button type="button" data-view="credentials" onclick="switchPageView('credentials', event); toggleMobileMenu(false);" class="nav-tab-btn w-full text-left px-3 py-2.5 rounded-lg border border-transparent flex justify-between items-center">
-        <span>05 // Certificates, Story &amp; Contact</span>
+      <button type="button" data-view="credentials" onclick="switchPageView('credentials', event); toggleMobileMenu(false);" class="nav-tab-btn w-full text-left py-2.5 flex justify-between items-center">
+        <span>Credentials, Story &amp; Contact</span>
         <span>&rarr;</span>
       </button>
       <div class="pt-2 border-t border-slate-800 flex gap-2">
-        <a href="resume.html" class="w-full text-center py-2 rounded-lg bg-metal-m5 text-silicon-950 font-bold">
+        <a href="resume.html" class="w-full text-center py-2 rounded-lg bg-metal-m5 font-bold">
           Open Printable Resume (A4)
         </a>
       </div>
@@ -294,24 +152,25 @@
   </header>
 
   <!-- =========================================================================
-       SUB-VIEW CONTAINER
+       MULTI-VIEW WORKSPACE CONTAINER
        ========================================================================= -->
   <main class="max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 relative z-10 flex-grow">
 
     <!-- =======================================================================
-         VIEW 01: HOME (STORY + LINUX EDA WORKSTATION)
+         VIEW 1: OVERVIEW (STORY + OFFICIAL SVG LOGOS + LINUX EDA WORKSTATION)
          ======================================================================= -->
     <section id="view-home" class="app-view active-view view-visible space-y-12">
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <!-- Left 7 Cols: First-Person Narrative & Social Links with Logos -->
         <div class="lg:col-span-7 space-y-5">
           <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-3.5 rounded-2xl eda-border max-w-2xl">
-            <div onclick="openLightbox('assets/profile_suit.png', 'Narendaran S G — Final Year ECE Student')" class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 border-metal-m5 shadow-lg shrink-0 cursor-pointer group bg-silicon-800">
-              <img src="assets/profile_suit.png" alt="Narendaran S G" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" onerror="this.src='https://ui-avatars.com/api/?name=Narendaran+SG&background=0B101E&color=00F0FF&size=200'" />
+            <div onclick="openLightbox('assets/profile_suit.png', 'Narendaran S G — Final Year ECE Innovator')" class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 border-metal-m5 shadow-lg shrink-0 cursor-pointer group bg-silicon-800">
+              <img src="assets/profile_suit.png" alt="Narendaran S G" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" onerror="this.src='https://ui-avatars.com/api/?name=Narendaran+SG&background=111217&color=F5B041&size=200'" />
               <span class="absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full bg-metal-m3 ring-2 ring-silicon-950"></span>
             </div>
             <div class="space-y-1">
-              <div class="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-full bg-silicon-800 border border-metal-m5/30 text-[10px] sm:text-[11px] font-mono text-metal-m5">
+              <div class="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-full bg-silicon-800 border border-metal-m5/40 text-[10px] sm:text-[11px] font-mono text-metal-m5 font-semibold">
                 <span>B.E. ECE (Sep 2023 – Jul 2027) • CGPA: 9.30</span>
               </div>
               <h2 class="text-lg sm:text-xl font-bold text-white tracking-tight">Hi, I'm Narendaran S G.</h2>
@@ -321,8 +180,8 @@
             </div>
           </div>
 
-          <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight animate-fade-in">
-            I Turn Abstract <span class="text-transparent bg-clip-text bg-gradient-to-r from-metal-m5 via-cyan-300 to-metal-m3">RTL into Signoff Silicon</span>.
+          <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+            I Turn Abstract <span class="text-metal-m5">RTL into Signoff Silicon</span>.
           </h1>
 
           <div class="space-y-2.5 text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
@@ -330,11 +189,11 @@
               My fascination with hardware started with a simple question: <em class="text-white">"How does a single line of behavioral Verilog actually become millions of physical transistors and metal tracks that close timing at gigahertz speeds?"</em>
             </p>
             <p>
-              That curiosity took me from wiring discrete logic gates on a breadboard to writing synthesizable RTL under strict offline hackathon constraints, validating switch-level CMOS topologies in <span class="font-mono text-metal-m3">Synopsys VCS</span>, stitching scan chains in <span class="font-mono text-metal-m8">Cadence Genus/Modus</span>, and driving macro-heavy blocks to <strong class="text-white">zero-DRC physical signoff</strong> in <span class="font-mono text-metal-m5">Synopsys IC Compiler II</span>, <span class="font-mono text-metal-m6">Cadence Innovus</span>, and <span class="font-mono text-metal-m3">OpenLane SKY130</span>.
+              That curiosity took me from wiring discrete logic gates on a breadboard to writing synthesizable RTL under strict offline hackathon constraints, validating switch-level CMOS topologies in <span class="font-mono text-metal-m3 font-semibold">Synopsys VCS</span>, stitching scan chains in <span class="font-mono text-metal-m8 font-semibold">Cadence Genus/Modus</span>, and driving macro-heavy blocks to <strong class="text-white">zero-DRC physical signoff</strong> in <span class="font-mono text-metal-m5 font-semibold">Synopsys IC Compiler II</span>, <span class="font-mono text-metal-m6 font-semibold">Cadence Innovus</span>, and <span class="font-mono text-metal-m3 font-semibold">OpenLane SKY130</span>.
             </p>
           </div>
 
-          <!-- Highlight Metric Badges -->
+          <!-- Key Silicon Highlights Strip -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
             <div onclick="switchPageView('qor', event)" class="cursor-pointer p-3 rounded-lg eda-border">
               <div class="text-[10px] font-mono text-slate-400">LARGEST PD BLOCK</div>
@@ -353,40 +212,61 @@
             </div>
             <div onclick="switchPageView('lab', event)" class="cursor-pointer p-3 rounded-lg eda-border">
               <div class="text-[10px] font-mono text-slate-400">CHIPTHINK RTL</div>
-              <div class="text-lg sm:text-xl font-bold font-mono text-metal-m6">Finalist</div>
+              <div class="text-lg sm:text-xl font-bold font-mono text-metal-m5">Finalist</div>
               <div class="text-[10px] font-mono text-slate-400">Test Live FSM &rarr;</div>
             </div>
           </div>
 
-          <div class="flex flex-wrap gap-2.5 pt-1 font-mono text-xs sm:text-sm">
-            <button type="button" onclick="switchPageView('qor', event)" class="px-4 py-2.5 rounded-lg bg-metal-m5 text-silicon-950 font-bold hover:bg-cyan-300 transition shadow-lg shadow-cyan-500/20">
-              Explore QoR Signoff &rarr;
+          <!-- Action Buttons with Official LinkedIn, GitHub, EDA Playground & Resume Logos -->
+          <div class="flex flex-wrap gap-2.5 pt-2 font-mono text-xs sm:text-sm">
+            <button type="button" onclick="switchPageView('qor', event)" class="px-4 py-2.5 rounded-lg bg-metal-m5 font-bold hover:opacity-90 transition shadow-md flex items-center gap-2">
+              <span>Explore Physical Design</span>
+              <span>&rarr;</span>
             </button>
-            <button type="button" onclick="switchPageView('lab', event)" class="px-4 py-2.5 rounded-lg bg-silicon-800 border border-metal-m3/40 text-metal-m3 hover:bg-metal-m3/10 transition">
-              Launch 3D Lab &amp; Simulators
-            </button>
-            <a href="resume.html" class="px-4 py-2.5 rounded-lg bg-silicon-800 border border-slate-700 text-slate-200 hover:border-metal-m5 transition">
-              Interactive Resume
+
+            <a href="https://github.com/narendaransg" target="_blank" rel="noopener" class="px-3.5 py-2.5 rounded-lg bg-silicon-800 border border-metal-m5/40 text-white hover:border-metal-m5 transition flex items-center gap-2">
+              <!-- Official GitHub Octocat SVG Logo -->
+              <svg class="w-4 h-4 fill-current text-metal-m5" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+              </svg>
+              <span>GitHub</span>
+            </a>
+
+            <a href="https://www.linkedin.com/in/narendaran-s-g-886273291" target="_blank" rel="noopener" class="px-3.5 py-2.5 rounded-lg bg-silicon-800 border border-metal-m5/40 text-white hover:border-metal-m5 transition flex items-center gap-2">
+              <!-- Official LinkedIn SVG Logo -->
+              <svg class="w-4 h-4 fill-current text-metal-m5" viewBox="0 0 24 24">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+              </svg>
+              <span>LinkedIn</span>
+            </a>
+
+            <a href="https://edaplayground.com/x/JiD3" target="_blank" rel="noopener" class="px-3.5 py-2.5 rounded-lg bg-silicon-800 border border-metal-m3/50 text-metal-m3 hover:bg-metal-m3/10 transition flex items-center gap-2">
+              <!-- Chip / Waveform SVG Icon -->
+              <svg class="w-4 h-4 stroke-current" fill="none" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+              </svg>
+              <span>EDA Playground</span>
             </a>
           </div>
         </div>
 
+        <!-- Right 5 Cols: Authentic Linux EDA Workstation Terminal -->
         <div class="lg:col-span-5">
-          <div id="linux-terminal-window" class="rounded-xl overflow-hidden bg-[#060A12] border border-slate-700/90 shadow-2xl">
-            <div class="bg-[#0F172A] px-3.5 py-2 border-b border-slate-800 flex items-center justify-between">
+          <div id="linux-terminal-window" class="rounded-xl overflow-hidden shadow-2xl">
+            <div class="bg-[#11131A] px-3.5 py-2 border-b border-slate-800 flex items-center justify-between">
               <div class="flex items-center space-x-2">
                 <span class="w-3 h-3 rounded-full bg-rose-500"></span>
                 <span class="w-3 h-3 rounded-full bg-amber-400"></span>
                 <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
                 <span class="ml-2 text-[11px] font-mono text-slate-300 truncate">narendaran@asic-node: ~/vlsi_workspace (bash)</span>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">RHEL 8.9 EDA</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">RHEL 8.9 EDA</span>
             </div>
 
-            <div class="bg-[#090E1A] px-3 py-1.5 border-b border-slate-800/80 flex flex-wrap gap-1.5 text-[10.5px] font-mono">
+            <div class="bg-[#0B0D13] px-3 py-1.5 border-b border-slate-800/80 flex flex-wrap gap-1.5 text-[10.5px] font-mono">
               <span class="text-slate-400 self-center">Quick:</span>
-              <button type="button" onclick="executeCommand('neofetch')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 transition">neofetch</button>
-              <button type="button" onclick="executeCommand('gprs')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 transition">gprs</button>
+              <button type="button" onclick="executeCommand('neofetch')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition">neofetch</button>
+              <button type="button" onclick="executeCommand('gprs')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition">gprs</button>
               <button type="button" onclick="executeCommand('fifo')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 transition">fifo</button>
               <button type="button" onclick="executeCommand('ls -la')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition">ls -la</button>
               <button type="button" onclick="executeCommand('help')" class="px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">help</button>
@@ -397,7 +277,7 @@
               <div class="text-slate-500">Last login: RHEL 8.9_x86_64 (Synopsys ICC2 / VCS / Cadence Innovus)</div>
               <div id="terminal-log" class="space-y-2">
                 <div>
-                  <span class="text-emerald-400 font-bold">narendaran@asic-node</span>:<span class="text-cyan-400 font-bold">~/vlsi_workspace</span>$ ./init_signoff_env.sh
+                  <span class="text-emerald-400 font-bold">narendaran@asic-node</span>:<span class="text-amber-300 font-bold">~/vlsi_workspace</span>$ ./init_signoff_env.sh
                 </div>
                 <pre class="text-emerald-300 text-[11px] whitespace-pre-wrap leading-relaxed">
 [OK] Synopsys IC Compiler II &amp; VCS environment mounted.
@@ -407,9 +287,9 @@
               </div>
             </div>
 
-            <form id="terminal-form" onsubmit="handleTerminalSubmit(event)" class="bg-[#090E1A] border-t border-slate-800 px-3 py-2 flex items-center gap-1.5 font-mono text-xs">
+            <form id="terminal-form" onsubmit="handleTerminalSubmit(event)" class="bg-[#0B0D13] border-t border-slate-800 px-3 py-2 flex items-center gap-1.5 font-mono text-xs">
               <span class="shrink-0 text-[11px]">
-                <span class="text-emerald-400 font-bold">narendaran@asic</span>:<span class="text-cyan-400 font-bold">~</span>$
+                <span class="text-emerald-400 font-bold">narendaran@asic</span>:<span class="text-amber-300 font-bold">~</span>$
               </span>
               <input
                 id="terminal-input"
@@ -419,7 +299,7 @@
                 placeholder="type 'neofetch' or 'help'..."
                 class="bg-transparent border-none outline-none text-white placeholder-slate-500 w-full font-mono text-xs"
               />
-              <button type="submit" class="px-2.5 py-1 rounded bg-cyan-500/20 hover:bg-cyan-400 hover:text-slate-950 text-cyan-300 border border-cyan-500/40 font-semibold transition shrink-0 text-[11px]">
+              <button type="submit" class="px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-400 hover:text-slate-950 text-amber-300 border border-amber-500/40 font-semibold transition shrink-0 text-[11px]">
                 Run &crarr;
               </button>
             </form>
@@ -427,28 +307,28 @@
         </div>
       </div>
 
-      <!-- Feature Grid Preview -->
+      <!-- Featured 3-Card Preview Strip on Overview Page -->
       <div class="pt-4 border-t border-slate-800/80 space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <div class="text-xs font-mono text-metal-m5 uppercase">Featured Highlights</div>
-            <h3 class="text-lg sm:text-xl font-bold text-white">Explore My Core Silicon Workspaces</h3>
+            <div class="text-xs font-mono text-metal-m5 uppercase font-semibold">Featured Silicon Highlights</div>
+            <h3 class="text-lg sm:text-xl font-bold text-white">Explore My Core Engineering Workspaces</h3>
           </div>
-          <button type="button" onclick="switchPageView('projects', event)" class="text-xs font-mono text-metal-m5 hover:underline">
-            View All 9 Projects &rarr;
+          <button type="button" onclick="switchPageView('projects', event)" class="text-xs font-mono text-metal-m5 font-semibold hover:underline">
+            View All 9 Chronicles &rarr;
           </button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
           <div onclick="switchPageView('qor', event); switchQorBlock('fifo');" class="cursor-pointer rounded-xl p-5 eda-border flex flex-col justify-between space-y-3">
             <div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">SYNOPSYS ICC2 • DUAL-CTS</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">SYNOPSYS ICC2 • DUAL-CTS</span>
               <h4 class="font-bold text-white text-base mt-2">8-Bit Async FIFO Physical Design</h4>
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">
                 2,065.43 &mu;m&sup2; core area, 97 DCAPs, M7/M8 + M2 PDN, and 0.00 ns global skew across asynchronous `wclk` and `rclk` domains (+0.16 ns WNS, 0 DRC).
               </p>
             </div>
-            <div class="text-xs font-mono text-metal-m5 pt-2 border-t border-slate-800/70 flex justify-between">
+            <div class="text-xs font-mono text-metal-m5 font-semibold pt-2 border-t border-slate-800/70 flex justify-between">
               <span>Inspect Stage-by-Stage QoR</span>
               <span>&rarr;</span>
             </div>
@@ -456,13 +336,13 @@
 
           <div onclick="switchPageView('qor', event); switchQorBlock('gprs');" class="cursor-pointer rounded-xl p-5 eda-border flex flex-col justify-between space-y-3">
             <div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">SYNOPSYS ICC2 • 16 MACROS</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">SYNOPSYS ICC2 • 16 MACROS</span>
               <h4 class="font-bold text-white text-base mt-2">GPRS Block (`gprs_top`) Signoff</h4>
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">
                 33,286 final cells and 16 hard SRAM macros across 10 metal layers. Data-flow flyline orientation, 2,856-sink CTS (0.14 ns skew), and clean `route_eco` closure.
               </p>
             </div>
-            <div class="text-xs font-mono text-metal-m5 pt-2 border-t border-slate-800/70 flex justify-between">
+            <div class="text-xs font-mono text-metal-m5 font-semibold pt-2 border-t border-slate-800/70 flex justify-between">
               <span>Inspect Flylines &amp; QoR</span>
               <span>&rarr;</span>
             </div>
@@ -470,13 +350,13 @@
 
           <div onclick="switchPageView('lab', event)" class="cursor-pointer rounded-xl p-5 eda-border flex flex-col justify-between space-y-3">
             <div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-metal-m3/10 text-metal-m3 border border-metal-m3/30">CHIPTHINK FINALS • RTL SIM</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-silicon-800 text-metal-m3 border border-metal-m3/40 font-semibold">CHIPTHINK FINALS • RTL SIM</span>
               <h4 class="font-bold text-white text-base mt-2">Multi-Master Bus Arbiter (Offline RTL)</h4>
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-                Priority CPU serving with an 8-clock-cycle fairness counter that forces grant rotation to waiting DMA/Peripheral masters. Test it live in the Silicon Lab!
+                Priority CPU serving with an 8-clock-cycle fairness counter that forces grant rotation to waiting DMA/Peripheral masters. Test it live in the Interactive Lab!
               </p>
             </div>
-            <div class="text-xs font-mono text-metal-m3 pt-2 border-t border-slate-800/70 flex justify-between">
+            <div class="text-xs font-mono text-metal-m3 font-semibold pt-2 border-t border-slate-800/70 flex justify-between">
               <span>Launch Live Clock Simulator</span>
               <span>&rarr;</span>
             </div>
@@ -487,18 +367,18 @@
     </section>
 
     <!-- =======================================================================
-         VIEW 02: PHYSICAL DESIGN QOR EXPLORER
+         VIEW 2: PHYSICAL DESIGN (QOR & TIMING SIGNOFF EXPLORER)
          ======================================================================= -->
     <section id="view-qor" class="app-view space-y-8">
       <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-800 pb-4 gap-4">
         <div>
-          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">02 // Inside My Synopsys IC Compiler II Runs</div>
+          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest font-semibold">Physical Design // Synopsys IC Compiler II Signoff</div>
           <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">How I Drove My Blocks from Floorplan to Signoff</h2>
           <p class="text-slate-400 text-xs sm:text-sm mt-1">Select a block and click through Stages 1–5 to inspect my controlled engineering actions, layout screenshots, and QoR progression.</p>
         </div>
 
         <div class="inline-flex rounded-lg p-1 bg-silicon-900 border border-slate-800 font-mono text-xs self-start shrink-0">
-          <button type="button" id="btn-block-gprs" onclick="switchQorBlock('gprs')" class="px-3 sm:px-4 py-2 rounded-md bg-metal-m5 text-silicon-950 font-bold transition">
+          <button type="button" id="btn-block-gprs" onclick="switchQorBlock('gprs')" class="px-3 sm:px-4 py-2 rounded-md bg-metal-m5 font-bold transition">
             Block A: gprs_top (33.2K)
           </button>
           <button type="button" id="btn-block-fifo" onclick="switchQorBlock('fifo')" class="px-3 sm:px-4 py-2 rounded-md text-slate-300 hover:text-white transition">
@@ -510,24 +390,24 @@
       <!-- Stage Pipeline Tabs -->
       <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 font-mono text-xs" id="qor-stage-tabs">
         <button type="button" onclick="switchQorStage('floorplan')" data-stage="floorplan" class="qor-tab p-3 rounded-lg bg-silicon-800 border border-metal-m5 text-left transition">
-          <div class="text-[10px] text-metal-m5">STAGE 01</div>
-          <div class="font-bold text-white mt-0.5">1. Floorplan &amp; I/O</div>
+          <div class="text-[10px] text-metal-m5 font-semibold">STAGE 01</div>
+          <div class="font-bold text-white mt-0.5">Floorplan &amp; I/O</div>
         </button>
         <button type="button" onclick="switchQorStage('pdn')" data-stage="pdn" class="qor-tab p-3 rounded-lg bg-silicon-900/90 border border-slate-800 text-left hover:border-slate-700 transition">
           <div class="text-[10px] text-slate-400">STAGE 02</div>
-          <div class="font-bold text-slate-200 mt-0.5">2. Power Plan (PDN)</div>
+          <div class="font-bold text-slate-200 mt-0.5">Power Plan (PDN)</div>
         </button>
         <button type="button" onclick="switchQorStage('placement')" data-stage="placement" class="qor-tab p-3 rounded-lg bg-silicon-900/90 border border-slate-800 text-left hover:border-slate-700 transition">
           <div class="text-[10px] text-slate-400">STAGE 03</div>
-          <div class="font-bold text-slate-200 mt-0.5">3. Placement</div>
+          <div class="font-bold text-slate-200 mt-0.5">Placement</div>
         </button>
         <button type="button" onclick="switchQorStage('cts')" data-stage="cts" class="qor-tab p-3 rounded-lg bg-silicon-900/90 border border-slate-800 text-left hover:border-slate-700 transition">
           <div class="text-[10px] text-slate-400">STAGE 04</div>
-          <div class="font-bold text-slate-200 mt-0.5">4. Clock Tree (CTS)</div>
+          <div class="font-bold text-slate-200 mt-0.5">Clock Tree (CTS)</div>
         </button>
         <button type="button" onclick="switchQorStage('routing')" data-stage="routing" class="qor-tab p-3 rounded-lg bg-silicon-900/90 border border-slate-800 text-left hover:border-slate-700 transition col-span-2 sm:col-span-1">
           <div class="text-[10px] text-slate-400">STAGE 05</div>
-          <div class="font-bold text-slate-200 mt-0.5">5. Routing &amp; Signoff</div>
+          <div class="font-bold text-slate-200 mt-0.5">Routing &amp; Signoff</div>
         </button>
       </div>
 
@@ -535,7 +415,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 rounded-xl p-4 sm:p-6 eda-border">
         <div class="lg:col-span-7 space-y-5">
           <div>
-            <span id="qor-badge" class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">gprs_top.nlib</span>
+            <span id="qor-badge" class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">gprs_top.nlib</span>
             <h3 id="qor-stage-title" class="text-lg sm:text-xl font-bold text-white mt-2">Floorplanning, Macro Flylines &amp; Port Track Alignment</h3>
           </div>
 
@@ -546,7 +426,7 @@
           <div id="qor-metrics-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 font-mono"></div>
 
           <div class="pt-1">
-            <div class="text-xs font-mono text-slate-400 mb-2 uppercase">My Stage-to-Stage QoR Progression Summary</div>
+            <div class="text-xs font-mono text-slate-400 mb-2 uppercase font-semibold">My Stage-to-Stage QoR Progression Summary</div>
             <div class="overflow-x-auto rounded-lg border border-slate-800">
               <table class="w-full text-left font-mono text-xs min-w-[480px]">
                 <thead class="bg-silicon-950 text-slate-400 border-b border-slate-800">
@@ -568,7 +448,7 @@
           <div>
             <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-3">
               <span id="qor-img-caption" class="truncate mr-2">IC Compiler II &mdash; Layout View</span>
-              <button type="button" onclick="openCurrentQorImage()" class="text-metal-m5 hover:underline shrink-0">
+              <button type="button" onclick="openCurrentQorImage()" class="text-metal-m5 font-semibold hover:underline shrink-0">
                 [Enlarge]
               </button>
             </div>
@@ -588,13 +468,12 @@
         </div>
       </div>
     </section>
-
     <!-- =======================================================================
-         VIEW 03: SILICON LAB (3D METAL + BUS ARBITER)
+         VIEW 3: INTERACTIVE LAB (3D METAL STACK + BUS ARBITER RTL SIMULATOR)
          ======================================================================= -->
     <section id="view-lab" class="app-view space-y-8">
       <div class="border-b border-slate-800 pb-4">
-        <div class="text-xs font-mono text-metal-m3 uppercase tracking-widest">03 // Interactive Hardware &amp; Physical Architecture Simulators</div>
+        <div class="text-xs font-mono text-metal-m3 uppercase tracking-widest font-semibold">Interactive Lab // Hardware &amp; Physical Architecture Simulators</div>
         <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Test My Silicon Architectures Live in Your Browser</h2>
         <p class="text-slate-400 text-xs sm:text-sm mt-1">Inspect my physical metal-layer stack (`M1`–`M8`), clock-step my ChipThink Multi-Master Bus Arbiter RTL, or test my STA Slack Calculator below.</p>
       </div>
@@ -605,7 +484,7 @@
           <!-- WIDGET A: 3D METAL-LAYER STACK INSPECTOR -->
           <div class="lg:col-span-6 rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between space-y-5">
             <div>
-              <div class="flex items-center justify-between font-mono text-xs text-metal-m5">
+              <div class="flex items-center justify-between font-mono text-xs text-metal-m5 font-semibold">
                 <span>PHYSICAL DESIGN CROSS-SECTION</span>
                 <span>10-LAYER BEOL STACK</span>
               </div>
@@ -614,78 +493,78 @@
             </div>
 
             <div class="space-y-2 py-1 font-mono text-xs">
-              <button type="button" onclick="selectMetalLayer('m8m7')" id="slab-m8m7" class="metal-slab active-slab w-full p-3 rounded-lg bg-gradient-to-r from-amber-500/25 via-silicon-800 to-silicon-900 border border-metal-m8 flex items-center justify-between text-left">
-                <div><span class="text-metal-m8 font-bold">M8 / M7</span> &mdash; <span class="text-white font-semibold">Top-Level Power Mesh (VDD/VSS)</span></div>
-                <span class="text-[10px] px-2 py-0.5 rounded bg-metal-m8/20 text-metal-m8 shrink-0">PDN MESH</span>
+              <button type="button" onclick="selectMetalLayer('m8m7')" id="slab-m8m7" class="metal-slab active-slab w-full p-3 rounded-lg bg-silicon-800 border border-metal-m5 flex items-center justify-between text-left">
+                <div><span class="text-metal-m5 font-bold">M8 / M7</span> &mdash; <span class="text-white font-semibold">Top-Level Power Mesh (VDD/VSS)</span></div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-metal-m5/20 text-metal-m5 font-semibold shrink-0">PDN MESH</span>
               </button>
 
-              <button type="button" onclick="selectMetalLayer('m6m5_ports')" id="slab-m6m5_ports" class="metal-slab w-full p-3 rounded-lg bg-gradient-to-r from-pink-500/20 via-silicon-800 to-silicon-900 border border-slate-700 hover:border-metal-m6 flex items-center justify-between text-left">
+              <button type="button" onclick="selectMetalLayer('m6m5_ports')" id="slab-m6m5_ports" class="metal-slab w-full p-3 rounded-lg bg-silicon-900 border border-slate-700 hover:border-metal-m5 flex items-center justify-between text-left">
                 <div><span class="text-metal-m6 font-bold">M6 / M5</span> &mdash; <span class="text-white font-semibold">Track-Aligned Block I/O Ports</span></div>
-                <span class="text-[10px] px-2 py-0.5 rounded bg-metal-m6/20 text-metal-m6 shrink-0">I/O TRACKS</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-silicon-800 text-metal-m6 font-semibold shrink-0">I/O TRACKS</span>
               </button>
 
-              <button type="button" onclick="selectMetalLayer('m5m4_cts')" id="slab-m5m4_cts" class="metal-slab w-full p-3 rounded-lg bg-gradient-to-r from-cyan-500/25 via-silicon-800 to-silicon-900 border border-slate-700 hover:border-metal-m5 flex items-center justify-between text-left">
+              <button type="button" onclick="selectMetalLayer('m5m4_cts')" id="slab-m5m4_cts" class="metal-slab w-full p-3 rounded-lg bg-silicon-900 border border-slate-700 hover:border-metal-m5 flex items-center justify-between text-left">
                 <div><span class="text-metal-m5 font-bold">M5 / M4</span> &mdash; <span class="text-white font-semibold">Clock Tree Synthesis (dwds NDR)</span></div>
-                <span class="text-[10px] px-2 py-0.5 rounded bg-metal-m5/20 text-metal-m5 shrink-0">CTS NDR</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-silicon-800 text-metal-m5 font-semibold shrink-0">CTS NDR</span>
               </button>
 
-              <button type="button" onclick="selectMetalLayer('m2_straps')" id="slab-m2_straps" class="metal-slab w-full p-3 rounded-lg bg-gradient-to-r from-emerald-500/20 via-silicon-800 to-silicon-900 border border-slate-700 hover:border-metal-m3 flex items-center justify-between text-left">
+              <button type="button" onclick="selectMetalLayer('m2_straps')" id="slab-m2_straps" class="metal-slab w-full p-3 rounded-lg bg-silicon-900 border border-slate-700 hover:border-metal-m3 flex items-center justify-between text-left">
                 <div><span class="text-metal-m3 font-bold">M2</span> &mdash; <span class="text-white font-semibold">Vertical Power Straps &amp; Vias</span></div>
-                <span class="text-[10px] px-2 py-0.5 rounded bg-metal-m3/20 text-metal-m3 shrink-0">VERT PDN</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-silicon-800 text-metal-m3 font-semibold shrink-0">VERT PDN</span>
               </button>
 
-              <button type="button" onclick="selectMetalLayer('m1_rails')" id="slab-m1_rails" class="metal-slab w-full p-3 rounded-lg bg-gradient-to-r from-blue-500/20 via-silicon-800 to-silicon-900 border border-slate-700 hover:border-cyan-400 flex items-center justify-between text-left">
-                <div><span class="text-cyan-300 font-bold">M1</span> &mdash; <span class="text-white font-semibold">Standard Cell Rails &amp; DCAPs</span></div>
-                <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-400/20 text-cyan-300 shrink-0">STD CELLS</span>
+              <button type="button" onclick="selectMetalLayer('m1_rails')" id="slab-m1_rails" class="metal-slab w-full p-3 rounded-lg bg-silicon-900 border border-slate-700 hover:border-metal-m8 flex items-center justify-between text-left">
+                <div><span class="text-metal-m8 font-bold">M1</span> &mdash; <span class="text-white font-semibold">Standard Cell Rails &amp; DCAPs</span></div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-silicon-800 text-metal-m8 font-semibold shrink-0">STD CELLS</span>
               </button>
             </div>
 
-            <div class="p-4 rounded-lg bg-silicon-950/90 border border-cyan-500/30 font-mono text-xs space-y-2">
-              <div id="metal-detail-title" class="text-metal-m8 font-bold text-sm">M8 / M7 — Top-Level Power Delivery Mesh</div>
+            <div class="p-4 rounded-lg bg-silicon-950/90 border border-metal-m5/40 font-mono text-xs space-y-2">
+              <div id="metal-detail-title" class="text-metal-m5 font-bold text-sm">M8 / M7 — Top-Level Power Delivery Mesh</div>
               <p id="metal-detail-desc" class="text-slate-300 leading-relaxed">
                 In gprs_top, I configured M8 straps at 4.64 µm width (19.456 µm pitch) and M7 straps at 1.104 µm width (13.376 µm pitch). In my 8-Bit Async FIFO, I built an M7/M8 top mesh at 0.6 µm width and 18 µm pitch to guarantee low-IR-drop power distribution.
               </p>
               <div id="metal-detail-specs" class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-slate-800 text-[11px]">
-                <div><span class="text-slate-400">Block A:</span> <span class="text-white">gprs_top: M8 (4.64µm) | M7 (1.104µm)</span></div>
-                <div><span class="text-slate-400">Block B:</span> <span class="text-white">Async FIFO: M7/M8 (0.60µm @ 18µm)</span></div>
+                <div><span class="text-slate-400">Block A:</span> <span class="text-white font-semibold">gprs_top: M8 (4.64µm) | M7 (1.104µm)</span></div>
+                <div><span class="text-slate-400">Block B:</span> <span class="text-white font-semibold">Async FIFO: M7/M8 (0.60µm @ 18µm)</span></div>
               </div>
             </div>
           </div>
 
-          <!-- WIDGET B: LIVE BUS ARBITER RTL SIMULATOR -->
+          <!-- WIDGET B: LIVE MULTI-MASTER BUS ARBITER RTL SIMULATOR -->
           <div class="lg:col-span-6 rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between space-y-4">
             <div>
-              <div class="flex items-center justify-between font-mono text-xs text-metal-m3">
+              <div class="flex items-center justify-between font-mono text-xs text-metal-m3 font-semibold">
                 <span>LIVE RTL HARDWARE SIMULATOR</span>
                 <span>CHIPTHINK HACKATHON FINALS</span>
               </div>
               <h3 class="text-lg sm:text-xl font-bold text-white mt-1">Multi-Master Bus Arbiter (8-Cycle Anti-Starvation)</h3>
               <p class="text-xs text-slate-400 mt-1">
-                Keep <span class="font-mono text-white">CPU</span> and <span class="font-mono text-white">DMA/Peripheral</span> active together and step the clock 8 times to watch my fairness counter override fixed CPU priority!
+                Keep <span class="font-mono text-white font-semibold">CPU</span> and <span class="font-mono text-white font-semibold">DMA/Peripheral</span> active together and step the clock 8 times to watch my fairness counter override fixed CPU priority!
               </p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 font-mono text-xs">
-              <button type="button" id="btn-req-cpu" onclick="toggleArbiterReq('cpu')" class="p-3 rounded-lg bg-metal-m5/15 border border-metal-m5 text-left transition">
+              <button type="button" id="btn-req-cpu" onclick="toggleArbiterReq('cpu')" class="p-3 rounded-lg bg-silicon-800 border border-metal-m5 text-left transition">
                 <div class="flex items-center justify-between">
                   <span class="font-bold text-white">MASTER 0: CPU</span>
                   <span id="dot-req-cpu" class="w-2.5 h-2.5 rounded-full bg-metal-m5"></span>
                 </div>
-                <div id="txt-req-cpu" class="text-[11px] text-metal-m5 mt-1">req_cpu = 1 (ACTIVE)</div>
+                <div id="txt-req-cpu" class="text-[11px] text-metal-m5 font-semibold mt-1">req_cpu = 1 (ACTIVE)</div>
               </button>
 
-              <button type="button" id="btn-req-dma" onclick="toggleArbiterReq('dma')" class="p-3 rounded-lg bg-metal-m3/15 border border-metal-m3 text-left transition">
+              <button type="button" id="btn-req-dma" onclick="toggleArbiterReq('dma')" class="p-3 rounded-lg bg-silicon-800 border border-metal-m3 text-left transition">
                 <div class="flex items-center justify-between">
                   <span class="font-bold text-white">MASTER 1: DMA</span>
                   <span id="dot-req-dma" class="w-2.5 h-2.5 rounded-full bg-metal-m3"></span>
                 </div>
-                <div id="txt-req-dma" class="text-[11px] text-metal-m3 mt-1">req_dma = 1 (ACTIVE)</div>
+                <div id="txt-req-dma" class="text-[11px] text-metal-m3 font-semibold mt-1">req_dma = 1 (ACTIVE)</div>
               </button>
 
               <button type="button" id="btn-req-periph" onclick="toggleArbiterReq('periph')" class="p-3 rounded-lg bg-silicon-950 border border-slate-700 text-left transition">
                 <div class="flex items-center justify-between">
                   <span class="font-bold text-white">MASTER 2: PERIPH</span>
-                  <span id="dot-req-periph" class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
+                  <span id="dot-req-periph" class="w-2.5 h-2.5 rounded-full bg-slate-500"></span>
                 </div>
                 <div id="txt-req-periph" class="text-[11px] text-slate-400 mt-1">req_periph = 0 (IDLE)</div>
               </button>
@@ -710,10 +589,10 @@
               <div class="space-y-1">
                 <div class="flex justify-between text-[10.5px]">
                   <span class="text-slate-400">8-Cycle Anti-Starvation Counter</span>
-                  <span id="arb-status-badge" class="text-metal-m5">PRIORITY: CPU SERVED FIRST</span>
+                  <span id="arb-status-badge" class="text-metal-m5 font-semibold">PRIORITY: CPU SERVED FIRST</span>
                 </div>
                 <div class="w-full h-2.5 bg-silicon-800 rounded-full overflow-hidden">
-                  <div id="arb-wait-bar" class="h-full bg-gradient-to-r from-metal-m5 via-metal-m8 to-metal-m6 transition-all duration-300" style="width: 0%"></div>
+                  <div id="arb-wait-bar" class="h-full bg-metal-m5 transition-all duration-300" style="width: 0%"></div>
                 </div>
               </div>
 
@@ -724,18 +603,21 @@
 
             <div class="flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
               <div class="flex flex-wrap gap-2">
-                <button type="button" onclick="stepArbiterClock()" class="px-3.5 py-2 rounded bg-metal-m3 text-silicon-950 font-bold hover:bg-emerald-300 transition">
+                <button type="button" onclick="stepArbiterClock()" class="px-3.5 py-2 rounded bg-metal-m3 font-bold hover:opacity-90 transition">
                   Step Clock (posedge) +1
                 </button>
-                <button type="button" id="btn-arb-autorun" onclick="toggleArbiterAuto()" class="px-3 py-2 rounded bg-silicon-800 border border-metal-m5/40 text-metal-m5 hover:bg-metal-m5/10 transition">
+                <button type="button" id="btn-arb-autorun" onclick="toggleArbiterAuto()" class="px-3 py-2 rounded bg-silicon-800 border border-metal-m5/40 text-metal-m5 font-semibold hover:bg-metal-m5/10 transition">
                   Auto: OFF
                 </button>
                 <button type="button" onclick="resetArbiter()" class="px-3 py-2 rounded bg-silicon-800 border border-slate-700 text-slate-300 hover:text-white transition">
                   Reset
                 </button>
               </div>
-              <a href="https://edaplayground.com/x/JiD3" target="_blank" rel="noopener" class="text-metal-m3 hover:underline">
-                EDA Playground &nearr;
+              <a href="https://edaplayground.com/x/JiD3" target="_blank" rel="noopener" class="text-metal-m3 font-semibold hover:underline flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 stroke-current" fill="none" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                </svg>
+                <span>EDA Playground &nearr;</span>
               </a>
             </div>
           </div>
@@ -745,18 +627,18 @@
     </section>
 
     <!-- =======================================================================
-         VIEW 04: ALL 9 SILICON CHRONICLES & EDA TOOLCHAIN
+         VIEW 4: CHRONICLES & EDA TOOLCHAIN MATRIX
          ======================================================================= -->
     <section id="view-projects" class="app-view space-y-12">
       <div class="space-y-6">
         <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-800 pb-4 gap-4">
           <div>
-            <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">04 // My Engineering Chronicles Across the Design Cycle</div>
+            <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest font-semibold">Chronicles // My Engineering Stories Across the Design Cycle</div>
             <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Every Block Tells a Story: From Gates to GDSII</h2>
           </div>
 
           <div class="flex flex-wrap gap-1.5 font-mono text-xs" id="project-filters">
-            <button type="button" onclick="filterProjects('all')" data-filter="all" class="proj-filter px-3 py-1.5 rounded bg-metal-m5 text-silicon-950 font-bold transition">All (9)</button>
+            <button type="button" onclick="filterProjects('all')" data-filter="all" class="proj-filter px-3 py-1.5 rounded bg-metal-m5 font-bold transition">All (9)</button>
             <button type="button" onclick="filterProjects('pd')" data-filter="pd" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">Physical Design</button>
             <button type="button" onclick="filterProjects('rtl')" data-filter="rtl" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">RTL &amp; Verification</button>
             <button type="button" onclick="filterProjects('dft')" data-filter="dft" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">DFT &amp; Synthesis</button>
@@ -770,7 +652,7 @@
           <article data-category="pd" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between font-mono text-xs">
-                <span class="px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">BACK-END PD • ICC2</span>
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">BACK-END PD • ICC2</span>
                 <span class="text-slate-400">Apr – May 2026</span>
               </div>
               <h3 class="text-lg font-bold text-white">Taming Dual Asynchronous Clocks: 8-Bit Async FIFO Physical Design</h3>
@@ -778,13 +660,13 @@
                 In <strong class="text-white">Synopsys IC Compiler II</strong>, I drove this layout across a 2,065.43 &mu;m&sup2; core while keeping independent write (`wclk`) and read (`rclk`) domains completely isolated from crosstalk and skew.
               </p>
               <ul class="text-xs font-mono text-slate-300 space-y-1 border-t border-slate-800 pt-3">
-                <li>&bull; <span class="text-metal-m5">Floorplan &amp; PDN:</span> 24 M5 ports, 97 DCAPs, M7/M8 + M2 mesh (0 PG DRC).</li>
-                <li>&bull; <span class="text-metal-m5">Dual CTS:</span> `wclk` (80 sinks, 0.51ns) &amp; `rclk` (24 sinks, 0.45ns) at <strong class="text-white">0.00 ns skew</strong>.</li>
-                <li>&bull; <span class="text-metal-m3">Signoff:</span> 0 shorts, 0 opens, 0 DRC, +0.16 ns Setup WNS.</li>
+                <li>&bull; <span class="text-metal-m5 font-semibold">Floorplan &amp; PDN:</span> 24 M5 ports, 97 DCAPs, M7/M8 + M2 mesh (0 PG DRC).</li>
+                <li>&bull; <span class="text-metal-m5 font-semibold">Dual CTS:</span> `wclk` (80 sinks, 0.51ns) &amp; `rclk` (24 sinks, 0.45ns) at <strong class="text-white">0.00 ns skew</strong>.</li>
+                <li>&bull; <span class="text-metal-m3 font-semibold">Signoff:</span> 0 shorts, 0 opens, 0 DRC, +0.16 ns Setup WNS.</li>
               </ul>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-              <button type="button" onclick="openLightbox('assets/fifo_routing.png', 'My 8-Bit Asynchronous FIFO Final Routed Layout (0 DRC, +0.16ns WNS)')" class="text-metal-m5 hover:underline">Inspect Layout &rarr;</button>
+              <button type="button" onclick="openLightbox('assets/fifo_routing.png', 'My 8-Bit Asynchronous FIFO Final Routed Layout (0 DRC, +0.16ns WNS)')" class="text-metal-m5 font-semibold hover:underline">Inspect Layout &rarr;</button>
               <button type="button" onclick="switchPageView('qor', event); switchQorBlock('fifo');" class="text-slate-400 hover:text-white">QoR Table &nearr;</button>
             </div>
           </article>
@@ -793,7 +675,7 @@
           <article data-category="pd" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between font-mono text-xs">
-                <span class="px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">BACK-END PD • ICC2</span>
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">BACK-END PD • ICC2</span>
                 <span class="text-slate-400">Apr 2026</span>
               </div>
               <h3 class="text-lg font-bold text-white">Conquering a 16-Macro Heavy Block: GPRS Physical Design (`gprs_top`)</h3>
@@ -801,13 +683,13 @@
                 Transitioning `gprs_top` from <strong class="text-white">Design Compiler (`dc_shell`)</strong> into <strong class="text-white">IC Compiler II (`icc2_shell`)</strong>, I managed 27,811 initial cells (33,286 final) and 16 hard SRAM macros across 10 metal layers.
               </p>
               <ul class="text-xs font-mono text-slate-300 space-y-1 border-t border-slate-800 pt-3">
-                <li>&bull; <span class="text-metal-m5">Core &amp; Power:</span> 391,605.4 &mu;m&sup2; core (66.25% final util); fixed 179 missing PG vias.</li>
-                <li>&bull; <span class="text-metal-m5">CTS &amp; Congestion:</span> 2,856 `mclk` sinks at 0.14 ns skew; 0.12% placement congestion.</li>
-                <li>&bull; <span class="text-metal-m3">Signoff:</span> Cleared 34 route shorts via `route_eco`; 0.00 ns Setup WNS/TNS.</li>
+                <li>&bull; <span class="text-metal-m5 font-semibold">Core &amp; Power:</span> 391,605.4 &mu;m&sup2; core (66.25% final util); fixed 179 missing PG vias.</li>
+                <li>&bull; <span class="text-metal-m5 font-semibold">CTS &amp; Congestion:</span> 2,856 `mclk` sinks at 0.14 ns skew; 0.12% placement congestion.</li>
+                <li>&bull; <span class="text-metal-m3 font-semibold">Signoff:</span> Cleared 34 route shorts via `route_eco`; 0.00 ns Setup WNS/TNS.</li>
               </ul>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-              <button type="button" onclick="openLightbox('assets/gprs_routing.jpg', 'My gprs_top 10-Layer Detailed Route & SRAM Macro Signoff in Synopsys ICC2')" class="text-metal-m5 hover:underline">View Layout &rarr;</button>
+              <button type="button" onclick="openLightbox('assets/gprs_routing.jpg', 'My gprs_top 10-Layer Detailed Route & SRAM Macro Signoff in Synopsys ICC2')" class="text-metal-m5 font-semibold hover:underline">View Layout &rarr;</button>
               <button type="button" onclick="switchPageView('qor', event); switchQorBlock('gprs');" class="text-slate-400 hover:text-white">QoR Table &nearr;</button>
             </div>
           </article>
@@ -816,7 +698,7 @@
           <article data-category="rtl" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between font-mono text-xs">
-                <span class="px-2.5 py-0.5 rounded bg-metal-m3/10 text-metal-m3 border border-metal-m3/30">RTL DESIGN • HACKATHON FINALIST</span>
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m3 border border-metal-m3/40 font-semibold">RTL DESIGN • HACKATHON FINALIST</span>
                 <span class="text-slate-400">Apr 2026</span>
               </div>
               <h3 class="text-lg font-bold text-white">Zero Internet, Pure RTL: My Multi-Master Bus Arbiter at ChipThink Finals</h3>
@@ -824,12 +706,17 @@
                 At the <strong class="text-white">ChipThink VLSI Hackathon</strong> (Maven Silicon &amp; IEEE), my teammates and I designed and verified a deterministic Verilog Bus Arbiter for CPU, DMA, and Peripheral masters completely offline.
               </p>
               <ul class="text-xs font-mono text-slate-300 space-y-1 border-t border-slate-800 pt-3">
-                <li>&bull; <span class="text-metal-m3">Anti-Starvation:</span> 8-clock-cycle fairness counter forces priority rotation if DMA/Peripherals wait continuously.</li>
-                <li>&bull; <span class="text-metal-m3">Verified:</span> Live hardware debug state tracking across all contention cases.</li>
+                <li>&bull; <span class="text-metal-m3 font-semibold">Anti-Starvation:</span> 8-clock-cycle fairness counter forces priority rotation if DMA/Peripherals wait continuously.</li>
+                <li>&bull; <span class="text-metal-m3 font-semibold">Verified:</span> Live hardware debug state tracking across all contention cases.</li>
               </ul>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-              <a href="https://edaplayground.com/x/JiD3" target="_blank" rel="noopener" class="text-metal-m3 font-semibold hover:underline">EDA Playground (x/JiD3) &nearr;</a>
+              <a href="https://edaplayground.com/x/JiD3" target="_blank" rel="noopener" class="text-metal-m3 font-semibold hover:underline flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 stroke-current" fill="none" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                </svg>
+                <span>EDA Playground (x/JiD3) &nearr;</span>
+              </a>
             </div>
           </article>
 
@@ -837,7 +724,7 @@
           <article data-category="rtl" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between font-mono text-xs">
-                <span class="px-2.5 py-0.5 rounded bg-metal-m3/10 text-metal-m3 border border-metal-m3/30">RTL &amp; VERIFICATION • VCS</span>
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m3 border border-metal-m3/40 font-semibold">RTL &amp; VERIFICATION • VCS</span>
                 <span class="text-slate-400">May 2026</span>
               </div>
               <h3 class="text-lg font-bold text-white">Peeling Back the Compiler: 4-Abstraction Verilog &amp; CMOS Switch Verification</h3>
@@ -846,7 +733,12 @@
               </p>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/85 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-              <a href="https://github.com/narendaransg/half-adders-at-different-forms" target="_blank" rel="noopener" class="text-metal-m5 font-semibold hover:underline">GitHub Repo &nearr;</a>
+              <a href="https://github.com/narendaransg/half-adders-at-different-forms" target="_blank" rel="noopener" class="text-metal-m5 font-semibold hover:underline flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                </svg>
+                <span>GitHub Repo &nearr;</span>
+              </a>
             </div>
           </article>
 
@@ -854,7 +746,7 @@
           <article data-category="pd" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between font-mono text-xs">
-                <span class="px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">OPEN-SOURCE RTL-TO-GDSII</span>
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">OPEN-SOURCE RTL-TO-GDSII</span>
                 <span class="text-slate-400">Nov 2025 – Apr 2026</span>
               </div>
               <h3 class="text-lg font-bold text-white">Stripping Away Proprietary GUIs: OpenLane &amp; SKY130 RTL-to-GDSII</h3>
@@ -864,7 +756,7 @@
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs text-slate-400">
               <span>OpenROAD / Yosys / Magic</span>
-              <span class="text-metal-m5">SKY130 GDSII Clean</span>
+              <span class="text-metal-m5 font-semibold">SKY130 GDSII Clean</span>
             </div>
           </article>
 
@@ -872,7 +764,7 @@
           <article data-category="pd" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between font-mono text-xs">
-                <span class="px-2.5 py-0.5 rounded bg-metal-m6/10 text-metal-m6 border border-metal-m6/30">BACK-END PD • CADENCE INNOVUS</span>
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m6 border border-metal-m5/40 font-semibold">BACK-END PD • CADENCE INNOVUS</span>
                 <span class="text-slate-400">Nov 2025</span>
               </div>
               <h3 class="text-lg font-bold text-white">Achieving 0.00% Route Overflow &amp; 0.011 ns Skew in Cadence Innovus</h3>
@@ -881,7 +773,7 @@
               </p>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-              <button type="button" onclick="openLightbox('assets/cert_cadence.png', 'My Certificate — Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="text-metal-m6 hover:underline">View Cadence Certificate &rarr;</button>
+              <button type="button" onclick="openLightbox('assets/cert_cadence.png', 'My Certificate — Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="text-metal-m5 font-semibold hover:underline">View Cadence Certificate &rarr;</button>
             </div>
           </article>
 
@@ -889,7 +781,7 @@
           <article data-category="dft" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between font-mono text-xs">
-                <span class="px-2.5 py-0.5 rounded bg-metal-m8/10 text-metal-m8 border border-metal-m8/30">DFT &amp; SYNTHESIS • CADENCE GENUS</span>
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m8 border border-metal-m5/40 font-semibold">DFT &amp; SYNTHESIS • CADENCE GENUS</span>
                 <span class="text-slate-400">Nov 2025</span>
               </div>
               <h3 class="text-lg font-bold text-white">Making Silicon Testable: Memory Block DFT in Cadence Genus &amp; Modus</h3>
@@ -899,7 +791,7 @@
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs text-slate-400">
               <span>Cadence Genus + Modus</span>
-              <span class="text-metal-m3">Scan Verified &check;</span>
+              <span class="text-metal-m3 font-semibold">Scan Verified &check;</span>
             </div>
           </article>
 
@@ -907,7 +799,7 @@
           <article data-category="pd" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between font-mono text-xs">
-                <span class="px-2.5 py-0.5 rounded bg-metal-m5/10 text-metal-m5 border border-metal-m5/30">RTL-TO-ROUTING • SYNOPSYS</span>
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">RTL-TO-ROUTING • SYNOPSYS</span>
                 <span class="text-slate-400">2025</span>
               </div>
               <h3 class="text-lg font-bold text-white">My First Full Flow Milestone: PLL Design from RTL to Routing</h3>
@@ -917,7 +809,7 @@
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs text-slate-400">
               <span>Synopsys Design Vision / ICC</span>
-              <span class="text-metal-m3">Pre-Layout Verified &check;</span>
+              <span class="text-metal-m3 font-semibold">Pre-Layout Verified &check;</span>
             </div>
           </article>
 
@@ -925,7 +817,7 @@
           <article data-category="ic" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between font-mono text-xs">
-                <span class="px-2.5 py-0.5 rounded bg-metal-m8/10 text-metal-m8 border border-metal-m8/30">IC HARDWARE &amp; RTL SYNTHESIS</span>
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m8 border border-metal-m5/40 font-semibold">IC HARDWARE &amp; RTL SYNTHESIS</span>
                 <span class="text-slate-400">Oct 2024 – Nov 2025</span>
               </div>
               <h3 class="text-lg font-bold text-white">Where It Started: My Breadboard 4-Bit Fast Multiplier &amp; Barrel Shifter</h3>
@@ -934,7 +826,7 @@
               </p>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-              <button type="button" onclick="openLightbox('assets/ic_multiplier.png', 'My Breadboard 4-Bit Binary Fast Multiplier (15 x 15 = 225 / 11100001)')" class="text-metal-m8 hover:underline">See Hardware Build &rarr;</button>
+              <button type="button" onclick="openLightbox('assets/ic_multiplier.png', 'My Breadboard 4-Bit Binary Fast Multiplier (15 x 15 = 225 / 11100001)')" class="text-metal-m8 font-semibold hover:underline">See Hardware Build &rarr;</button>
               <span class="text-slate-400">ALU Foundations</span>
             </div>
           </article>
@@ -945,40 +837,40 @@
       <!-- Skill Categories Matrix -->
       <div class="space-y-6 pt-6 border-t border-slate-800">
         <div>
-          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">My Semiconductor Engineering Arsenal</div>
+          <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest font-semibold">My Semiconductor Engineering Arsenal</div>
           <h3 class="text-xl sm:text-2xl font-bold text-white mt-1">EDA Toolchains, HDLs &amp; Signoff Methodologies</h3>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <div class="p-5 rounded-xl eda-border space-y-3">
-            <div class="text-xs font-mono text-metal-m5 uppercase">Commercial EDA Suite</div>
+            <div class="text-xs font-mono text-metal-m5 uppercase font-semibold">Commercial EDA Suite</div>
             <h4 class="text-base font-bold text-white">Synopsys &amp; Cadence</h4>
             <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
-              <span class="px-2 py-1 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/30">Synopsys ICC2 (icc2_shell)</span>
+              <span class="px-2 py-1 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">Synopsys ICC2 (icc2_shell)</span>
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">Design Compiler (dc_shell)</span>
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">Design Vision</span>
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">Synopsys VCS</span>
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">PrimeTime</span>
-              <span class="px-2 py-1 rounded bg-silicon-800 text-metal-m6 border border-metal-m6/30">Cadence Innovus</span>
+              <span class="px-2 py-1 rounded bg-silicon-800 text-metal-m6 border border-metal-m5/40 font-semibold">Cadence Innovus</span>
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">Cadence Genus &amp; Modus</span>
             </div>
           </div>
 
           <div class="p-5 rounded-xl eda-border space-y-3">
-            <div class="text-xs font-mono text-metal-m3 uppercase">Open-Source Silicon</div>
+            <div class="text-xs font-mono text-metal-m3 uppercase font-semibold">Open-Source Silicon</div>
             <h4 class="text-base font-bold text-white">OpenLane &amp; PDKs</h4>
             <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
-              <span class="px-2 py-1 rounded bg-silicon-800 text-metal-m3 border border-metal-m3/30">OpenLane Flow</span>
+              <span class="px-2 py-1 rounded bg-silicon-800 text-metal-m3 border border-metal-m3/40 font-semibold">OpenLane Flow</span>
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">OpenROAD</span>
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">Yosys Synthesis</span>
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">Verilator</span>
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">Magic &amp; KLayout</span>
-              <span class="px-2 py-1 rounded bg-silicon-800 text-metal-m8">SkyWater 130nm PDK</span>
+              <span class="px-2 py-1 rounded bg-silicon-800 text-metal-m8 font-semibold">SkyWater 130nm PDK</span>
             </div>
           </div>
 
           <div class="p-5 rounded-xl eda-border space-y-3">
-            <div class="text-xs font-mono text-metal-m8 uppercase">Back-End &amp; Signoff</div>
+            <div class="text-xs font-mono text-metal-m8 uppercase font-semibold">Back-End &amp; Signoff</div>
             <h4 class="text-base font-bold text-white">Physical Implementation</h4>
             <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">Flyline Macro Placement</span>
@@ -990,11 +882,11 @@
           </div>
 
           <div class="p-5 rounded-xl eda-border space-y-3">
-            <div class="text-xs font-mono text-metal-m6 uppercase">Front-End &amp; Scripting</div>
+            <div class="text-xs font-mono text-metal-m6 uppercase font-semibold">Front-End &amp; Scripting</div>
             <h4 class="text-base font-bold text-white">RTL &amp; Verification</h4>
             <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
-              <span class="px-2 py-1 rounded bg-silicon-800 text-metal-m6 border border-metal-m6/30">Verilog HDL</span>
-              <span class="px-2 py-1 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/30">SystemVerilog HVL</span>
+              <span class="px-2 py-1 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">Verilog HDL</span>
+              <span class="px-2 py-1 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">SystemVerilog HVL</span>
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">UVM Fundamentals</span>
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">Functional Coverage (CDV)</span>
               <span class="px-2 py-1 rounded bg-silicon-800 text-slate-200">Tcl Scripting</span>
@@ -1004,13 +896,12 @@
         </div>
       </div>
     </section>
-
     <!-- =======================================================================
-         VIEW 05: CREDENTIALS, STORY & CONTACT
+         VIEW 5: CREDENTIALS, STORY & CONTACT
          ======================================================================= -->
     <section id="view-credentials" class="app-view space-y-10">
       <div class="border-b border-slate-800 pb-4">
-        <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">05 // Verified Credentials, Story &amp; Contact</div>
+        <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest font-semibold">Credentials // Verified Certificates, Story &amp; Contact</div>
         <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Certifications, Industry Exposure &amp; Beyond the Lab</h2>
       </div>
 
@@ -1018,7 +909,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
           <div class="space-y-3">
-            <div class="flex items-center justify-between font-mono text-xs text-metal-m5">
+            <div class="flex items-center justify-between font-mono text-xs text-metal-m5 font-semibold">
               <span>VLSIMINDS • BENGALURU</span>
               <span>21 Apr 2026</span>
             </div>
@@ -1027,14 +918,14 @@
               Centre for Chip Design, Easwari Engineering College &amp; VLSIMINDS. Mastered floorplanning, PDN synthesis, congestion-aware placement, CTS skew balancing, and DRC/STA closure.
             </p>
           </div>
-          <button type="button" onclick="openLightbox('assets/cert_pd_backend.png', 'My Certificate of Recognition — Physical Design Back End (VLSIMINDS & EEC, 21 Apr 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:bg-metal-m5 hover:text-silicon-950 font-mono text-xs text-metal-m5 border border-metal-m5/30 transition font-semibold">
-            View My Certificate &rarr;
+          <button type="button" onclick="openLightbox('assets/cert_pd_backend.png', 'My Certificate of Recognition — Physical Design Back End (VLSIMINDS & EEC, 21 Apr 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m5 border border-metal-m5/40 font-semibold transition">
+            View Certificate &rarr;
           </button>
         </div>
 
         <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
           <div class="space-y-3">
-            <div class="flex items-center justify-between font-mono text-xs text-metal-m3">
+            <div class="flex items-center justify-between font-mono text-xs text-metal-m3 font-semibold">
               <span>VLSIMINDS • BENGALURU</span>
               <span>04 Feb 2026</span>
             </div>
@@ -1043,14 +934,14 @@
               Easwari Engineering College &amp; VLSIMINDS. Built comprehensive test plans, OOP SystemVerilog testbenches, Coverage-Driven Verification (CDV), and UVM fundamentals.
             </p>
           </div>
-          <button type="button" onclick="openLightbox('assets/cert_dv_frontend.png', 'My Certificate of Recognition — VLSI Design Verification Front End (VLSIMINDS & EEC, 04 Feb 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:bg-metal-m3 hover:text-silicon-950 font-mono text-xs text-metal-m3 border border-metal-m3/30 transition font-semibold">
-            View My Certificate &rarr;
+          <button type="button" onclick="openLightbox('assets/cert_dv_frontend.png', 'My Certificate of Recognition — VLSI Design Verification Front End (VLSIMINDS & EEC, 04 Feb 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m3 border border-metal-m3/40 font-semibold transition">
+            View Certificate &rarr;
           </button>
         </div>
 
         <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
           <div class="space-y-3">
-            <div class="flex items-center justify-between font-mono text-xs text-metal-m6">
+            <div class="flex items-center justify-between font-mono text-xs text-metal-m6 font-semibold">
               <span>CENTRE FOR CHIP DESIGN</span>
               <span>07–08 Nov 2025</span>
             </div>
@@ -1059,8 +950,8 @@
               Hands-on workshop organized by the Dept. of ECE &amp; Centre for Chip Design at Easwari Engineering College training on Cadence Innovus and Genus flows.
             </p>
           </div>
-          <button type="button" onclick="openLightbox('assets/cert_cadence.png', 'My Certificate of Participation — Two Day Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:bg-metal-m6 hover:text-silicon-950 font-mono text-xs text-metal-m6 border border-metal-m6/30 transition font-semibold">
-            View My Certificate &rarr;
+          <button type="button" onclick="openLightbox('assets/cert_cadence.png', 'My Certificate of Participation — Two Day Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m6 border border-metal-m5/40 font-semibold transition">
+            View Certificate &rarr;
           </button>
         </div>
       </div>
@@ -1068,7 +959,7 @@
       <!-- Exposure and Leadership Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div class="p-5 rounded-xl eda-border space-y-2">
-          <div class="text-xs font-mono text-metal-m8">FINALIST • MAVEN SILICON &amp; IEEE (APR 2026)</div>
+          <div class="text-xs font-mono text-metal-m8 font-semibold">FINALIST • MAVEN SILICON &amp; IEEE (APR 2026)</div>
           <h4 class="font-bold text-white">ChipThink VLSI Hackathon (TECHLETICS 4.0)</h4>
           <p class="text-xs text-slate-300 leading-relaxed">
             Cleared Round 1 and competed in the offline finals at Christ College of Engineering, Irinjalakuda—designing synthesizable RTL from scratch with zero internet access.
@@ -1076,7 +967,7 @@
         </div>
 
         <div class="p-5 rounded-xl eda-border space-y-2">
-          <div class="text-xs font-mono text-metal-m5">HARDWARE FORUM (APR 2026)</div>
+          <div class="text-xs font-mono text-metal-m5 font-semibold">HARDWARE FORUM (APR 2026)</div>
           <h4 class="font-bold text-white">CHIPCRAFT 2.0 — Kalasalingam Academy</h4>
           <p class="text-xs text-slate-300 leading-relaxed">
             Benchmarked my hardware design methodologies against peers from across the region during the Euphoria Techno Management Meet.
@@ -1084,7 +975,7 @@
         </div>
 
         <div class="p-5 rounded-xl eda-border space-y-2">
-          <div class="text-xs font-mono text-metal-m3">INDUSTRIAL INTERNSHIP (MAY – JUN 2025)</div>
+          <div class="text-xs font-mono text-metal-m3 font-semibold">INDUSTRIAL INTERNSHIP (MAY – JUN 2025)</div>
           <h4 class="font-bold text-white">Nokia — Factory Floor &amp; PCB Training</h4>
           <p class="text-xs text-slate-300 leading-relaxed">
             Spent two months on the live factory floor at Nokia's Sriperumbudur telecommunications facility, gaining exposure to industrial PCB workflows and manufacturing efficiency.
@@ -1096,7 +987,7 @@
       <div class="rounded-2xl p-6 sm:p-8 eda-border">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div class="lg:col-span-5 space-y-4">
-            <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest">Beyond the Layout Window</div>
+            <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest font-semibold">Beyond the Layout Window</div>
             <h3 class="text-2xl font-bold text-white">What Drives My Engineering Discipline</h3>
             <p class="text-sm text-slate-300 leading-relaxed">
               For me, closing timing on a tough ASIC block and life outside the lab share the same core principles. Leadership forged in the <strong class="text-white">National Cadet Corps (NCC)</strong>, perseverance learned through <strong class="text-white">Martial Arts</strong>, and empathy shaped as Treasurer &amp; Volunteer in <strong class="text-white">NSS</strong> define how I work in teams and tackle high-pressure tapeout challenges.
@@ -1140,14 +1031,14 @@
       <!-- Action Footer Strip -->
       <div class="rounded-2xl p-6 sm:p-8 eda-border flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div class="space-y-1.5 max-w-xl">
-          <div class="text-xs font-mono text-metal-m3 uppercase">Open to Core ASIC / VLSI Roles &amp; Internships</div>
+          <div class="text-xs font-mono text-metal-m3 uppercase font-semibold">Open to Core ASIC / VLSI Roles &amp; Internships</div>
           <h3 class="text-xl sm:text-2xl font-bold text-white">Let's Build the Next Generation of Silicon Together.</h3>
           <p class="text-xs sm:text-sm text-slate-300">
             Actively seeking opportunities in Physical Design (Back-End), RTL Design &amp; Verification (Front-End), and Synthesis/DFT.
           </p>
         </div>
         <div class="flex flex-wrap gap-3 font-mono text-xs sm:text-sm">
-          <a href="mailto:sgnarendaran@gmail.com" class="px-5 py-2.5 rounded-lg bg-metal-m5 text-silicon-950 font-bold hover:bg-cyan-300 transition">
+          <a href="mailto:sgnarendaran@gmail.com" class="px-5 py-2.5 rounded-lg bg-metal-m5 text-silicon-950 font-bold hover:opacity-90 transition">
             sgnarendaran@gmail.com
           </a>
           <a href="https://www.linkedin.com/in/narendaran-s-g-886273291" target="_blank" rel="noopener" class="px-4 py-2.5 rounded-lg bg-silicon-950 border border-metal-m3/50 text-metal-m3 hover:bg-metal-m3/10 transition">
@@ -1167,14 +1058,14 @@
     <div>Crafted by Narendaran S G &bull; sgnarendaran@gmail.com &bull; Chennai, Tamil Nadu, India</div>
   </footer>
 
-  <!-- Lightbox -->
-  <div id="lightbox-modal" onclick="closeLightbox()" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm items-center justify-center p-4 animate-fade-in">
+  <!-- Lightbox Modal -->
+  <div id="lightbox-modal" onclick="closeLightbox()" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm items-center justify-center p-4">
     <div onclick="event.stopPropagation()" class="max-w-5xl w-full bg-silicon-900 border border-metal-m5/40 rounded-xl overflow-hidden shadow-2xl">
       <div class="px-4 py-3 bg-silicon-950 border-b border-slate-800 flex items-center justify-between font-mono text-xs">
         <span id="lightbox-caption" class="text-metal-m5 font-semibold truncate mr-2">Preview</span>
         <button type="button" onclick="closeLightbox()" class="px-2.5 py-1 rounded bg-silicon-800 text-slate-300 hover:text-white shrink-0">ESC / Close &#10005;</button>
       </div>
-      <div class="p-4 bg-silicon-950 flex items-center justify-center max-h-[80vh] overflow-auto animate-zoom-in">
+      <div class="p-4 bg-silicon-950 flex items-center justify-center max-h-[80vh] overflow-auto">
         <img id="lightbox-img" src="" alt="Enlarged Preview" class="max-h-[75vh] w-auto object-contain rounded" />
       </div>
     </div>
@@ -1194,7 +1085,6 @@
         htmlEl.classList.remove('dark');
         if (iconEl) iconEl.innerHTML = '&#9728;';
         if (labelEl) labelEl.textContent = 'Light';
-        // Redraw canvas with lighter contrast parameters on switch
         triggerCanvasRefresh();
       } else {
         htmlEl.classList.remove('light-theme');
@@ -1226,7 +1116,7 @@
     let transitionParticles = [];
 
     function spawnTransitionParticles(originX, originY) {
-      const colors = ['#00F0FF', '#00E676', '#FF2A85', '#FFB300'];
+      const colors = ['#F5B041', '#10B981', '#FFD166', '#F59E0B'];
       const cx = originX || window.innerWidth / 2;
       const cy = originY || 56;
       for (let i = 0; i < 34; i++) {
@@ -1311,13 +1201,13 @@
       let macros = [];
       let vias = [];
       let packets = [];
-      let customTraceNodes = []; // Coordinates of mouse-generated micro-nodes
+      let customTraceNodes = [];
 
       const layerColors = [
-        { name: 'M5', hex: '#00F0FF', rgba: 'rgba(0, 240, 255, ' },
-        { name: 'M6', hex: '#FF2A85', rgba: 'rgba(255, 42, 133, ' },
-        { name: 'M3', hex: '#00E676', rgba: 'rgba(0, 230, 118, ' },
-        { name: 'M8', hex: '#FFB300', rgba: 'rgba(255, 179, 0, ' }
+        { name: 'M5', hex: '#F5B041', rgba: 'rgba(245, 176, 65, ' },
+        { name: 'M6', hex: '#FFD166', rgba: 'rgba(255, 209, 102, ' },
+        { name: 'M3', hex: '#10B981', rgba: 'rgba(16, 185, 129, ' },
+        { name: 'M8', hex: '#F59E0B', rgba: 'rgba(245, 158, 11, ' }
       ];
 
       function buildAsicGrid() {
@@ -1336,8 +1226,8 @@
             h: pitch * 1.6,
             label: 'SRAM_64x32_0',
             family: 'M6/M5',
-            color: 'rgba(255, 42, 133, 0.045)',
-            border: 'rgba(255, 42, 133, 0.16)'
+            color: 'rgba(245, 176, 65, 0.04)',
+            border: 'rgba(245, 176, 65, 0.18)'
           },
           {
             x: Math.max(pitch * 5, (cols - 3.5) * pitch),
@@ -1346,8 +1236,8 @@
             h: pitch * 2,
             label: 'GPRS_MEM_1',
             family: 'ICC2',
-            color: 'rgba(0, 240, 255, 0.04)',
-            border: 'rgba(0, 240, 255, 0.16)'
+            color: 'rgba(16, 185, 129, 0.035)',
+            border: 'rgba(16, 185, 129, 0.18)'
           }
         ];
 
@@ -1391,13 +1281,12 @@
 
         const isLight = document.documentElement.classList.contains('light-theme');
 
-        // Draw Manhattan Interconnect Grids
         ctx.lineWidth = 1;
         for (let c = 0; c <= cols; c++) {
           const x = c * pitch;
           ctx.strokeStyle = c % 4 === 0 
-            ? (isLight ? 'rgba(2, 132, 199, 0.035)' : 'rgba(255, 179, 0, 0.05)') 
-            : (isLight ? 'rgba(2, 132, 199, 0.015)' : 'rgba(0, 240, 255, 0.03)');
+            ? (isLight ? 'rgba(154, 107, 19, 0.04)' : 'rgba(245, 176, 65, 0.06)') 
+            : (isLight ? 'rgba(154, 107, 19, 0.018)' : 'rgba(212, 175, 55, 0.035)');
           ctx.beginPath();
           ctx.moveTo(x, 0);
           ctx.lineTo(x, height);
@@ -1406,35 +1295,33 @@
         for (let r = 0; r <= rows; r++) {
           const y = r * pitch;
           ctx.strokeStyle = r % 4 === 0 
-            ? (isLight ? 'rgba(220, 38, 38, 0.025)' : 'rgba(255, 42, 133, 0.045)') 
-            : (isLight ? 'rgba(5, 150, 105, 0.015)' : 'rgba(0, 230, 118, 0.025)');
+            ? (isLight ? 'rgba(4, 120, 87, 0.035)' : 'rgba(16, 185, 129, 0.05)') 
+            : (isLight ? 'rgba(180, 131, 39, 0.02)' : 'rgba(245, 158, 11, 0.03)');
           ctx.beginPath();
           ctx.moveTo(0, y);
           ctx.lineTo(width, y);
           ctx.stroke();
         }
 
-        // Draw Hard Macro Sub-blocks on background
         if (width > 768) {
           ctx.font = '7.5px "JetBrains Mono", monospace';
           macros.forEach(m => {
-            ctx.fillStyle = isLight ? 'rgba(2, 132, 199, 0.025)' : m.color;
+            ctx.fillStyle = isLight ? 'rgba(154, 107, 19, 0.03)' : m.color;
             ctx.fillRect(m.x, m.y, m.w, m.h);
-            ctx.strokeStyle = isLight ? 'rgba(2, 132, 199, 0.09)' : m.border;
+            ctx.strokeStyle = isLight ? 'rgba(154, 107, 19, 0.12)' : m.border;
             ctx.lineWidth = 0.8;
             ctx.strokeRect(m.x, m.y, m.w, m.h);
 
-            ctx.fillStyle = isLight ? 'rgba(15, 23, 42, 0.22)' : 'rgba(148, 163, 184, 0.35)';
+            ctx.fillStyle = isLight ? 'rgba(24, 24, 27, 0.28)' : 'rgba(212, 175, 55, 0.4)';
             ctx.fillText(`${m.label}`, m.x + 6, m.y + 11);
           });
         }
 
         vias.forEach(v => {
-          ctx.fillStyle = isLight ? 'rgba(2, 132, 199, 0.08)' : 'rgba(0, 240, 255, 0.12)';
+          ctx.fillStyle = isLight ? 'rgba(154, 107, 19, 0.09)' : 'rgba(245, 176, 65, 0.16)';
           ctx.fillRect(v.x - 1.5, v.y - 1.5, 3, 3);
         });
 
-        // Push mouse movement micro-nodes onto background
         if (mouse.active && Math.random() < 0.4) {
           customTraceNodes.push({
             x: mouse.x + (Math.random() - 0.5) * 25,
@@ -1444,7 +1331,6 @@
           });
         }
 
-        // Animated Interactive Mouse Glow Interconnects
         if (mouse.active) {
           customTraceNodes.forEach((node, idx) => {
             node.life -= 0.014;
@@ -1464,7 +1350,6 @@
           });
         }
 
-        // Draw and animate standard signal packets
         packets.forEach(p => {
           p.x += p.vx;
           p.y += p.vy;
@@ -1513,7 +1398,542 @@
           ctx.fillRect(p.x - 1.5, p.y - 1.5, 3, 3);
         });
 
-        // Sub-page switch burst animation render
+        for (let i = transitionParticles.length - 1; i >= 0; i--) {
+          const pt = transitionParticles[i];
+          pt.x += pt.vx;
+          pt.y += pt.vy;
+          pt.alpha -= 0.024;
+          if (pt.alpha <= 0) {
+            transitionParticles.splice(i, 1);
+          } else {
+            ctx.save();
+            ctx.globalAlpha = pt.alpha;
+            ctx.fillStyle = pt.color;
+            ctx.fillRect(pt.x - pt.size / 2, pt.y - pt.size / 2, pt.size, pt.size);
+            ctx.restore();
+          }
+        }
+
+        requestAnimationFrame(updateAndDraw);
+      }
+
+      canvas.triggerRedraw = () => buildAsicGrid();
+      window.addEventListener('resize', buildAsicGrid);
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        mouse.active = true;
+        if (coordReadout) {
+          const umX = (e.clientX * 0.425).toFixed(2);
+          const umY = ((height - e.clientY) * 0.425).toFixed(2);
+          coordReadout.textContent = `DIE CURSOR: X=${umX} um, Y=${umY} um`;
+        }
+      });
+      window.addEventListener('mouseleave', () => {
+        mouse.active = false;
+      });
+
+      buildAsicGrid();
+      updateAndDraw();
+    })();
+  </script>
+  <!-- =======================================================================
+         VIEW 5: CREDENTIALS, STORY & CONTACT
+         ======================================================================= -->
+    <section id="view-credentials" class="app-view space-y-10">
+      <div class="border-b border-slate-800 pb-4">
+        <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest font-semibold">Credentials // Verified Certifications, Story &amp; Contact</div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Certifications, Industry Exposure &amp; Beyond the Lab</h2>
+      </div>
+
+      <!-- Verified Certification Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between font-mono text-xs text-metal-m5 font-semibold">
+              <span>VLSIMINDS • BENGALURU</span>
+              <span>21 Apr 2026</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Physical Design – Back End</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Centre for Chip Design, Easwari Engineering College &amp; VLSIMINDS. Mastered floorplanning, PDN synthesis, congestion-aware placement, CTS skew balancing, and DRC/STA closure.
+            </p>
+          </div>
+          <button type="button" onclick="openLightbox('assets/cert_pd_backend.png', 'My Certificate of Recognition — Physical Design Back End (VLSIMINDS & EEC, 21 Apr 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m5 font-semibold border border-metal-m5/40 transition">
+            View My Certificate &rarr;
+          </button>
+        </div>
+
+        <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between font-mono text-xs text-metal-m3 font-semibold">
+              <span>VLSIMINDS • BENGALURU</span>
+              <span>04 Feb 2026</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">VLSI Design Verification – Front End</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Easwari Engineering College &amp; VLSIMINDS. Built comprehensive test plans, OOP SystemVerilog testbenches, Coverage-Driven Verification (CDV), and UVM fundamentals.
+            </p>
+          </div>
+          <button type="button" onclick="openLightbox('assets/cert_dv_frontend.png', 'My Certificate of Recognition — VLSI Design Verification Front End (VLSIMINDS & EEC, 04 Feb 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m3 font-semibold border border-metal-m3/40 transition">
+            View My Certificate &rarr;
+          </button>
+        </div>
+
+        <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between font-mono text-xs text-metal-m6 font-semibold">
+              <span>CENTRE FOR CHIP DESIGN</span>
+              <span>07–08 Nov 2025</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Physical Design using Cadence Tools</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Hands-on workshop organized by the Dept. of ECE &amp; Centre for Chip Design at Easwari Engineering College training on Cadence Innovus and Genus flows.
+            </p>
+          </div>
+          <button type="button" onclick="openLightbox('assets/cert_cadence.png', 'My Certificate of Participation — Two Day Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m6 font-semibold border border-metal-m6/40 transition">
+            View My Certificate &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Exposure and Leadership Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="p-5 rounded-xl eda-border space-y-2">
+          <div class="text-xs font-mono text-metal-m8 font-semibold">FINALIST • MAVEN SILICON &amp; IEEE (APR 2026)</div>
+          <h4 class="font-bold text-white">ChipThink VLSI Hackathon (TECHLETICS 4.0)</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Cleared Round 1 and competed in the offline finals at Christ College of Engineering, Irinjalakuda—designing synthesizable RTL from scratch with zero internet access.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-xl eda-border space-y-2">
+          <div class="text-xs font-mono text-metal-m5 font-semibold">HARDWARE FORUM (APR 2026)</div>
+          <h4 class="font-bold text-white">CHIPCRAFT 2.0 — Kalasalingam Academy</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Benchmarked my hardware design methodologies against peers from across the region during the Euphoria Techno Management Meet.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-xl eda-border space-y-2">
+          <div class="text-xs font-mono text-metal-m3 font-semibold">INDUSTRIAL INTERNSHIP (MAY – JUN 2025)</div>
+          <h4 class="font-bold text-white">Nokia — Factory Floor &amp; PCB Training</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Spent two months on the live factory floor at Nokia's Sriperumbudur telecommunications facility, gaining exposure to industrial PCB workflows and manufacturing efficiency.
+          </p>
+        </div>
+      </div>
+
+      <!-- Human Narrative and Casual Side -->
+      <div class="rounded-2xl p-6 sm:p-8 eda-border">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-5 space-y-4">
+            <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest font-semibold">Beyond the Layout Window</div>
+            <h3 class="text-2xl font-bold text-white">What Drives My Engineering Discipline</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              For me, closing timing on a tough ASIC block and life outside the lab share the same core principles. Leadership forged in the <strong class="text-white">National Cadet Corps (NCC)</strong>, perseverance learned through <strong class="text-white">Martial Arts</strong>, and empathy shaped as Treasurer &amp; Volunteer in <strong class="text-white">NSS</strong> define how I work in teams and tackle high-pressure tapeout challenges.
+            </p>
+          </div>
+
+          <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div onclick="openLightbox('assets/profile_suit.png', 'Professional Profile — Ready for Core Semiconductor Challenges')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
+              <div class="h-52 overflow-hidden">
+                <img src="assets/profile_suit.png" alt="Narendaran S G Formal" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
+              </div>
+              <div class="p-2.5 font-mono text-[11px] text-slate-300 flex justify-between items-center border-t border-slate-800">
+                <span>01 // Professional</span>
+                <span class="text-metal-m5">&nearr;</span>
+              </div>
+            </div>
+
+            <div onclick="openLightbox('assets/profile_candid.png', 'Stepping Out — Curiosity & Perspective')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
+              <div class="h-52 overflow-hidden">
+                <img src="assets/profile_candid.png" alt="Narendaran S G Candid" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
+              </div>
+              <div class="p-2.5 font-mono text-[11px] text-slate-300 flex justify-between items-center border-t border-slate-800">
+                <span>02 // Candid</span>
+                <span class="text-metal-m5">&nearr;</span>
+              </div>
+            </div>
+
+            <div onclick="openLightbox('assets/profile_nature.png', 'Staying Grounded Outside the Lab')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
+              <div class="h-52 overflow-hidden">
+                <img src="assets/profile_nature.png" alt="Narendaran S G Grounded" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
+              </div>
+              <div class="p-2.5 font-mono text-[11px] text-slate-300 flex justify-between items-center border-t border-slate-800">
+                <span>03 // Grounded</span>
+                <span class="text-metal-m5">&nearr;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Footer Strip -->
+      <div class="rounded-2xl p-6 sm:p-8 eda-border flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div class="space-y-1.5 max-w-xl">
+          <div class="text-xs font-mono text-metal-m3 uppercase font-semibold">Open to Core ASIC / VLSI Roles &amp; Internships</div>
+          <h3 class="text-xl sm:text-2xl font-bold text-white">Let's Build the Next Generation of Silicon Together.</h3>
+          <p class="text-xs sm:text-sm text-slate-300">
+            Actively seeking opportunities in Physical Design (Back-End), RTL Design &amp; Verification (Front-End), and Synthesis/DFT.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3 font-mono text-xs sm:text-sm">
+          <a href="mailto:sgnarendaran@gmail.com" class="px-5 py-2.5 rounded-lg bg-metal-m5 text-silicon-950 font-bold hover:opacity-90 transition">
+            sgnarendaran@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/narendaran-s-g-886273291" target="_blank" rel="noopener" class="px-4 py-2.5 rounded-lg bg-silicon-950 border border-metal-m3/50 text-metal-m3 hover:bg-metal-m3/10 transition flex items-center gap-1.5">
+            <svg class="w-4 h-4 fill-current text-metal-m3" viewBox="0 0 24 24">
+              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+            </svg>
+            <span>LinkedIn &nearr;</span>
+          </a>
+          <a href="resume.html" class="px-4 py-2.5 rounded-lg bg-silicon-950 border border-slate-700 text-white hover:border-metal-m5 transition">
+            Printable Resume &nearr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Attribution Footer -->
+  <footer class="border-t border-slate-800/80 py-5 text-center font-mono text-[11px] text-slate-500 relative z-10">
+    <div>Crafted by Narendaran S G &bull; sgnarendaran@gmail.com &bull; Chennai, Tamil Nadu, India</div>
+  </footer>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox-modal" onclick="closeLightbox()" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm items-center justify-center p-4">
+    <div onclick="event.stopPropagation()" class="max-w-5xl w-full bg-silicon-900 border border-metal-m5/40 rounded-xl overflow-hidden shadow-2xl">
+      <div class="px-4 py-3 bg-silicon-950 border-b border-slate-800 flex items-center justify-between font-mono text-xs">
+        <span id="lightbox-caption" class="text-metal-m5 font-semibold truncate mr-2">Preview</span>
+        <button type="button" onclick="closeLightbox()" class="px-2.5 py-1 rounded bg-silicon-800 text-slate-300 hover:text-white shrink-0">ESC / Close &#10005;</button>
+      </div>
+      <div class="p-4 bg-silicon-950 flex items-center justify-center max-h-[80vh] overflow-auto">
+        <img id="lightbox-img" src="" alt="Enlarged Preview" class="max-h-[75vh] w-auto object-contain rounded" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Core JavaScript Router, Theme Engine, and Terminal Script -->
+  <script>
+    function applySiteTheme(theme) {
+      const htmlEl = document.documentElement;
+      const iconEl = document.getElementById('theme-icon');
+      const labelEl = document.getElementById('theme-label');
+      
+      if (theme === 'light') {
+        htmlEl.classList.add('light-theme');
+        htmlEl.classList.remove('dark');
+        if (iconEl) iconEl.innerHTML = '&#9728;';
+        if (labelEl) labelEl.textContent = 'Light';
+        triggerCanvasRefresh();
+      } else {
+        htmlEl.classList.remove('light-theme');
+        htmlEl.classList.add('dark');
+        if (iconEl) iconEl.innerHTML = '&#9789;';
+        if (labelEl) labelEl.textContent = 'Dark';
+        triggerCanvasRefresh();
+      }
+      localStorage.setItem('narendaran_site_theme', theme);
+    }
+
+    function toggleSiteTheme() {
+      const current = localStorage.getItem('narendaran_site_theme') || 'dark';
+      applySiteTheme(current === 'dark' ? 'light' : 'dark');
+    }
+
+    applySiteTheme(localStorage.getItem('narendaran_site_theme') || 'dark');
+
+    function triggerCanvasRefresh() {
+      const canvas = document.getElementById('asic-canvas');
+      if (canvas && typeof canvas.triggerRedraw === 'function') {
+        canvas.triggerRedraw();
+      }
+    }
+
+    let transitionParticles = [];
+
+    function spawnTransitionParticles(originX, originY) {
+      const colors = ['#F5B041', '#10B981', '#FFD166', '#F59E0B'];
+      const cx = originX || window.innerWidth / 2;
+      const cy = originY || 56;
+      for (let i = 0; i < 34; i++) {
+        const angle = (Math.PI * 2 * i) / 34 + (Math.random() - 0.5) * 0.3;
+        const speed = 2.5 + Math.random() * 6.5;
+        transitionParticles.push({
+          x: cx,
+          y: cy,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: 2 + Math.random() * 2.5,
+          alpha: 1,
+          color: colors[i % colors.length]
+        });
+      }
+    }
+
+    function switchPageView(viewKey, evt) {
+      if (evt && evt.clientX) {
+        spawnTransitionParticles(evt.clientX, evt.clientY);
+      } else {
+        spawnTransitionParticles(window.innerWidth / 2, 54);
+      }
+
+      document.querySelectorAll('.app-view').forEach(sec => {
+        sec.classList.remove('view-visible');
+        setTimeout(() => {
+          if (sec.id !== 'view-' + viewKey) {
+            sec.classList.remove('active-view');
+          }
+        }, 160);
+      });
+
+      const target = document.getElementById('view-' + viewKey);
+      if (target) {
+        setTimeout(() => {
+          document.querySelectorAll('.app-view').forEach(s => s.classList.remove('active-view'));
+          target.classList.add('active-view');
+          requestAnimationFrame(() => {
+            target.classList.add('view-visible');
+          });
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          if (viewKey === 'qor') renderQorDashboard();
+        }, 165);
+      }
+
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+        if (btn.getAttribute('data-view') === viewKey) {
+          btn.classList.add('active-nav');
+        } else {
+          btn.classList.remove('active-nav');
+        }
+      });
+    }
+
+    function toggleMobileMenu(forceState) {
+      const drawer = document.getElementById('mobile-nav-drawer');
+      if (!drawer) return;
+      const show = typeof forceState === 'boolean' ? forceState : drawer.classList.contains('hidden');
+      if (show) {
+        drawer.classList.remove('hidden');
+      } else {
+        drawer.classList.add('hidden');
+      }
+    }
+
+    (function initInteractiveSiliconCanvas() {
+      const canvas = document.getElementById('asic-canvas');
+      const ctx = canvas.getContext('2d');
+      const coordReadout = document.getElementById('die-coords-readout');
+
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      const pitch = 72;
+      let cols = 0;
+      let rows = 0;
+
+      const mouse = { x: -1000, y: -1000, active: false };
+      let macros = [];
+      let vias = [];
+      let packets = [];
+      let customTraceNodes = [];
+
+      const layerColors = [
+        { name: 'M5', hex: '#F5B041', rgba: 'rgba(245, 176, 65, ' },
+        { name: 'M6', hex: '#FFD166', rgba: 'rgba(255, 209, 102, ' },
+        { name: 'M3', hex: '#10B981', rgba: 'rgba(16, 185, 129, ' },
+        { name: 'M8', hex: '#F59E0B', rgba: 'rgba(245, 158, 11, ' }
+      ];
+
+      function buildAsicGrid() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        cols = Math.ceil(width / pitch);
+        rows = Math.ceil(height / pitch);
+
+        macros = [
+          {
+            x: pitch * 1,
+            y: pitch * 2.2,
+            w: pitch * 2.5,
+            h: pitch * 1.6,
+            label: 'SRAM_64x32_0',
+            family: 'M6/M5',
+            color: 'rgba(245, 176, 65, 0.04)',
+            border: 'rgba(245, 176, 65, 0.16)'
+          },
+          {
+            x: Math.max(pitch * 5, (cols - 3.5) * pitch),
+            y: pitch * 2.2,
+            w: pitch * 2.5,
+            h: pitch * 2,
+            label: 'GPRS_MEM_1',
+            family: 'ICC2',
+            color: 'rgba(16, 185, 129, 0.035)',
+            border: 'rgba(16, 185, 129, 0.16)'
+          }
+        ];
+
+        vias = [];
+        for (let c = 1; c < cols; c++) {
+          for (let r = 1; r < rows; r++) {
+            if ((c + r) % 3 === 0) {
+              vias.push({ x: c * pitch, y: r * pitch });
+            }
+          }
+        }
+
+        const packetCount = Math.min(22, Math.max(12, Math.floor((width * height) / 64000)));
+        packets = [];
+        for (let i = 0; i < packetCount; i++) {
+          packets.push(createPacket());
+        }
+      }
+
+      function createPacket() {
+        const layer = layerColors[Math.floor(Math.random() * layerColors.length)];
+        const horiz = Math.random() > 0.5;
+        const c = Math.floor(Math.random() * cols);
+        const r = Math.floor(Math.random() * rows);
+        const speed = 1.4 + Math.random() * 1.6;
+        return {
+          x: c * pitch,
+          y: r * pitch,
+          vx: horiz ? (Math.random() > 0.5 ? speed : -speed) : 0,
+          vy: !horiz ? (Math.random() > 0.5 ? speed : -speed) : 0,
+          layer: layer,
+          trail: [],
+          maxTrail: 16,
+          lastTurnGridX: -1,
+          lastTurnGridY: -1
+        };
+      }
+
+      function updateAndDraw() {
+        ctx.clearRect(0, 0, width, height);
+
+        const isLight = document.documentElement.classList.contains('light-theme');
+
+        ctx.lineWidth = 1;
+        for (let c = 0; c <= cols; c++) {
+          const x = c * pitch;
+          ctx.strokeStyle = c % 4 === 0 
+            ? (isLight ? 'rgba(154, 107, 19, 0.04)' : 'rgba(245, 176, 65, 0.05)') 
+            : (isLight ? 'rgba(154, 107, 19, 0.018)' : 'rgba(212, 175, 55, 0.03)');
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, height);
+          ctx.stroke();
+        }
+        for (let r = 0; r <= rows; r++) {
+          const y = r * pitch;
+          ctx.strokeStyle = r % 4 === 0 
+            ? (isLight ? 'rgba(4, 120, 87, 0.035)' : 'rgba(16, 185, 129, 0.045)') 
+            : (isLight ? 'rgba(180, 131, 39, 0.018)' : 'rgba(245, 158, 11, 0.03)');
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(width, y);
+          ctx.stroke();
+        }
+
+        if (width > 768) {
+          ctx.font = '7.5px "JetBrains Mono", monospace';
+          macros.forEach(m => {
+            ctx.fillStyle = isLight ? 'rgba(154, 107, 19, 0.03)' : m.color;
+            ctx.fillRect(m.x, m.y, m.w, m.h);
+            ctx.strokeStyle = isLight ? 'rgba(154, 107, 19, 0.12)' : m.border;
+            ctx.lineWidth = 0.8;
+            ctx.strokeRect(m.x, m.y, m.w, m.h);
+
+            ctx.fillStyle = isLight ? 'rgba(24, 24, 27, 0.28)' : 'rgba(212, 175, 55, 0.38)';
+            ctx.fillText(`${m.label}`, m.x + 6, m.y + 11);
+          });
+        }
+
+        vias.forEach(v => {
+          ctx.fillStyle = isLight ? 'rgba(154, 107, 19, 0.1)' : 'rgba(245, 176, 65, 0.14)';
+          ctx.fillRect(v.x - 1.5, v.y - 1.5, 3, 3);
+        });
+
+        if (mouse.active && Math.random() < 0.4) {
+          customTraceNodes.push({
+            x: mouse.x + (Math.random() - 0.5) * 25,
+            y: mouse.y + (Math.random() - 0.5) * 25,
+            life: 1.0,
+            color: layerColors[Math.floor(Math.random() * layerColors.length)].hex
+          });
+        }
+
+        if (mouse.active) {
+          customTraceNodes.forEach((node, idx) => {
+            node.life -= 0.014;
+            if (node.life <= 0) {
+              customTraceNodes.splice(idx, 1);
+            } else {
+              ctx.lineWidth = 0.8;
+              ctx.strokeStyle = node.color + Math.round(node.life * 28).toString(16).padStart(2, '0');
+              ctx.beginPath();
+              ctx.moveTo(mouse.x, mouse.y);
+              ctx.lineTo(node.x, node.y);
+              ctx.stroke();
+
+              ctx.fillStyle = node.color;
+              ctx.fillRect(node.x - 1, node.y - 1, 2, 2);
+            }
+          });
+        }
+
+        packets.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.trail.push({ x: p.x, y: p.y });
+          if (p.trail.length > p.maxTrail) p.trail.shift();
+
+          const nearGridX = Math.round(p.x / pitch) * pitch;
+          const nearGridY = Math.round(p.y / pitch) * pitch;
+          if (
+            Math.abs(p.x - nearGridX) < 2 &&
+            Math.abs(p.y - nearGridY) < 2 &&
+            (nearGridX !== p.lastTurnGridX || nearGridY !== p.lastTurnGridY)
+          ) {
+            if (Math.random() < 0.28) {
+              p.x = nearGridX;
+              p.y = nearGridY;
+              p.lastTurnGridX = nearGridX;
+              p.lastTurnGridY = nearGridY;
+              const speed = Math.max(Math.abs(p.vx), Math.abs(p.vy));
+              if (p.vx !== 0) {
+                p.vx = 0;
+                p.vy = Math.random() > 0.5 ? speed : -speed;
+              } else {
+                p.vy = 0;
+                p.vx = Math.random() > 0.5 ? speed : -speed;
+              }
+            }
+          }
+
+          if (p.x < -30 || p.x > width + 30 || p.y < -30 || p.y > height + 30) {
+            Object.assign(p, createPacket());
+          }
+
+          if (p.trail.length > 1) {
+            for (let i = 1; i < p.trail.length; i++) {
+              const alpha = (i / p.trail.length) * (isLight ? 0.38 : 0.55);
+              ctx.strokeStyle = p.layer.rgba + alpha + ')';
+              ctx.lineWidth = 1.6;
+              ctx.beginPath();
+              ctx.moveTo(p.trail[i - 1].x, p.trail[i - 1].y);
+              ctx.lineTo(p.trail[i].x, p.trail[i].y);
+              ctx.stroke();
+            }
+          }
+          ctx.fillStyle = p.layer.hex;
+          ctx.fillRect(p.x - 1.5, p.y - 1.5, 3, 3);
+        });
+
         for (let i = transitionParticles.length - 1; i >= 0; i--) {
           const pt = transitionParticles[i];
           pt.x += pt.vx;
@@ -1553,542 +1973,6 @@
       updateAndDraw();
     })();
 
-    // =========================================================================
-    // 3. FIRST-PERSON QOR DATA & DASHBOARD RENDERER
-    // =========================================================================
-    const qorData = {
-      gprs: {
-        badge: "gprs_top.nlib • My Synopsys ICC2 Run (10-Metal, 16 Hard Macros • Apr 2026)",
-        progression: [
-          ["Cell Count", "27,811", "30,365", "33,323", "33,286"],
-          ["Core Utilization", "21.18%", "62.53%", "66.27%", "66.25%"],
-          ["Congestion", "0.00%", "0.06%", "0.28%", "3.14% (Routed)"],
-          ["Max_Trans Violations", "24", "0", "2", "15 → 0 (Signoff)"],
-          ["Max_Cap Violations", "60", "40", "36", "260 → 0 (Signoff)"],
-          ["Setup WNS / TNS", "0 ns / 0 ns", "0 ns / 0 ns", "0 ns / 0 ns", "0.00 ns / 0.00 ns"],
-          ["Hold TNS", "-376.20 ns", "-227.91 ns", "-0.46 ns", "-0.02 ns → 0 (Signoff)"]
-        ],
-        stages: {
-          floorplan: {
-            title: "1. My Floorplan, Port Assignment & Data-Driven Macro Placement",
-            desc: "When I imported gprs_top into IC Compiler II, I had 27,811 cells and 16 hard SRAM macros across 4 macro families inside a 391,605.41 µm² core area (5 µm core-to-die offset). I aligned all 103 I/O ports cleanly on M5 (West) and M6 (South) tracks with zero unplaced or off-track ports.",
-            bars: [
-              { label: "Core Utilization", valText: "21.18%", pct: 21, color: "bg-metal-m5" },
-              { label: "Port Track Alignment (103/103)", valText: "100% Legal", pct: 100, color: "bg-metal-m3" },
-              { label: "Macro Flyline Optimization (>10 Iters)", valText: "0 Overflow", pct: 100, color: "bg-metal-m8" }
-            ],
-            metrics: [
-              ["Initial Cells", "27,811"],
-              ["Hard Macros", "16 (4 Families)"],
-              ["Core Area", "391,605.4 µm²"],
-              ["Initial Util", "21.18%"],
-              ["I/O Ports", "103 (M5 West / M6 South)"],
-              ["Port Legality", "0 Off-Track / 0 Illegal"]
-            ],
-            img: "assets/gprs_macro_flylines.jpg",
-            caption: "My gprs_top Data-Flow Flylines & 16 SRAM Macro Orientation in icc2_shell",
-            action: "I iterated macro placement over 10 times using data-flow flylines (compute_dff_connections) and placed soft blockages with 16 µm channel spacing so standard cells wouldn't get trapped between macros."
-          },
-          pdn: {
-            title: "2. Building the Multi-Layer Power Delivery Network (PDN)",
-            desc: "To prevent IR drop across the macro-heavy core, I constructed a multi-tier power mesh spanning M8 (4.64 µm width), M7 (1.104 µm width), and M2 (0.44 µm width) straps down to 0.06 µm M1 standard-cell rails.",
-            bars: [
-              { label: "PG DRC & Short Closure", valText: "0 PG DRC / 0 Shorts", pct: 100, color: "bg-metal-m3" },
-              { label: "Missing PG Via Resolution (179 Fixed)", valText: "100% Connected", pct: 100, color: "bg-metal-m5" },
-              { label: "Decoupling Capacitor (DCAP) Insertion", valText: "8,600 Cells", pct: 88, color: "bg-metal-m8" }
-            ],
-            metrics: [
-              ["M8 Straps", "W: 4.64µm | Pitch: 19.46µm"],
-              ["M7 Straps", "W: 1.104µm | Pitch: 13.38µm"],
-              ["M2 Straps", "W: 0.44µm | Pitch: 9.73µm"],
-              ["M1 Rails", "W: 0.06µm | Pitch: 3.34µm"],
-              ["PG DRC / Shorts", "0 DRC / 0 Shorts"],
-              ["DCAP Cells", "8,600 Placed"]
-            ],
-            img: "assets/gprs_macro_flylines.jpg",
-            caption: "gprs_top — Floorplan & Power Planning Architecture",
-            action: "My initial PG connectivity check flagged 179 missing vias. Instead of ignoring them, I used targeted add_vias commands to stitch every missing intersection and reach 0 PG violations."
-          },
-          placement: {
-            title: "3. Congestion-Driven Standard Cell Placement",
-            desc: "I placed 30,365 cells (including 8,600 DCAPs, 76 TIEH, and 121 TIEL cells) across 4 path groups (i2r, r2o, i2o, mclk) while enforcing a strict max fanout threshold of 30.",
-            bars: [
-              { label: "Standard Cell Placement Density", valText: "62.39%", pct: 62, color: "bg-metal-m5" },
-              { label: "Setup Timing Closure (WNS / TNS)", valText: "0.00 ns Violations", pct: 100, color: "bg-metal-m3" },
-              { label: "Routing Channel Headroom (100% - 0.12% Cong.)", valText: "99.88% Free", pct: 99, color: "bg-metal-m8" }
-            ],
-            metrics: [
-              ["Placed Cells", "30,365"],
-              ["Placement Density", "62.39% (0.6253)"],
-              ["Horiz. Congestion", "0.12% (Very Low)"],
-              ["Max_Fanout Viols", "0 (Limit: 30)"],
-              ["Setup WNS / TNS", "0.00 ns / 0.00 ns"],
-              ["TIEH / TIEL Cells", "76 TIEH / 121 TIEL"]
-            ],
-            img: "assets/gprs_placement_density.jpg",
-            caption: "My gprs_top Cell Density Heatmap in ICC2 (62.39% Utilization)",
-            action: "When I saw 13 max_transition and 303 high-capacitance net violations after initial placement, I resolved them using buffer insertion, net splitting, and cell upsizing while keeping Setup TNS at 0.00 ns."
-          },
-          cts: {
-            title: "4. Clock Tree Synthesis (CTS) & Skew Balancing",
-            desc: "I synthesized the primary clock tree (mclk @ 4 ns period) across 2,856 sequential sinks using 65 clock buffers/inverters and double-width double-spacing (dwds) NDR rules on M4–M5.",
-            bars: [
-              { label: "Post-CTS Core Utilization", valText: "66.27%", pct: 66, color: "bg-metal-m5" },
-              { label: "Global Skew Target (0.14ns vs 0.60ns Max)", valText: "0.14 ns Skew", pct: 92, color: "bg-metal-m3" },
-              { label: "Hold TNS Improvement (-376ns -> -0.46ns)", valText: "99.8% Closed", pct: 99, color: "bg-metal-m8" }
-            ],
-            metrics: [
-              ["Master Clock", "mclk (4.0 ns Period)"],
-              ["Clock Sinks", "2,856 Flip-Flops"],
-              ["Buffers / Inv", "65 Cells"],
-              ["Global Skew", "0.14 ns (Target: 0.1–0.6)"],
-              ["Max Latency", "0.63 ns (Target: 0.60)"],
-              ["Routing NDR", "M4–M5 (dwds)"]
-            ],
-            img: "assets/gprs_placement_density.jpg",
-            caption: "gprs_top — Post-CTS Density & Clock Distribution",
-            action: "By applying M4–M5 dwds Non-Default Routing rules, I locked global skew to 0.14 ns across 2,856 sinks and slashed Hold TNS from -227.91 ns down to just -0.46 ns."
-          },
-          routing: {
-            title: "5. Detailed Routing, Route ECO & PrimeTime Signoff",
-            desc: "I drove the 10-layer global and detailed routing across all 33,286 final cells at 66.25% utilization, then executed route_eco and PrimeTime signoff checks.",
-            bars: [
-              { label: "Final Core Utilization (33,286 Cells)", valText: "66.25%", pct: 66, color: "bg-metal-m5" },
-              { label: "Post-ECO Shorts & Opens Closure", valText: "0 Shorts / 0 Opens", pct: 100, color: "bg-metal-m3" },
-              { label: "PrimeTime Signoff STA (Setup & Hold TNS)", valText: "0.00 ns Clean", pct: 100, color: "bg-metal-m8" }
-            ],
-            metrics: [
-              ["Final Cell Count", "33,286 Cells"],
-              ["Final Utilization", "66.25%"],
-              ["Final Opens / Shorts", "0 Opens / 0 Shorts (Post-ECO)"],
-              ["PG Shorts / Antenna", "0 PG Shorts / Clean"],
-              ["Setup WNS / TNS", "0.00 ns / 0.00 ns"],
-              ["Signoff Crosstalk", "0 Violations"]
-            ],
-            img: "assets/gprs_routing.jpg",
-            caption: "My Final 10-Layer Detailed Route Layout for gprs_top (route_opt_done.design)",
-            action: "Initial detailed routing left 34 routing shorts and 32 DRC violations. I ran targeted route_eco iterations to clear every short and closed residual slew/hold checks in PrimeTime."
-          }
-        }
-      },
-      fifo: {
-        badge: "asynchronous_fifo.nlib • My Synopsys ICC2 Run (Dual Clock • Apr – May 2026)",
-        progression: [
-          ["Cell Count", "346", "276", "305", "305"],
-          ["Core Utilization", "63.14%", "62.70%", "68.41%", "68.41%"],
-          ["Congestion", "0.00%", "0.30%", "0.89%", "0.89%"],
-          ["Max_Trans Violations", "0", "0", "0", "0"],
-          ["Max_Cap Violations", "1", "0", "0", "0"],
-          ["Setup WNS", "+0.40 ns", "+0.35 ns", "+0.15 ns", "+0.16 ns"],
-          ["Hold TNS / Setup TNS", "0.00 ns / 0.00 ns", "0.00 ns / 0.00 ns", "0.00 ns / 0.00 ns", "0.00 ns / 0.00 ns"]
-        ],
-        stages: {
-          floorplan: {
-            title: "1. My Compact Core Floorplan & Track-Aligned M5 Ports",
-            desc: "For my 8-bit Asynchronous FIFO, I configured a 2,065.428 µm² core floorplan at 63.14% initial utilization with a 1 µm core offset. I placed all 24 I/O ports on Metal 5—inputs on the West/Left and outputs on the East/Right.",
-            bars: [
-              { label: "Initial Core Utilization", valText: "63.14%", pct: 63, color: "bg-metal-m5" },
-              { label: "M5 Port Track Alignment (24/24)", valText: "100% Aligned", pct: 100, color: "bg-metal-m3" },
-              { label: "Setup WNS Margin (+0.40ns)", valText: "+0.40 ns Slack", pct: 95, color: "bg-metal-m8" }
-            ],
-            metrics: [
-              ["Core Area", "2,065.43 µm²"],
-              ["Initial Util", "63.14%"],
-              ["Core Offset", "1.0 µm"],
-              ["Total Ports", "24 (M5 West & East)"],
-              ["Unplaced Ports", "0"],
-              ["Off-Track Ports", "0 (100% Track Aligned)"]
-            ],
-            img: "assets/fifo_floorplan_ports.png",
-            caption: "My 8-Bit Async FIFO Floorplan & M5 Port Placement (port_placement_done.design)",
-            action: "By cleanly segregating input ports on the West and output ports on the East on M5 tracks, I prevented cross-chip signal detouring before placement even began."
-          },
-          pdn: {
-            title: "2. My M7/M8 Top Mesh & M2 Vertical Strap Power Plan",
-            desc: "I designed a multi-layer Power Delivery Network combining an M7/M8 top mesh (0.6 µm width, 18 µm pitch) with M2 vertical straps (0.18 µm width, 6 µm pitch) and 0.06 µm M1 standard-cell follow-pin rails.",
-            bars: [
-              { label: "PG Via DRC Resolution (2 Fixed -> 0)", valText: "0 PG DRC", pct: 100, color: "bg-metal-m3" },
-              { label: "PG Short & Connectivity Check", valText: "100% Clean", pct: 100, color: "bg-metal-m5" },
-              { label: "Decoupling Capacitor (DCAP) Density", valText: "97 Cells Placed", pct: 90, color: "bg-metal-m8" }
-            ],
-            metrics: [
-              ["Top Mesh (M7/M8)", "W: 0.60µm | Pitch: 18µm"],
-              ["Vertical Straps (M2)", "W: 0.18µm | Pitch: 6µm"],
-              ["Std Cell Rails (M1)", "W: 0.06µm Follow-Pin"],
-              ["PG DRC Violations", "2 → 0 (Fixed Via Spacing)"],
-              ["PG Shorts", "0 Shorts"],
-              ["DCAP Cells", "97 Physical Cells"]
-            ],
-            img: "assets/fifo_powerplan.png",
-            caption: "My 8-Bit Async FIFO Multi-Layer Power Mesh (powerplan.design)",
-            action: "When PG verification flagged 2 minimum-spacing via DRC violations, I modified the via definitions and sizing to achieve a 100% DRC-clean power grid."
-          },
-          placement: {
-            title: "3. Zero-Congestion Standard Cell & Physical Cell Placement",
-            desc: "I placed 276 standard logic cells alongside 97 decoupling capacitors (DCAPs) and 2 TIEH cells across 4 path groups (in2reg, reg2out, wclk, rclk).",
-            bars: [
-              { label: "Placement Density", valText: "62.70%", pct: 63, color: "bg-metal-m5" },
-              { label: "Congestion-Free Channels", valText: "0.00% Congestion", pct: 100, color: "bg-metal-m3" },
-              { label: "Pre-CTS Setup Slack (+0.35ns WNS)", valText: "+0.35 ns Met", pct: 92, color: "bg-metal-m8" }
-            ],
-            metrics: [
-              ["Placement Density", "62.70%"],
-              ["DCAP / TIEH Cells", "97 DCAP / 2 TIEH"],
-              ["Vert / Horiz Cong.", "0.00% / 0.00%"],
-              ["Max_Trans / Cap", "0 / 0 Violations"],
-              ["Setup WNS", "+0.35 ns (Slack Met)"],
-              ["Setup TNS", "0.00 ns"]
-            ],
-            img: "assets/fifo_placement.png",
-            caption: "My 8-Bit Async FIFO Standard Cell Placement (placement_done.design)",
-            action: "I achieved 0.00% vertical and horizontal congestion with +0.35 ns positive setup slack right out of placement, leaving ample headroom for dual-clock CTS."
-          },
-          cts: {
-            title: "4. Dual Asynchronous Clock Tree Synthesis (wclk & rclk)",
-            desc: "I synthesized independent buffered clock trees for wclk (1.50 ns period, 80 sinks) and rclk (1.50 ns period, 24 sinks) using 34 buffers and 18 inverters per domain on M4–M5 (dwds NDR).",
-            bars: [
-              { label: "Dual-Domain Clock Skew Balancing", valText: "0.00 ns Global Skew", pct: 100, color: "bg-metal-m3" },
-              { label: "wclk Latency (0.51ns vs 0.60ns Target)", valText: "0.51 ns (Met)", pct: 85, color: "bg-metal-m5" },
-              { label: "rclk Latency (0.45ns vs 0.60ns Target)", valText: "0.45 ns (Met)", pct: 75, color: "bg-metal-m8" }
-            ],
-            metrics: [
-              ["wclk Latency", "0.51 ns (Target <= 0.60ns)"],
-              ["rclk Latency", "0.45 ns (Target <= 0.60ns)"],
-              ["Global Skew", "0.00 ns (Target <= 0.225ns)"],
-              ["CTS Buffers / Inv", "34 Buffers / 18 Inverters"],
-              ["Setup TNS", "0.00 ns (Clean)"],
-              ["Hold TNS", "0.00 ns (Clean)"]
-            ],
-            img: "assets/fifo_cts_tree.png",
-            caption: "My 8-Bit Async FIFO Clock Tree Latency Graph (cts_completed.design)",
-            action: "Even though wclk drove 80 sequential sinks and rclk drove 24 sinks, I balanced both trees to 0.00 ns global skew and sub-0.51 ns latency with zero timing violations."
-          },
-          routing: {
-            title: "5. Detailed Routing & Clean DRC/Timing Signoff",
-            desc: "I completed global and detailed routing (route_opt_done.design) at 68.41% final utilization, achieving a completely clean signoff across both clock domains.",
-            bars: [
-              { label: "Final Core Cell Utilization", valText: "68.41%", pct: 68, color: "bg-metal-m5" },
-              { label: "Physical DRC / LVS / Shorts Signoff", valText: "0 DRC / 0 Shorts", pct: 100, color: "bg-metal-m3" },
-              { label: "Final Setup & Hold Timing Closure", valText: "+0.16ns WNS / 0.00ns TNS", pct: 100, color: "bg-metal-m8" }
-            ],
-            metrics: [
-              ["Final Cell Count", "305 Cells (68.41% Util)"],
-              ["Shorts / Opens", "0 Shorts / 0 Opens"],
-              ["DRC / PG Shorts", "0 DRC / 0 PG Shorts"],
-              ["Max_Trans / Cap", "0 / 0 Violations"],
-              ["Final Setup WNS", "+0.16 ns (Positive Slack)"],
-              ["Final Setup/Hold TNS", "0.00 ns / 0.00 ns"]
-            ],
-            img: "assets/fifo_routing.png",
-            caption: "My 8-Bit Async FIFO Final Routed Layout (route_opt_done.design)",
-            action: "Closed full physical signoff with 0 shorts, 0 opens, 0 DRC violations, +0.16 ns positive Setup WNS, and 0.00 ns Hold TNS."
-          }
-        }
-      }
-    };
-
-    let currentBlock = 'gprs';
-    let currentStage = 'floorplan';
-
-    function renderQorDashboard() {
-      const block = qorData[currentBlock];
-      const stage = block.stages[currentStage];
-
-      document.getElementById('qor-badge').textContent = block.badge;
-      document.getElementById('qor-stage-title').textContent = stage.title;
-      document.getElementById('qor-stage-desc').textContent = stage.desc;
-      document.getElementById('qor-img-caption').textContent = stage.caption;
-      document.getElementById('qor-action-note').textContent = stage.action;
-
-      const imgEl = document.getElementById('qor-stage-img');
-      const fallbackEl = document.getElementById('qor-img-fallback');
-      imgEl.style.display = 'block';
-      fallbackEl.style.display = 'none';
-      imgEl.src = stage.img;
-      document.getElementById('qor-fallback-filename').textContent = stage.img;
-
-      const barsContainer = document.getElementById('qor-bars-container');
-      barsContainer.innerHTML = stage.bars.map(b => `
-        <div class="space-y-1">
-          <div class="flex justify-between text-[11px]">
-            <span class="text-slate-300">${b.label}</span>
-            <span class="font-bold text-white">${b.valText}</span>
-          </div>
-          <div class="w-full h-2 bg-silicon-800 rounded-full overflow-hidden">
-            <div class="qor-bar-fill h-full ${b.color} rounded-full" style="width: 0%" data-target="${b.pct}%"></div>
-          </div>
-        </div>
-      `).join('');
-
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          document.querySelectorAll('.qor-bar-fill').forEach(el => {
-            el.style.width = el.getAttribute('data-target');
-          });
-        }, 30);
-      });
-
-      const metricsGrid = document.getElementById('qor-metrics-grid');
-      metricsGrid.innerHTML = stage.metrics.map(([label, val]) => `
-        <div class="p-3 rounded bg-silicon-950/90 border border-slate-800">
-          <div class="text-[10px] text-slate-400 uppercase">${label}</div>
-          <div class="text-xs sm:text-sm font-bold text-white mt-0.5">${val}</div>
-        </div>
-      `).join('');
-
-      const tbody = document.getElementById('qor-progression-tbody');
-      tbody.innerHTML = block.progression.map(row => `
-        <tr>
-          <td class="py-2 px-3 font-semibold text-slate-200">${row[0]}</td>
-          <td class="py-2 px-3 text-slate-400">${row[1]}</td>
-          <td class="py-2 px-3 text-slate-400">${row[2]}</td>
-          <td class="py-2 px-3 text-slate-400">${row[3]}</td>
-          <td class="py-2 px-3 text-metal-m3 font-semibold">${row[4]}</td>
-        </tr>
-      `).join('');
-
-      document.querySelectorAll('.qor-tab').forEach(btn => {
-        if (btn.dataset.stage === currentStage) {
-          btn.className = "qor-tab p-3 rounded-lg bg-silicon-800 border border-metal-m5 text-left transition";
-        } else {
-          btn.className = "qor-tab p-3 rounded-lg bg-silicon-900/90 border border-slate-800 text-left hover:border-slate-700 transition";
-        }
-      });
-    }
-
-    function switchQorBlock(blockKey) {
-      currentBlock = blockKey;
-      const btnGprs = document.getElementById('btn-block-gprs');
-      const btnFifo = document.getElementById('btn-block-fifo');
-      if (blockKey === 'gprs') {
-        btnGprs.className = "px-3 sm:px-4 py-2 rounded-md bg-metal-m5 text-silicon-950 font-bold transition";
-        btnFifo.className = "px-3 sm:px-4 py-2 rounded-md text-slate-300 hover:text-white transition";
-      } else {
-        btnFifo.className = "px-3 sm:px-4 py-2 rounded-md bg-metal-m5 text-silicon-950 font-bold transition";
-        btnGprs.className = "px-3 sm:px-4 py-2 rounded-md text-slate-300 hover:text-white transition";
-      }
-      renderQorDashboard();
-    }
-
-    function switchQorStage(stageKey) {
-      currentStage = stageKey;
-      renderQorDashboard();
-    }
-
-    function openCurrentQorImage() {
-      const stage = qorData[currentBlock].stages[currentStage];
-      openLightbox(stage.img, stage.caption);
-    }
-
-    // =========================================================================
-    // 4. 3D METAL STACK & BUS ARBITER RTL SIMULATOR LOGIC
-    // =========================================================================
-    const metalLayersData = {
-      m8m7: {
-        title: "M8 / M7 — Top-Level Power Delivery Mesh (VDD / VSS)",
-        colorClass: "text-metal-m8",
-        desc: "In gprs_top, I configured M8 straps at 4.64 µm width (19.456 µm pitch) and M7 straps at 1.104 µm width (13.376 µm pitch). In my 8-Bit Async FIFO, I built an M7/M8 top mesh at 0.6 µm width and 18 µm pitch to guarantee low-IR-drop power distribution.",
-        specA: "gprs_top: M8 (4.64µm) | M7 (1.104µm)",
-        specB: "Async FIFO: M7/M8 (0.60µm @ 18µm)"
-      },
-      m6m5_ports: {
-        title: "M6 / M5 — Track-Aligned Block I/O Port Routing",
-        colorClass: "text-metal-m6",
-        desc: "I placed all 103 ports of gprs_top on M6 South (MemWriteBus[63:0], MemWriteValid, MemOverflow, power_ack) and M5 West (MemReadBus[31:0], clock, reset, cs[1:0]). In my Async FIFO, all 24 ports were track-aligned on M5 (West inputs, East outputs) with 0 off-track violations.",
-        specA: "gprs_top: 103 Ports (M6 South / M5 West)",
-        specB: "Async FIFO: 24 Ports (M5 West & East)"
-      },
-      m5m4_cts: {
-        title: "M5 / M4 — Clock Tree Synthesis with Non-Default Routing (dwds)",
-        colorClass: "text-metal-m5",
-        desc: "To shield high-frequency clock trees from coupling noise and RC delay, I routed both mclk (2,856 sinks in gprs_top) and wclk/rclk (80 & 24 sinks in Async FIFO) on M4–M5 using double-width double-spacing (dwds) NDR rules, achieving 0.14 ns and 0.00 ns global skew.",
-        specA: "gprs_top CTS: 2,856 Sinks | 0.14ns Skew",
-        specB: "Async FIFO CTS: wclk/rclk | 0.00ns Skew"
-      },
-      m2_straps: {
-        title: "M2 — Vertical Power Straps & Via Arrays",
-        colorClass: "text-metal-m3",
-        desc: "Bridges the upper M7/M8 mesh down to M1 standard cell rails. In gprs_top, I used 0.44 µm width (9.728 µm pitch) and manually inserted 179 missing PG vias. In my Async FIFO, I used 0.18 µm width (6 µm pitch) and resized via spacing to clear 2 PG DRC violations.",
-        specA: "gprs_top: M2 W=0.44µm | 179 Vias Added",
-        specB: "Async FIFO: M2 W=0.18µm | 0 PG DRC"
-      },
-      m1_rails: {
-        title: "M1 — Standard Cell Follow-Pin Rails & Decoupling Capacitors",
-        colorClass: "text-cyan-300",
-        desc: "Feeds VDD/VSS directly into standard logic cells, TIEH/TIEL cells, and decoupling capacitors (8,600 DCAPs in gprs_top; 97 DCAPs in Async FIFO) using 0.06 µm follow-pin rail structures with zero PG shorts.",
-        specA: "gprs_top: M1 W=0.06µm | 8,600 DCAPs",
-        specB: "Async FIFO: M1 W=0.06µm | 97 DCAPs"
-      }
-    };
-
-    function selectMetalLayer(key) {
-      const data = metalLayersData[key];
-      const titleEl = document.getElementById('metal-detail-title');
-      titleEl.className = `${data.colorClass} font-bold text-sm`;
-      titleEl.textContent = data.title;
-      document.getElementById('metal-detail-desc').textContent = data.desc;
-      document.getElementById('metal-detail-specs').innerHTML = `
-        <div><span class="text-slate-400">Block A:</span> <span class="text-white">${data.specA}</span></div>
-        <div><span class="text-slate-400">Block B:</span> <span class="text-white">${data.specB}</span></div>
-      `;
-
-      ['m8m7', 'm6m5_ports', 'm5m4_cts', 'm2_straps', 'm1_rails'].forEach(id => {
-        const el = document.getElementById('slab-' + id);
-        if (id === key) {
-          el.classList.add('active-slab', 'border-metal-m5');
-        } else {
-          el.classList.remove('active-slab', 'border-metal-m5');
-        }
-      });
-    }
-
-    const arbState = {
-      cycle: 0,
-      req_cpu: true,
-      req_dma: true,
-      req_periph: false,
-      wait_cnt: 0,
-      last_secondary: 'periph',
-      autoTimer: null
-    };
-
-    function toggleArbiterReq(master) {
-      if (master === 'cpu') arbState.req_cpu = !arbState.req_cpu;
-      if (master === 'dma') arbState.req_dma = !arbState.req_dma;
-      if (master === 'periph') arbState.req_periph = !arbState.req_periph;
-      updateArbiterButtons();
-    }
-
-    function updateArbiterButtons() {
-      const cfg = [
-        { key: 'cpu', active: arbState.req_cpu, color: 'metal-m5' },
-        { key: 'dma', active: arbState.req_dma, color: 'metal-m3' },
-        { key: 'periph', active: arbState.req_periph, color: 'metal-m6' }
-      ];
-      cfg.forEach(({ key, active, color }) => {
-        const btn = document.getElementById(`btn-req-${key}`);
-        const dot = document.getElementById(`dot-req-${key}`);
-        const txt = document.getElementById(`txt-req-${key}`);
-        if (active) {
-          btn.className = `p-3 rounded-lg bg-${color}/15 border border-${color} text-left transition`;
-          dot.className = `w-2.5 h-2.5 rounded-full bg-${color}`;
-          txt.className = `text-[11px] text-${color} mt-1`;
-          txt.textContent = `req_${key} = 1 (ACTIVE)`;
-        } else {
-          btn.className = `p-3 rounded-lg bg-silicon-950 border border-slate-700 text-left transition`;
-          dot.className = `w-2.5 h-2.5 rounded-full bg-slate-600`;
-          txt.className = `text-[11px] text-slate-400 mt-1`;
-          txt.textContent = `req_${key} = 0 (IDLE)`;
-        }
-      });
-    }
-
-    function stepArbiterClock() {
-      arbState.cycle++;
-      let grant = "IDLE (2'b00)";
-      let badge = "BUS IDLE";
-      let logMsg = "";
-      const secondaryWaiting = arbState.req_dma || arbState.req_periph;
-
-      if (!arbState.req_cpu && !secondaryWaiting) {
-        arbState.wait_cnt = 0;
-        grant = "IDLE (2'b00)";
-        badge = "NO ACTIVE REQUESTS";
-        logMsg = `[Cycle ${arbState.cycle}] All master request lines de-asserted. Bus is IDLE.`;
-      } else if (arbState.req_cpu && !secondaryWaiting) {
-        arbState.wait_cnt = 0;
-        grant = "CPU (2'b01)";
-        badge = "PRIORITY: CPU EXCLUSIVE";
-        logMsg = `[Cycle ${arbState.cycle}] Only CPU requesting bus -> Granted to CPU (wait_cnt = 0).`;
-      } else if (!arbState.req_cpu && secondaryWaiting) {
-        arbState.wait_cnt = 0;
-        if (arbState.req_dma && arbState.req_periph) {
-          if (arbState.last_secondary === 'dma') {
-            grant = "PERIPH (2'b11)";
-            arbState.last_secondary = 'periph';
-          } else {
-            grant = "DMA (2'b10)";
-            arbState.last_secondary = 'dma';
-          }
-          badge = "ROUND-ROBIN: DMA <-> PERIPH";
-          logMsg = `[Cycle ${arbState.cycle}] CPU idle; rotating grant fairly -> Granted ${grant}.`;
-        } else if (arbState.req_dma) {
-          grant = "DMA (2'b10)";
-          arbState.last_secondary = 'dma';
-          badge = "GRANTED: DMA";
-          logMsg = `[Cycle ${arbState.cycle}] CPU idle -> DMA granted immediate bus access.`;
-        } else {
-          grant = "PERIPH (2'b11)";
-          arbState.last_secondary = 'periph';
-          badge = "GRANTED: PERIPHERAL";
-          logMsg = `[Cycle ${arbState.cycle}] CPU idle -> Peripheral granted immediate bus access.`;
-        }
-      } else {
-        if (arbState.wait_cnt < 8) {
-          arbState.wait_cnt++;
-          grant = "CPU (2'b01)";
-          badge = `CONTENTION: CPU SERVED (${arbState.wait_cnt}/8)`;
-          logMsg = `[Cycle ${arbState.cycle}] Contention! Priority 1 serves CPU while wait_cnt increments (${arbState.wait_cnt}/8).`;
-        } else {
-          if (arbState.req_dma && arbState.req_periph) {
-            if (arbState.last_secondary === 'dma') {
-              grant = "PERIPH (2'b11)";
-              arbState.last_secondary = 'periph';
-            } else {
-              grant = "DMA (2'b10)";
-              arbState.last_secondary = 'dma';
-            }
-          } else if (arbState.req_dma) {
-            grant = "DMA (2'b10)";
-            arbState.last_secondary = 'dma';
-          } else {
-            grant = "PERIPH (2'b11)";
-            arbState.last_secondary = 'periph';
-          }
-          badge = "ANTI-STARVATION OVERRIDE TRIGGERED!";
-          logMsg = `[Cycle ${arbState.cycle}] STARVATION PREVENTED! 8-cycle threshold reached -> Forced switch to ${grant}!`;
-          arbState.wait_cnt = 0;
-        }
-      }
-
-      document.getElementById('arb-cycle').textContent = arbState.cycle;
-      document.getElementById('arb-grant').textContent = grant;
-      document.getElementById('arb-counter').textContent = `${arbState.wait_cnt} / 8`;
-      document.getElementById('arb-status-badge').textContent = badge;
-      document.getElementById('arb-wait-bar').style.width = `${(arbState.wait_cnt / 8) * 100}%`;
-      document.getElementById('arb-log-line').textContent = logMsg;
-    }
-
-    function toggleArbiterAuto() {
-      const btn = document.getElementById('btn-arb-autorun');
-      if (arbState.autoTimer) {
-        clearInterval(arbState.autoTimer);
-        arbState.autoTimer = null;
-        btn.textContent = "Auto: OFF";
-        btn.className = "px-3 py-2 rounded bg-silicon-800 border border-metal-m5/40 text-metal-m5 hover:bg-metal-m5/10 transition";
-      } else {
-        stepArbiterClock();
-        arbState.autoTimer = setInterval(stepArbiterClock, 900);
-        btn.textContent = "Auto: ON";
-        btn.className = "px-3 py-2 rounded bg-metal-m5 text-silicon-950 font-bold transition";
-      }
-    }
-
-    function resetArbiter() {
-      if (arbState.autoTimer) toggleArbiterAuto();
-      arbState.cycle = 0;
-      arbState.wait_cnt = 0;
-      document.getElementById('arb-cycle').textContent = "0";
-      document.getElementById('arb-grant').textContent = "CPU (2'b01)";
-      document.getElementById('arb-counter').textContent = "0 / 8";
-      document.getElementById('arb-status-badge').textContent = "PRIORITY: CPU SERVED FIRST";
-      document.getElementById('arb-wait-bar').style.width = "0%";
-      document.getElementById('arb-log-line').textContent = "[Reset] Counter cleared. Step the clock to observe multi-master arbitration.";
-    }
-
-    // =========================================================================
-    // 5. AUTHENTIC LINUX EDA WORKSTATION TERMINAL
-    // =========================================================================
     const terminalCommands = {
       neofetch: `       .---.          narendaran@asic-node
       /     \\         --------------------
@@ -2235,7 +2119,7 @@ HDLs & Verif   : Verilog, SystemVerilog, UVM Fundamentals, Coverage-Driven Verif
       entry.className = 'space-y-1 pt-1 border-t border-slate-800/50';
 
       const cmdLine = document.createElement('div');
-      cmdLine.innerHTML = `<span class="text-emerald-400 font-bold">narendaran@asic-node</span>:<span class="text-cyan-400 font-bold">~/vlsi_workspace</span>$ <span class="text-white">${cleanCmd}</span>`;
+      cmdLine.innerHTML = `<span class="text-emerald-400 font-bold">narendaran@asic-node</span>:<span class="text-amber-300 font-bold">~/vlsi_workspace</span>$ <span class="text-white">${cleanCmd}</span>`;
 
       const pre = document.createElement('pre');
       pre.className = (terminalCommands[resolvedKey] ? 'text-emerald-300' : 'text-amber-400') + ' text-[11px] whitespace-pre-wrap leading-relaxed';
@@ -2288,7 +2172,6 @@ HDLs & Verif   : Verilog, SystemVerilog, UVM Fundamentals, Coverage-Driven Verif
       renderQorDashboard();
     });
 
-    // 6. Project Filter & Lightbox Modal Logic
     function filterProjects(category) {
       document.querySelectorAll('.project-card').forEach(card => {
         if (category === 'all' || card.dataset.category === category) {
@@ -2326,7 +2209,7 @@ HDLs & Verif   : Verilog, SystemVerilog, UVM Fundamentals, Coverage-Driven Verif
     });
   </script>
 
-  <!-- External Modular Add-Ons -->
+  <!-- External Modular Scripts -->
   <script src="chip-borders.js"></script>
   <script src="silicon-addons.js"></script>
   <script src="chip-mascot.js"></script>
