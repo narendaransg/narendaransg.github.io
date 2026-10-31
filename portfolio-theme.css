@@ -1,0 +1,254 @@
+/* ==========================================================================
+   portfolio-theme.css
+   Dark A: "Obsidian Die & 24K Wirebond Gold"
+   Light A: "Warm Ivory & Antique Bronze" (High-Contrast, Solid Borders)
+   Navigation: Wording B + Style 1 (Sliding 24K Gold Underline Bar)
+   ========================================================================== */
+
+:root {
+  /* Dark A: Obsidian Die & 24K Wirebond Gold */
+  --bg-page: #070709;
+  --bg-header: rgba(12, 13, 17, 0.88);
+  --bg-status: #040406;
+  --bg-card: rgba(17, 18, 23, 0.88);
+  --bg-card-inner: #0B0C10;
+  --bg-pill: #181920;
+
+  --text-heading: #F8FAFC;
+  --text-body: #D4D4D8;
+  --text-muted: #9CA3AF;
+
+  --gold-primary: #F5B041;
+  --gold-bright: #FFD166;
+  --gold-deep: #D4AF37;
+  --emerald-pass: #10B981;
+  --amber-warn: #F59E0B;
+  --crimson-alert: #F43F5E;
+
+  --border-card: rgba(212, 175, 55, 0.34);
+  --border-card-hover: rgba(245, 176, 65, 0.78);
+  --border-subtle: rgba(212, 175, 55, 0.18);
+  --shadow-card: 0 8px 28px -6px rgba(0, 0, 0, 0.7), 0 0 18px -4px rgba(212, 175, 55, 0.08);
+  --shadow-card-hover: 0 14px 36px -6px rgba(0, 0, 0, 0.85), 0 0 26px -4px rgba(245, 176, 65, 0.22);
+
+  --vignette: radial-gradient(circle at 50% 30%, rgba(7, 7, 9, 0.25) 0%, rgba(7, 7, 9, 0.86) 90%);
+}
+
+html.light-theme {
+  /* Light A: Warm Ivory & Antique Bronze (True Engineering Palette - Not Inverted) */
+  --bg-page: #F4F1EA;
+  --bg-header: rgba(250, 248, 243, 0.94);
+  --bg-status: #EAE5D9;
+  --bg-card: rgba(255, 255, 255, 0.96);
+  --bg-card-inner: #F7F4ED;
+  --bg-pill: #EAE5D9;
+
+  --text-heading: #18181B;
+  --text-body: #27272A;
+  --text-muted: #52525B;
+
+  --gold-primary: #9A6B13;
+  --gold-bright: #7C530A;
+  --gold-deep: #B48327;
+  --emerald-pass: #047857;
+  --amber-warn: #B45309;
+  --crimson-alert: #BE123C;
+
+  --border-card: #C8B99E;
+  --border-card-hover: #9A6B13;
+  --border-subtle: #DCD3C2;
+  --shadow-card: 0 6px 20px -4px rgba(24, 24, 27, 0.08), 0 2px 6px -1px rgba(154, 107, 19, 0.06);
+  --shadow-card-hover: 0 12px 28px -4px rgba(24, 24, 27, 0.14), 0 4px 12px -2px rgba(154, 107, 19, 0.16);
+
+  --vignette: radial-gradient(circle at 50% 30%, rgba(244, 241, 234, 0.2) 0%, rgba(235, 230, 218, 0.82) 90%);
+}
+
+/* Base Body & Typography */
+body {
+  background-color: var(--bg-page);
+  color: var(--text-body);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Map Existing Tailwind Classes Automatically to Your Black & Gold / Warm Ivory Variables */
+.text-white { color: var(--text-heading) !important; }
+.text-slate-200, .text-slate-300 { color: var(--text-body) !important; }
+.text-slate-400, .text-slate-500 { color: var(--text-muted) !important; }
+
+/* Primary Accents Remapped from Cyan/Magenta to 24K Gold / Emerald / Bronze */
+.text-metal-m5 { color: var(--gold-primary) !important; }
+.text-metal-m3 { color: var(--emerald-pass) !important; }
+.text-metal-m8 { color: var(--amber-warn) !important; }
+.text-metal-m6 { color: var(--gold-bright) !important; }
+
+.bg-metal-m5 {
+  background-color: var(--gold-primary) !important;
+  color: #070709 !important;
+}
+html.light-theme .bg-metal-m5 {
+  background-color: #9A6B13 !important;
+  color: #FFFFFF !important;
+}
+.bg-metal-m3 {
+  background-color: var(--emerald-pass) !important;
+  color: #070709 !important;
+}
+html.light-theme .bg-metal-m3 {
+  background-color: #047857 !important;
+  color: #FFFFFF !important;
+}
+
+/* Surface & Border Overrides */
+.bg-silicon-950, .bg-silicon-950\/90 { background-color: var(--bg-card-inner) !important; }
+.bg-silicon-900, .bg-silicon-900\/75, .bg-silicon-900\/80, .bg-silicon-900\/90 {
+  background-color: var(--bg-card) !important;
+}
+.bg-silicon-800, .bg-silicon-800\/90 {
+  background-color: var(--bg-pill) !important;
+  color: var(--text-heading) !important;
+}
+
+.border-slate-800, .border-slate-800\/80, .border-slate-700, .border-cyan-500\/20 {
+  border-color: var(--border-subtle) !important;
+}
+.border-metal-m5, .border-metal-m5\/30, .border-metal-m5\/40 {
+  border-color: var(--border-card) !important;
+}
+
+/* Top Header & Status Bar Visibility in Both Modes */
+#top-status-bar {
+  background-color: var(--bg-status) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+#main-navbar {
+  background-color: var(--bg-header) !important;
+  border-bottom: 1px solid var(--border-card) !important;
+}
+
+/* ==========================================================================
+   STYLE 1 NAVIGATION: CLEAN HUMAN WORDS + SLIDING 24K GOLD UNDERLINE BAR
+   ========================================================================== */
+.nav-tab-btn {
+  position: relative;
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0;
+  border: none !important;
+  background: transparent !important;
+  transition: color 0.25s ease;
+}
+.nav-tab-btn:hover {
+  color: var(--text-heading);
+}
+.nav-tab-btn::after {
+  content: "";
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: -2px;
+  height: 2.5px;
+  background: linear-gradient(90deg, var(--gold-primary), var(--gold-bright));
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-tab-btn.active-nav {
+  color: var(--gold-primary) !important;
+  font-weight: 700;
+}
+.nav-tab-btn.active-nav::after {
+  transform: scaleX(1);
+}
+
+/* ==========================================================================
+   CARD ELEVATION & SOLID VISIBLE BORDERS (CRISP IN BOTH DARK & LIGHT MODES)
+   ========================================================================== */
+.eda-border {
+  background-color: var(--bg-card);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid var(--border-card) !important;
+  box-shadow: var(--shadow-card);
+  border-radius: 10px;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.eda-border:hover {
+  border-color: var(--border-card-hover) !important;
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+/* Keep the Linux Workstation Terminal Authentic Dark Obsidian in Both Modes */
+#linux-terminal-window {
+  background-color: #08090C !important;
+  border: 1.5px solid rgba(212, 175, 55, 0.45) !important;
+  box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.65);
+}
+#linux-terminal-window .text-white { color: #F8FAFC !important; }
+#linux-terminal-window .text-slate-300 { color: #D4D4D8 !important; }
+#linux-terminal-window .text-slate-400 { color: #9CA3AF !important; }
+
+/* Full-Screen Interactive Silicon Routing Canvas */
+#asic-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.68;
+  transition: opacity 0.35s ease;
+}
+html.light-theme #asic-canvas {
+  opacity: 0.55;
+}
+
+.die-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: var(--vignette);
+}
+
+/* Instant Sub-Page View Switching Animations */
+.app-view {
+  display: none;
+  opacity: 0;
+  transform: translateY(14px) scale(0.992);
+  transition: opacity 0.36s cubic-bezier(0.16, 1, 0.3, 1), transform 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.app-view.active-view {
+  display: block;
+}
+.app-view.view-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 3D Metal Stack Isometric Slabs (Mobile Safe) */
+.metal-slab {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (min-width: 640px) {
+  .metal-slab {
+    transform: perspective(700px) rotateX(16deg) scale(0.98);
+  }
+  .metal-slab.active-slab {
+    transform: perspective(700px) rotateX(6deg) scale(1.02) translateX(6px);
+    box-shadow: 0 8px 25px -5px rgba(212, 175, 55, 0.35);
+  }
+}
+
+.qor-bar-fill {
+  transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: var(--bg-page); }
+::-webkit-scrollbar-thumb { background: var(--gold-deep); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-primary); }
