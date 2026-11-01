@@ -1,0 +1,202 @@
+{
+  "_readme": "Site content for the Chronicles (projects) and Credentials tabs. Edit with the portfolio editor app, or by hand: run `python3 scripts/build_content.py` afterwards (the GitHub Action also does this on every push). In text fields, **double asterisks** make bold and `backticks` make a code chip. accent is one of: gold, emerald, bright, amber. category is one of: pd, rtl, dft, ic.",
+  "projects": [
+    {
+      "id": "async-fifo-pd",
+      "category": "pd",
+      "tag": "BACK-END PD • ICC2",
+      "accent": "gold",
+      "date": "Apr – May 2026",
+      "title": "Taming Dual Asynchronous Clocks: 8-Bit Async FIFO Physical Design",
+      "summary": "In **Synopsys IC Compiler II**, I drove this layout across a 2,065.43 µm² core while keeping independent write (`wclk`) and read (`rclk`) domains completely isolated from crosstalk and skew.",
+      "bullets": [
+        { "label": "Floorplan & PDN", "text": "24 M5 ports, 97 DCAPs, M7/M8 + M2 mesh (0 PG DRC).", "accent": "gold" },
+        { "label": "Dual CTS", "text": "`wclk` (80 sinks, 0.51ns) & `rclk` (24 sinks, 0.45ns), each at **0.00 ns skew**.", "accent": "gold" },
+        { "label": "Signoff", "text": "0 shorts, 0 opens, 0 DRC, +0.16 ns Setup WNS.", "accent": "emerald" }
+      ],
+      "links": [
+        { "kind": "image", "label": "Inspect Layout", "target": "assets/fifo_routing.webp", "caption": "My 8-Bit Asynchronous FIFO Final Routed Layout (0 DRC, +0.16ns WNS)" },
+        { "kind": "qor", "label": "QoR Table", "target": "fifo" }
+      ],
+      "tools": "",
+      "badge": { "text": "", "accent": "gold" }
+    },
+    {
+      "id": "gprs-top-pd",
+      "category": "pd",
+      "tag": "BACK-END PD • ICC2",
+      "accent": "gold",
+      "date": "Apr 2026",
+      "title": "Conquering a 16-Macro Heavy Block: GPRS Physical Design (`gprs_top`)",
+      "summary": "Transitioning `gprs_top` from **Design Compiler (`dc_shell`)** into **IC Compiler II (`icc2_shell`)**, I managed 27,811 initial cells (33,286 final) and 16 hard SRAM macros across 10 metal layers.",
+      "bullets": [
+        { "label": "Core & Power", "text": "391,605.4 µm² core (66.25% final util); fixed 179 missing PG vias.", "accent": "gold" },
+        { "label": "CTS & Congestion", "text": "2,856 `mclk` sinks at 0.14 ns skew; 0.12% placement congestion.", "accent": "gold" },
+        { "label": "Signoff", "text": "Cleared 34 route shorts via `route_eco`; 0.00 ns Setup WNS/TNS.", "accent": "emerald" }
+      ],
+      "links": [
+        { "kind": "image", "label": "View Layout", "target": "assets/gprs_routing.webp", "caption": "My gprs_top 10-Layer Detailed Route & SRAM Macro Signoff in Synopsys ICC2" },
+        { "kind": "qor", "label": "QoR Table", "target": "gprs" }
+      ],
+      "tools": "",
+      "badge": { "text": "", "accent": "gold" }
+    },
+    {
+      "id": "chipthink-bus-arbiter",
+      "category": "rtl",
+      "tag": "RTL DESIGN • HACKATHON FINALIST",
+      "accent": "emerald",
+      "date": "Apr 2026",
+      "title": "Zero Internet, Pure RTL: My Multi-Master Bus Arbiter at ChipThink Finals",
+      "summary": "At the **ChipThink VLSI Hackathon** (Maven Silicon & IEEE), my teammates and I designed and verified a deterministic Verilog Bus Arbiter for CPU, DMA, and Peripheral masters completely offline.",
+      "bullets": [
+        { "label": "Anti-Starvation", "text": "8-clock-cycle fairness counter forces priority rotation if DMA/Peripherals wait continuously.", "accent": "emerald" },
+        { "label": "Verified", "text": "Live hardware debug state tracking across all contention cases.", "accent": "emerald" }
+      ],
+      "links": [
+        { "kind": "url", "label": "EDA Playground (x/JiD3)", "target": "https://edaplayground.com/x/JiD3" }
+      ],
+      "tools": "",
+      "badge": { "text": "", "accent": "emerald" }
+    },
+    {
+      "id": "half-adder-vcs",
+      "category": "rtl",
+      "tag": "RTL & VERIFICATION • VCS",
+      "accent": "emerald",
+      "date": "May 2026",
+      "title": "Peeling Back the Compiler: 4-Abstraction Verilog & CMOS Switch Verification",
+      "summary": "Built a combinational half adder across Dataflow (`assign`), Behavioral (`always @(*)`), Gate-Level, and Switch-Level CMOS (`pmos`/`nmos` wired to `VDD`/`VSS`), verified simultaneously via a SystemVerilog testbench (`tb_top`) in **Synopsys VCS**.",
+      "bullets": [],
+      "links": [
+        { "kind": "url", "label": "GitHub Repo", "target": "https://github.com/narendaransg/half-adders-at-different-forms" }
+      ],
+      "tools": "",
+      "badge": { "text": "", "accent": "emerald" }
+    },
+    {
+      "id": "openlane-sky130-spm",
+      "category": "pd",
+      "tag": "OPEN-SOURCE RTL-TO-GDSII",
+      "accent": "gold",
+      "date": "Nov 2025 – Apr 2026",
+      "title": "Stripping Away Proprietary GUIs: OpenLane & SKY130 RTL-to-GDSII",
+      "summary": "Executed a 70+ step open-source physical realization pipeline for a **Serial-Parallel Multiplier (SPM)** using Yosys, Verilator, OpenROAD, Magic, and KLayout in the **SkyWater 130nm (`sky130_fd_sc_hd`)** PDK.",
+      "bullets": [],
+      "links": [],
+      "tools": "OpenROAD / Yosys / Magic",
+      "badge": { "text": "SKY130 GDSII Clean", "accent": "gold" }
+    },
+    {
+      "id": "cadence-innovus-flow",
+      "category": "pd",
+      "tag": "BACK-END PD • CADENCE INNOVUS",
+      "accent": "bright",
+      "date": "Nov 2025",
+      "title": "Achieving 0.00% Route Overflow & 0.011 ns Skew in Cadence Innovus",
+      "summary": "Placed standard cells at 53.189% density (Pre-CTS WNS: +0.846 ns), balanced the clock tree to **0.011 ns skew** (boosting Post-CTS WNS to +1.377 ns), and completed routing with **0.00% overflow**.",
+      "bullets": [],
+      "links": [
+        { "kind": "image", "label": "View Cadence Certificate", "target": "assets/cert_cadence.webp", "caption": "My Certificate — Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)" }
+      ],
+      "tools": "",
+      "badge": { "text": "", "accent": "gold" }
+    },
+    {
+      "id": "memory-dft-genus-modus",
+      "category": "dft",
+      "tag": "DFT & SYNTHESIS • CADENCE GENUS",
+      "accent": "amber",
+      "date": "Nov 2025",
+      "title": "Making Silicon Testable: Memory Block DFT in Cadence Genus & Modus",
+      "summary": "Implemented scan-chain insertion, stitched scan flip-flops, validated shift/capture modes, and resolved DFT rule violations using the **Cadence Genus–Modus** flow.",
+      "bullets": [],
+      "links": [],
+      "tools": "Cadence Genus + Modus",
+      "badge": { "text": "Scan Verified ✓", "accent": "emerald" }
+    },
+    {
+      "id": "pll-rtl-to-routing",
+      "category": "pd",
+      "tag": "RTL-TO-ROUTING • SYNOPSYS",
+      "accent": "gold",
+      "date": "2025",
+      "title": "My First Full Flow Milestone: PLL Design from RTL to Routing",
+      "summary": "Drove a Phase-Locked Loop (PLL) from RTL through Synthesis, Placement, CTS, Routing, and pre-layout functional simulation using **Synopsys Design Vision & IC Compiler** at the Centre for Chip Design Lab.",
+      "bullets": [],
+      "links": [],
+      "tools": "Synopsys Design Vision / ICC",
+      "badge": { "text": "Pre-Layout Verified ✓", "accent": "emerald" }
+    },
+    {
+      "id": "breadboard-multiplier",
+      "category": "ic",
+      "tag": "IC HARDWARE & RTL SYNTHESIS",
+      "accent": "amber",
+      "date": "Oct 2024 – Nov 2025",
+      "title": "Where It Started: My Breadboard 4-Bit Fast Multiplier & Barrel Shifter",
+      "summary": "Built a discrete IC 4-bit binary multiplier (`15 × 15 = 225 / 11100001₂`) on a breadboard using AND gate arrays and 4-bit full adders, paired with RTL synthesis analysis of an 8-bit combinatorial Barrel Shifter.",
+      "bullets": [],
+      "links": [
+        { "kind": "image", "label": "See Hardware Build", "target": "assets/ic_multiplier.webp", "caption": "My Breadboard 4-Bit Binary Fast Multiplier (15 x 15 = 225 / 11100001)" }
+      ],
+      "tools": "ALU Foundations",
+      "badge": { "text": "", "accent": "gold" }
+    }
+  ],
+  "certifications": [
+    {
+      "id": "pd-backend-vlsiminds",
+      "issuer": "VLSIMINDS • BENGALURU",
+      "date": "21 Apr 2026",
+      "title": "Physical Design – Back End",
+      "description": "Centre for Chip Design, Easwari Engineering College & VLSIMINDS. Mastered floorplanning, PDN synthesis, congestion-aware placement, CTS skew balancing, and DRC/STA closure.",
+      "image": "assets/cert_pd_backend.webp",
+      "caption": "My Certificate of Recognition — Physical Design Back End (VLSIMINDS & EEC, 21 Apr 2026)",
+      "accent": "gold"
+    },
+    {
+      "id": "dv-frontend-vlsiminds",
+      "issuer": "VLSIMINDS • BENGALURU",
+      "date": "04 Feb 2026",
+      "title": "VLSI Design Verification – Front End",
+      "description": "Easwari Engineering College & VLSIMINDS. Built comprehensive test plans, OOP SystemVerilog testbenches, Coverage-Driven Verification (CDV), and UVM fundamentals.",
+      "image": "assets/cert_dv_frontend.webp",
+      "caption": "My Certificate of Recognition — VLSI Design Verification Front End (VLSIMINDS & EEC, 04 Feb 2026)",
+      "accent": "emerald"
+    },
+    {
+      "id": "cadence-pd-workshop",
+      "issuer": "CENTRE FOR CHIP DESIGN",
+      "date": "07–08 Nov 2025",
+      "title": "Physical Design using Cadence Tools",
+      "description": "Hands-on workshop organized by the Dept. of ECE & Centre for Chip Design at Easwari Engineering College training on Cadence Innovus and Genus flows.",
+      "image": "assets/cert_cadence.webp",
+      "caption": "My Certificate of Participation — Two Day Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)",
+      "accent": "bright"
+    }
+  ],
+  "experience": [
+    {
+      "id": "chipthink-finalist",
+      "label": "FINALIST • MAVEN SILICON & IEEE (APR 2026)",
+      "title": "ChipThink VLSI Hackathon (TECHLETICS 4.0)",
+      "description": "Cleared Round 1 and competed in the offline finals at Christ College of Engineering, Irinjalakuda—designing synthesizable RTL from scratch with zero internet access.",
+      "accent": "amber"
+    },
+    {
+      "id": "chipcraft-2",
+      "label": "HARDWARE FORUM (APR 2026)",
+      "title": "CHIPCRAFT 2.0 — Kalasalingam Academy",
+      "description": "Benchmarked my hardware design methodologies against peers from across the region during the Euphoria Techno Management Meet.",
+      "accent": "gold"
+    },
+    {
+      "id": "nokia-internship",
+      "label": "INDUSTRIAL INTERNSHIP (MAY – JUN 2025)",
+      "title": "Nokia — Factory Floor & PCB Training",
+      "description": "Spent two months on the live factory floor at Nokia's Sriperumbudur telecommunications facility, gaining exposure to industrial PCB workflows and manufacturing efficiency.",
+      "accent": "emerald"
+    }
+  ]
+}

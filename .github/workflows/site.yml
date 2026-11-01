@@ -1,6 +1,7 @@
 name: Build site assets & share updates
 
 # On every push to main:
+#   0. regenerates the project/certificate cards in index.html from content.json
 #   1. rebuilds tailwind.css (so new Tailwind classes in your HTML/JS work)
 #   2. re-renders Narendaran_S_G_Resume.pdf when resume.html changed
 #   3. shares new updates.json entries marked "linkedin": true (only if LinkedIn secrets are set)
@@ -27,6 +28,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Render project and certificate cards from content.json
+        run: python3 scripts/build_content.py
+
       - name: Build Tailwind CSS
         run: npx --yes tailwindcss@3 -i tailwind.src.css -o tailwind.css --minify
 
@@ -52,7 +56,7 @@ jobs:
 
       - name: Commit generated files
         run: |
-          git add tailwind.css Narendaran_S_G_Resume.pdf .github/linkedin-posted.json
+          git add index.html tailwind.css Narendaran_S_G_Resume.pdf .github/linkedin-posted.json
           if ! git diff --cached --quiet; then
             git config user.name "github-actions[bot]"
             git config user.email "41898283+github-actions[bot]@users.noreply.github.com"

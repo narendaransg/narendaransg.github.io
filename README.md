@@ -33,12 +33,16 @@ Plain HTML/CSS/JS on GitHub Pages, no framework.
 | `portfolio-data.js` | QoR numbers, stage text, terminal command output |
 | `portfolio-engine.js` | View router, background canvas, QoR explorer, simulators, terminal, updates strip |
 | `silicon-addons.js`, `chip-borders.js`, `chip-mascot.js` | Command palette, layout slider, STA calculator, frame styles, help bot |
+| `chip-fx.js` | Chip-style motion: scan-chain and wafer-zoom page transitions, RTL-to-GDSII hero build-up, routed section dividers, clock H-tree pulse, via-drop ripple, staggered entrances, count-up numbers, scroll-scrubbed flow playback, layout magnifier, CMOS-inverter theme toggle, clock-waveform scroll bar |
 | `portfolio-theme.css` | Dark / light themes |
 | `tailwind.css` | Built Tailwind CSS (generated, don't edit) |
+| `content.json` | Projects (Chronicles), certificates and experience cards. `scripts/build_content.py` turns it into the cards in `index.html` |
 | `updates.json` | "Latest Updates" entries |
 | `resume.html` | Printable A4 resume; `Narendaran_S_G_Resume.pdf` is generated from it |
 
 ## Updating the site
+
+**Projects, certificates, experience and updates** live in `content.json` and `updates.json`. Edit them with the private portfolio editor app (kept on Narendaran's laptop, not in this repo), or by hand on GitHub.com: the Action re-renders `index.html` on every push. To render locally: `python3 scripts/build_content.py` (`--check` only validates). In text fields, `**bold**` and `` `code` `` are supported.
 
 - **Add an update:** put a new entry at the top of `updates.json`. Add `"linkedin": true` to have it shared on LinkedIn automatically (see below).
 - **Edit the resume:** change `resume.html`; the PDF is regenerated on push.

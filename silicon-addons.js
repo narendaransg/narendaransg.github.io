@@ -131,8 +131,12 @@
   // 1. 1.5-SECOND 3D SILICON WAFER BOOT / SIGNOFF SEQUENCE
   // ===========================================================================
   function runSiliconBootAnimation() {
-    if (sessionStorage.getItem('narendaran_boot_shown')) return;
-    sessionStorage.setItem('narendaran_boot_shown', '1');
+    // Shown once per browser session, never for visitors who prefer reduced motion
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    try {
+      if (sessionStorage.getItem('narendaran_boot_shown')) return;
+      sessionStorage.setItem('narendaran_boot_shown', '1');
+    } catch (e) { return; }
 
     const bootEl = document.createElement('div');
     bootEl.id = 'silicon-boot-overlay';
@@ -706,11 +710,12 @@ endmodule`
     `;
     document.body.appendChild(drawer);
 
-    const cards = document.querySelectorAll('.project-card');
-    const cardMap = ['fifo', 'gprs', 'arbiter', 'halfadder'];
-    cardMap.forEach((key, idx) => {
-      if (cards[idx]) {
-        const footer = cards[idx].querySelector('div:last-child');
+    // Matched by project id (content.json), so reordering or adding projects keeps the code on the right card
+    const cardMap = { fifo: 'async-fifo-pd', gprs: 'gprs-top-pd', arbiter: 'chipthink-bus-arbiter', halfadder: 'half-adder-vcs' };
+    Object.entries(cardMap).forEach(([key, id]) => {
+      const card = document.querySelector(`.project-card[data-id="${id}"]`);
+      if (card) {
+        const footer = card.querySelector(':scope > div:last-child');
         if (footer) {
           const btn = document.createElement('button');
           btn.type = 'button';

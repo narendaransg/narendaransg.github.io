@@ -3,7 +3,7 @@
 // A GitHub Action (.github/workflows/build-css.yml) also rebuilds it on every push.
 module.exports = {
   darkMode: 'class',
-  content: ['./*.html', './*.js'],
+  content: ['./*.html', './*.js', './scripts/*.py'],
   theme: {
     extend: {
       fontFamily: {

@@ -46,7 +46,7 @@
 
   // 2. View Router & Particle Bursts
   function spawnTransitionParticles(originX, originY) {
-    if (reducedMotion.matches) return;
+    if (reducedMotion.matches || window.chipFxHandlesTransitions) return;
     const colors = ['#F5B041', '#10B981', '#FFD166', '#F59E0B'];
     const cx = originX || window.innerWidth / 2;
     const cy = originY || 56;
@@ -126,6 +126,9 @@
 
     const mouse = { x: -1000, y: -1000, active: false };
     let rafId = null;
+    // Ambient motion settles down a few seconds after load so it never competes with content
+    const ambientStart = performance.now();
+    let lastMove = 0;
     let macros = [];
     let vias = [];
     let packets = [];
@@ -245,7 +248,9 @@
         ctx.fillRect(v.x - 1.5, v.y - 1.5, 3, 3);
       });
 
-      if (mouse.active && Math.random() < 0.4) {
+      const amb = Math.max(0.3, 1 - Math.max(0, performance.now() - ambientStart - 6000) / 3000);
+      const packetLimit = Math.ceil(packets.length * amb);
+      if (mouse.active && performance.now() - lastMove < 140 && Math.random() < 0.4) {
         customTraceNodes.push({
           x: mouse.x + (Math.random() - 0.5) * 25,
           y: mouse.y + (Math.random() - 0.5) * 25,
@@ -272,7 +277,8 @@
         });
       }
 
-      if (!reducedMotion.matches) packets.forEach(p => {
+      if (!reducedMotion.matches) packets.forEach((p, idx) => {
+        if (idx >= packetLimit) return;
         p.x += p.vx;
         p.y += p.vy;
         p.trail.push({ x: p.x, y: p.y });
@@ -307,7 +313,7 @@
 
         if (p.trail.length > 1) {
           for (let i = 1; i < p.trail.length; i++) {
-            const alpha = (i / p.trail.length) * (isLight ? 0.38 : 0.55);
+            const alpha = (i / p.trail.length) * (isLight ? 0.38 : 0.55) * amb;
             ctx.strokeStyle = p.layer.rgba + alpha + ')';
             ctx.lineWidth = 1.6;
             ctx.beginPath();
@@ -352,6 +358,7 @@
       mouse.x = e.clientX;
       mouse.y = e.clientY;
       mouse.active = !reducedMotion.matches;
+      lastMove = performance.now();
       if (coordReadout) {
         const umX = (e.clientX * 0.425).toFixed(2);
         const umY = ((height - e.clientY) * 0.425).toFixed(2);
@@ -469,6 +476,7 @@
   window.selectMetalLayer = function(key) {
     if (!window.metalLayersData) return;
     const data = window.metalLayersData[key];
+    if (!data) return;
     const titleEl = document.getElementById('metal-detail-title');
     if (titleEl) {
       titleEl.className = `${data.colorClass} font-bold text-sm`;
