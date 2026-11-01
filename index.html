@@ -12,38 +12,36 @@
   <meta property="og:title" content="Narendaran S G | ASIC Physical Design & RTL Verification Portfolio" />
   <meta property="og:description" content="Interactive RTL-to-GDSII physical design QoR metrics (Synopsys ICC2, Cadence Innovus, OpenLane SKY130), 3D metal stack, STA calculator, and live RTL simulators." />
   <meta property="og:image" content="https://narendaransg.github.io/assets/gprs_routing.jpg" />
+  <meta property="og:image:alt" content="Detailed-route layout of the gprs_top block in Synopsys IC Compiler II" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Narendaran S G | ASIC Physical Design & RTL Verification Portfolio" />
+  <meta name="twitter:description" content="RTL-to-GDSII physical design work in Synopsys ICC2, Cadence Innovus and OpenLane SKY130, with interactive QoR dashboards and RTL simulators." />
+  <meta name="twitter:image" content="https://narendaransg.github.io/assets/gprs_routing.jpg" />
+  <link rel="canonical" href="https://narendaransg.github.io/" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#070709" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Narendaran S G",
+    "url": "https://narendaransg.github.io/",
+    "email": "mailto:sgnarendaran@gmail.com",
+    "jobTitle": "ECE Student, ASIC Physical Design & RTL Verification",
+    "address": { "@type": "PostalAddress", "addressLocality": "Chennai", "addressRegion": "Tamil Nadu", "addressCountry": "IN" },
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "Easwari Engineering College" },
+    "knowsAbout": ["ASIC Physical Design", "RTL Design", "Design Verification", "Static Timing Analysis", "DFT", "Synopsys IC Compiler II", "Cadence Innovus", "OpenLane", "SKY130"],
+    "sameAs": [
+      "https://www.linkedin.com/in/narendaran-s-g-886273291",
+      "https://github.com/narendaransg"
+    ]
+  }
+  </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            silicon: {
-              950: '#070709',
-              900: '#111217',
-              800: '#181920',
-              700: '#262730',
-            },
-            metal: {
-              m5: '#F5B041',     // 24K Wirebond Gold
-              m6: '#FFD166',     // Bright Gold
-              m3: '#10B981',     // Emerald Signoff Pass
-              m8: '#F59E0B',     // Warm Amber Clock
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <link rel="stylesheet" href="tailwind.css" />
 
   <!-- External Black & Gold / Warm Ivory Theme Stylesheet (File 1 of 4) -->
   <link rel="stylesheet" href="portfolio-theme.css" />
@@ -165,8 +163,8 @@
         <!-- Left 7 Cols: First-Person Narrative & Social Links with Logos -->
         <div class="lg:col-span-7 space-y-5">
           <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-3.5 rounded-2xl eda-border max-w-2xl">
-            <div onclick="openLightbox('assets/profile_suit.png', 'Narendaran S G — Final Year ECE Innovator')" class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 border-metal-m5 shadow-lg shrink-0 cursor-pointer group bg-silicon-800">
-              <img src="assets/profile_suit.png" alt="Narendaran S G" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" onerror="this.src='https://ui-avatars.com/api/?name=Narendaran+SG&background=111217&color=F5B041&size=200'" />
+            <div onclick="openLightbox('assets/profile_suit.webp', 'Narendaran S G — Final-Year ECE Student')" class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 border-metal-m5 shadow-lg shrink-0 cursor-pointer group bg-silicon-800">
+              <img fetchpriority="high" src="assets/profile_suit.webp" alt="Narendaran S G" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" onerror="this.src='https://ui-avatars.com/api/?name=Narendaran+SG&background=111217&color=F5B041&size=200'" />
               <span class="absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full bg-metal-m3 ring-2 ring-silicon-950"></span>
             </div>
             <div class="space-y-1">
@@ -201,7 +199,7 @@
               <div class="text-[10px] font-mono text-slate-400">16 SRAM Macros &rarr;</div>
             </div>
             <div onclick="switchPageView('qor', event); switchQorBlock('fifo');" class="cursor-pointer p-3 rounded-lg eda-border">
-              <div class="text-[10px] font-mono text-slate-400">DUAL-CLK SKEW</div>
+              <div class="text-[10px] font-mono text-slate-400">PER-CLOCK SKEW</div>
               <div class="text-lg sm:text-xl font-mono font-bold text-metal-m3">0.000 ns</div>
               <div class="text-[10px] font-mono text-slate-400">Async FIFO CTS &rarr;</div>
             </div>
@@ -282,7 +280,7 @@
                 <pre class="text-emerald-300 text-[11px] whitespace-pre-wrap leading-relaxed">
 [OK] Synopsys IC Compiler II &amp; VCS environment mounted.
 [OK] Block 'gprs_top.nlib'   : 33,286 cells | 16 SRAM macros | 0.00ns Setup WNS
-[OK] Block 'async_fifo.nlib' : Dual-CTS (0.00ns skew) | 0 DRC | +0.16ns Setup WNS
+[OK] Block 'async_fifo.nlib' : Dual-CTS (0.00ns skew per domain) | 0 DRC | +0.16ns Setup WNS
 [TIP] Type 'neofetch', 'help', 'ls -la', 'gprs', 'fifo', or 'arbiter'.</pre>
               </div>
             </div>
@@ -325,7 +323,7 @@
               <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">SYNOPSYS ICC2 • DUAL-CTS</span>
               <h4 class="font-bold text-white text-base mt-2">8-Bit Async FIFO Physical Design</h4>
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-                2,065.43 &mu;m&sup2; core area, 97 DCAPs, M7/M8 + M2 PDN, and 0.00 ns global skew across asynchronous `wclk` and `rclk` domains (+0.16 ns WNS, 0 DRC).
+                2,065.43 &mu;m&sup2; core area, 97 DCAPs, M7/M8 + M2 PDN, and 0.00 ns skew within each of the asynchronous <code class="code-chip">wclk</code> and <code class="code-chip">rclk</code> domains (+0.16 ns WNS, 0 DRC).
               </p>
             </div>
             <div class="text-xs font-mono text-metal-m5 font-semibold pt-2 border-t border-slate-800/70 flex justify-between">
@@ -337,9 +335,9 @@
           <div onclick="switchPageView('qor', event); switchQorBlock('gprs');" class="cursor-pointer rounded-xl p-5 eda-border flex flex-col justify-between space-y-3">
             <div>
               <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">SYNOPSYS ICC2 • 16 MACROS</span>
-              <h4 class="font-bold text-white text-base mt-2">GPRS Block (`gprs_top`) Signoff</h4>
+              <h4 class="font-bold text-white text-base mt-2">GPRS Block (<code class="code-chip">gprs_top</code>) Signoff</h4>
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-                33,286 final cells and 16 hard SRAM macros across 10 metal layers. Data-flow flyline orientation, 2,856-sink CTS (0.14 ns skew), and clean `route_eco` closure.
+                33,286 final cells and 16 hard SRAM macros across 10 metal layers. Data-flow flyline orientation, 2,856-sink CTS (0.14 ns skew), and clean <code class="code-chip">route_eco</code> closure.
               </p>
             </div>
             <div class="text-xs font-mono text-metal-m5 font-semibold pt-2 border-t border-slate-800/70 flex justify-between">
@@ -364,6 +362,14 @@
         </div>
       </div>
 
+      <!-- Latest Updates (rendered from updates.json; add new entries there) -->
+      <div id="updates-strip" class="pt-4 border-t border-slate-800/80 space-y-4 hidden">
+        <div>
+          <div class="text-xs font-mono text-metal-m3 uppercase font-semibold">Latest Updates</div>
+          <h3 class="text-lg sm:text-xl font-bold text-white">What I've Been Working On</h3>
+        </div>
+        <ol id="updates-list" class="grid sm:grid-cols-2 gap-x-8 gap-y-5"></ol>
+      </div>
     </section>
 
     <!-- =======================================================================
@@ -453,10 +459,10 @@
               </button>
             </div>
             <div onclick="openCurrentQorImage()" class="relative group cursor-pointer rounded overflow-hidden border border-slate-800 bg-silicon-900 aspect-video flex items-center justify-center">
-              <img id="qor-stage-img" src="assets/gprs_macro_flylines.jpg" alt="ICC2 Layout View" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.style.display='none'; document.getElementById('qor-img-fallback').style.display='flex';" />
+              <img loading="lazy" decoding="async" id="qor-stage-img" src="assets/gprs_macro_flylines.webp" alt="ICC2 Layout View" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.style.display='none'; document.getElementById('qor-img-fallback').style.display='flex';" />
               <div id="qor-img-fallback" class="hidden absolute inset-0 flex-col items-center justify-center p-6 text-center font-mono text-xs text-slate-400 bg-silicon-900">
-                <div class="text-metal-m5 mb-1">[ICC2 Layout Screenshot Slot]</div>
-                <div id="qor-fallback-filename" class="text-white font-bold">assets/gprs_macro_flylines.jpg</div>
+                <div class="text-metal-m5 mb-1">Screenshot unavailable</div>
+                <div id="qor-fallback-filename" class="text-white font-bold">assets/gprs_macro_flylines.webp</div>
               </div>
             </div>
           </div>
@@ -475,7 +481,7 @@
       <div class="border-b border-slate-800 pb-4">
         <div class="text-xs font-mono text-metal-m3 uppercase tracking-widest font-semibold">Interactive Lab // Hardware &amp; Physical Architecture Simulators</div>
         <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Test My Silicon Architectures Live in Your Browser</h2>
-        <p class="text-slate-400 text-xs sm:text-sm mt-1">Inspect my physical metal-layer stack (`M1`–`M8`), clock-step my ChipThink Multi-Master Bus Arbiter RTL, or test my STA Slack Calculator below.</p>
+        <p class="text-slate-400 text-xs sm:text-sm mt-1">Inspect my physical metal-layer stack (<code class="code-chip">M1</code>–<code class="code-chip">M8</code>), clock-step my ChipThink Multi-Master Bus Arbiter RTL, or test my STA Slack Calculator below.</p>
       </div>
 
       <div id="interactive-lab" class="space-y-8">
@@ -486,9 +492,9 @@
             <div>
               <div class="flex items-center justify-between font-mono text-xs text-metal-m5 font-semibold">
                 <span>PHYSICAL DESIGN CROSS-SECTION</span>
-                <span>10-LAYER BEOL STACK</span>
+                <span>M1&ndash;M8 ROUTING STACK</span>
               </div>
-              <h3 class="text-lg sm:text-xl font-bold text-white mt-1">Interactive Metal-Layer Stack (`M1` &ndash; `M8`)</h3>
+              <h3 class="text-lg sm:text-xl font-bold text-white mt-1">Interactive Metal-Layer Stack (<code class="code-chip">M1</code> &ndash; <code class="code-chip">M8</code>)</h3>
               <p class="text-xs text-slate-400 mt-1">Click any metal plane below to see how I allocated power straps, I/O ports, NDR clock trees, and standard cell rails.</p>
             </div>
 
@@ -657,16 +663,16 @@
               </div>
               <h3 class="text-lg font-bold text-white">Taming Dual Asynchronous Clocks: 8-Bit Async FIFO Physical Design</h3>
               <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                In <strong class="text-white">Synopsys IC Compiler II</strong>, I drove this layout across a 2,065.43 &mu;m&sup2; core while keeping independent write (`wclk`) and read (`rclk`) domains completely isolated from crosstalk and skew.
+                In <strong class="text-white">Synopsys IC Compiler II</strong>, I drove this layout across a 2,065.43 &mu;m&sup2; core while keeping independent write (<code class="code-chip">wclk</code>) and read (<code class="code-chip">rclk</code>) domains completely isolated from crosstalk and skew.
               </p>
               <ul class="text-xs font-mono text-slate-300 space-y-1 border-t border-slate-800 pt-3">
                 <li>&bull; <span class="text-metal-m5 font-semibold">Floorplan &amp; PDN:</span> 24 M5 ports, 97 DCAPs, M7/M8 + M2 mesh (0 PG DRC).</li>
-                <li>&bull; <span class="text-metal-m5 font-semibold">Dual CTS:</span> `wclk` (80 sinks, 0.51ns) &amp; `rclk` (24 sinks, 0.45ns) at <strong class="text-white">0.00 ns skew</strong>.</li>
+                <li>&bull; <span class="text-metal-m5 font-semibold">Dual CTS:</span> <code class="code-chip">wclk</code> (80 sinks, 0.51ns) &amp; <code class="code-chip">rclk</code> (24 sinks, 0.45ns), each at <strong class="text-white">0.00 ns skew</strong>.</li>
                 <li>&bull; <span class="text-metal-m3 font-semibold">Signoff:</span> 0 shorts, 0 opens, 0 DRC, +0.16 ns Setup WNS.</li>
               </ul>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-              <button type="button" onclick="openLightbox('assets/fifo_routing.png', 'My 8-Bit Asynchronous FIFO Final Routed Layout (0 DRC, +0.16ns WNS)')" class="text-metal-m5 font-semibold hover:underline">Inspect Layout &rarr;</button>
+              <button type="button" onclick="openLightbox('assets/fifo_routing.webp', 'My 8-Bit Asynchronous FIFO Final Routed Layout (0 DRC, +0.16ns WNS)')" class="text-metal-m5 font-semibold hover:underline">Inspect Layout &rarr;</button>
               <button type="button" onclick="switchPageView('qor', event); switchQorBlock('fifo');" class="text-slate-400 hover:text-white">QoR Table &nearr;</button>
             </div>
           </article>
@@ -678,18 +684,18 @@
                 <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">BACK-END PD • ICC2</span>
                 <span class="text-slate-400">Apr 2026</span>
               </div>
-              <h3 class="text-lg font-bold text-white">Conquering a 16-Macro Heavy Block: GPRS Physical Design (`gprs_top`)</h3>
+              <h3 class="text-lg font-bold text-white">Conquering a 16-Macro Heavy Block: GPRS Physical Design (<code class="code-chip">gprs_top</code>)</h3>
               <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Transitioning `gprs_top` from <strong class="text-white">Design Compiler (`dc_shell`)</strong> into <strong class="text-white">IC Compiler II (`icc2_shell`)</strong>, I managed 27,811 initial cells (33,286 final) and 16 hard SRAM macros across 10 metal layers.
+                Transitioning <code class="code-chip">gprs_top</code> from <strong class="text-white">Design Compiler (<code class="code-chip">dc_shell</code>)</strong> into <strong class="text-white">IC Compiler II (<code class="code-chip">icc2_shell</code>)</strong>, I managed 27,811 initial cells (33,286 final) and 16 hard SRAM macros across 10 metal layers.
               </p>
               <ul class="text-xs font-mono text-slate-300 space-y-1 border-t border-slate-800 pt-3">
                 <li>&bull; <span class="text-metal-m5 font-semibold">Core &amp; Power:</span> 391,605.4 &mu;m&sup2; core (66.25% final util); fixed 179 missing PG vias.</li>
-                <li>&bull; <span class="text-metal-m5 font-semibold">CTS &amp; Congestion:</span> 2,856 `mclk` sinks at 0.14 ns skew; 0.12% placement congestion.</li>
-                <li>&bull; <span class="text-metal-m3 font-semibold">Signoff:</span> Cleared 34 route shorts via `route_eco`; 0.00 ns Setup WNS/TNS.</li>
+                <li>&bull; <span class="text-metal-m5 font-semibold">CTS &amp; Congestion:</span> 2,856 <code class="code-chip">mclk</code> sinks at 0.14 ns skew; 0.12% placement congestion.</li>
+                <li>&bull; <span class="text-metal-m3 font-semibold">Signoff:</span> Cleared 34 route shorts via <code class="code-chip">route_eco</code>; 0.00 ns Setup WNS/TNS.</li>
               </ul>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-              <button type="button" onclick="openLightbox('assets/gprs_routing.jpg', 'My gprs_top 10-Layer Detailed Route & SRAM Macro Signoff in Synopsys ICC2')" class="text-metal-m5 font-semibold hover:underline">View Layout &rarr;</button>
+              <button type="button" onclick="openLightbox('assets/gprs_routing.webp', 'My gprs_top 10-Layer Detailed Route & SRAM Macro Signoff in Synopsys ICC2')" class="text-metal-m5 font-semibold hover:underline">View Layout &rarr;</button>
               <button type="button" onclick="switchPageView('qor', event); switchQorBlock('gprs');" class="text-slate-400 hover:text-white">QoR Table &nearr;</button>
             </div>
           </article>
@@ -729,7 +735,7 @@
               </div>
               <h3 class="text-lg font-bold text-white">Peeling Back the Compiler: 4-Abstraction Verilog &amp; CMOS Switch Verification</h3>
               <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Built a combinational half adder across Dataflow (`assign`), Behavioral (`always @(*)`), Gate-Level, and Switch-Level CMOS (`pmos`/`nmos` wired to `VDD`/`VSS`), verified simultaneously via a SystemVerilog testbench (`tb_top`) in <strong class="text-white">Synopsys VCS</strong>.
+                Built a combinational half adder across Dataflow (<code class="code-chip">assign</code>), Behavioral (<code class="code-chip">always @(*)</code>), Gate-Level, and Switch-Level CMOS (<code class="code-chip">pmos</code>/<code class="code-chip">nmos</code> wired to <code class="code-chip">VDD</code>/<code class="code-chip">VSS</code>), verified simultaneously via a SystemVerilog testbench (<code class="code-chip">tb_top</code>) in <strong class="text-white">Synopsys VCS</strong>.
               </p>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/85 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
@@ -751,7 +757,7 @@
               </div>
               <h3 class="text-lg font-bold text-white">Stripping Away Proprietary GUIs: OpenLane &amp; SKY130 RTL-to-GDSII</h3>
               <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Executed a 70+ step open-source physical realization pipeline for a <strong class="text-white">Serial-Parallel Multiplier (SPM)</strong> using Yosys, Verilator, OpenROAD, Magic, and KLayout in the <strong class="text-white">SkyWater 130nm (`sky130_fd_sc_hd`)</strong> PDK.
+                Executed a 70+ step open-source physical realization pipeline for a <strong class="text-white">Serial-Parallel Multiplier (SPM)</strong> using Yosys, Verilator, OpenROAD, Magic, and KLayout in the <strong class="text-white">SkyWater 130nm (<code class="code-chip">sky130_fd_sc_hd</code>)</strong> PDK.
               </p>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs text-slate-400">
@@ -773,7 +779,7 @@
               </p>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-              <button type="button" onclick="openLightbox('assets/cert_cadence.png', 'My Certificate — Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="text-metal-m5 font-semibold hover:underline">View Cadence Certificate &rarr;</button>
+              <button type="button" onclick="openLightbox('assets/cert_cadence.webp', 'My Certificate — Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="text-metal-m5 font-semibold hover:underline">View Cadence Certificate &rarr;</button>
             </div>
           </article>
 
@@ -822,11 +828,11 @@
               </div>
               <h3 class="text-lg font-bold text-white">Where It Started: My Breadboard 4-Bit Fast Multiplier &amp; Barrel Shifter</h3>
               <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Built a discrete IC 4-bit binary multiplier (`15 × 15 = 225 / 11100001₂`) on a breadboard using AND gate arrays and 4-bit full adders, paired with RTL synthesis analysis of an 8-bit combinatorial Barrel Shifter.
+                Built a discrete IC 4-bit binary multiplier (<code class="code-chip">15 × 15 = 225 / 11100001₂</code>) on a breadboard using AND gate arrays and 4-bit full adders, paired with RTL synthesis analysis of an 8-bit combinatorial Barrel Shifter.
               </p>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-              <button type="button" onclick="openLightbox('assets/ic_multiplier.png', 'My Breadboard 4-Bit Binary Fast Multiplier (15 x 15 = 225 / 11100001)')" class="text-metal-m8 font-semibold hover:underline">See Hardware Build &rarr;</button>
+              <button type="button" onclick="openLightbox('assets/ic_multiplier.webp', 'My Breadboard 4-Bit Binary Fast Multiplier (15 x 15 = 225 / 11100001)')" class="text-metal-m8 font-semibold hover:underline">See Hardware Build &rarr;</button>
               <span class="text-slate-400">ALU Foundations</span>
             </div>
           </article>
@@ -901,543 +907,6 @@
          ======================================================================= -->
     <section id="view-credentials" class="app-view space-y-10">
       <div class="border-b border-slate-800 pb-4">
-        <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest font-semibold">Credentials // Verified Certificates, Story &amp; Contact</div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Certifications, Industry Exposure &amp; Beyond the Lab</h2>
-      </div>
-
-      <!-- Verified Certification Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
-          <div class="space-y-3">
-            <div class="flex items-center justify-between font-mono text-xs text-metal-m5 font-semibold">
-              <span>VLSIMINDS • BENGALURU</span>
-              <span>21 Apr 2026</span>
-            </div>
-            <h3 class="text-lg font-bold text-white">Physical Design – Back End</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Centre for Chip Design, Easwari Engineering College &amp; VLSIMINDS. Mastered floorplanning, PDN synthesis, congestion-aware placement, CTS skew balancing, and DRC/STA closure.
-            </p>
-          </div>
-          <button type="button" onclick="openLightbox('assets/cert_pd_backend.png', 'My Certificate of Recognition — Physical Design Back End (VLSIMINDS & EEC, 21 Apr 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m5 border border-metal-m5/40 font-semibold transition">
-            View Certificate &rarr;
-          </button>
-        </div>
-
-        <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
-          <div class="space-y-3">
-            <div class="flex items-center justify-between font-mono text-xs text-metal-m3 font-semibold">
-              <span>VLSIMINDS • BENGALURU</span>
-              <span>04 Feb 2026</span>
-            </div>
-            <h3 class="text-lg font-bold text-white">VLSI Design Verification – Front End</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Easwari Engineering College &amp; VLSIMINDS. Built comprehensive test plans, OOP SystemVerilog testbenches, Coverage-Driven Verification (CDV), and UVM fundamentals.
-            </p>
-          </div>
-          <button type="button" onclick="openLightbox('assets/cert_dv_frontend.png', 'My Certificate of Recognition — VLSI Design Verification Front End (VLSIMINDS & EEC, 04 Feb 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m3 border border-metal-m3/40 font-semibold transition">
-            View Certificate &rarr;
-          </button>
-        </div>
-
-        <div class="rounded-xl p-5 eda-border flex flex-col justify-between">
-          <div class="space-y-3">
-            <div class="flex items-center justify-between font-mono text-xs text-metal-m6 font-semibold">
-              <span>CENTRE FOR CHIP DESIGN</span>
-              <span>07–08 Nov 2025</span>
-            </div>
-            <h3 class="text-lg font-bold text-white">Physical Design using Cadence Tools</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Hands-on workshop organized by the Dept. of ECE &amp; Centre for Chip Design at Easwari Engineering College training on Cadence Innovus and Genus flows.
-            </p>
-          </div>
-          <button type="button" onclick="openLightbox('assets/cert_cadence.png', 'My Certificate of Participation — Two Day Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m6 border border-metal-m5/40 font-semibold transition">
-            View Certificate &rarr;
-          </button>
-        </div>
-      </div>
-
-      <!-- Exposure and Leadership Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div class="p-5 rounded-xl eda-border space-y-2">
-          <div class="text-xs font-mono text-metal-m8 font-semibold">FINALIST • MAVEN SILICON &amp; IEEE (APR 2026)</div>
-          <h4 class="font-bold text-white">ChipThink VLSI Hackathon (TECHLETICS 4.0)</h4>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Cleared Round 1 and competed in the offline finals at Christ College of Engineering, Irinjalakuda—designing synthesizable RTL from scratch with zero internet access.
-          </p>
-        </div>
-
-        <div class="p-5 rounded-xl eda-border space-y-2">
-          <div class="text-xs font-mono text-metal-m5 font-semibold">HARDWARE FORUM (APR 2026)</div>
-          <h4 class="font-bold text-white">CHIPCRAFT 2.0 — Kalasalingam Academy</h4>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Benchmarked my hardware design methodologies against peers from across the region during the Euphoria Techno Management Meet.
-          </p>
-        </div>
-
-        <div class="p-5 rounded-xl eda-border space-y-2">
-          <div class="text-xs font-mono text-metal-m3 font-semibold">INDUSTRIAL INTERNSHIP (MAY – JUN 2025)</div>
-          <h4 class="font-bold text-white">Nokia — Factory Floor &amp; PCB Training</h4>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Spent two months on the live factory floor at Nokia's Sriperumbudur telecommunications facility, gaining exposure to industrial PCB workflows and manufacturing efficiency.
-          </p>
-        </div>
-      </div>
-
-      <!-- Human Narrative and Casual Side -->
-      <div class="rounded-2xl p-6 sm:p-8 eda-border">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div class="lg:col-span-5 space-y-4">
-            <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest font-semibold">Beyond the Layout Window</div>
-            <h3 class="text-2xl font-bold text-white">What Drives My Engineering Discipline</h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              For me, closing timing on a tough ASIC block and life outside the lab share the same core principles. Leadership forged in the <strong class="text-white">National Cadet Corps (NCC)</strong>, perseverance learned through <strong class="text-white">Martial Arts</strong>, and empathy shaped as Treasurer &amp; Volunteer in <strong class="text-white">NSS</strong> define how I work in teams and tackle high-pressure tapeout challenges.
-            </p>
-          </div>
-
-          <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div onclick="openLightbox('assets/profile_suit.png', 'Professional Profile — Ready for Core Semiconductor Challenges')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
-              <div class="h-52 overflow-hidden">
-                <img src="assets/profile_suit.png" alt="Narendaran S G Formal" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
-              </div>
-              <div class="p-2.5 font-mono text-[11px] text-slate-300 flex justify-between items-center border-t border-slate-800">
-                <span>01 // Professional</span>
-                <span class="text-metal-m5">&nearr;</span>
-              </div>
-            </div>
-
-            <div onclick="openLightbox('assets/profile_candid.png', 'Stepping Out — Curiosity & Perspective')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
-              <div class="h-52 overflow-hidden">
-                <img src="assets/profile_candid.png" alt="Narendaran S G Candid" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
-              </div>
-              <div class="p-2.5 font-mono text-[11px] text-slate-300 flex justify-between items-center border-t border-slate-800">
-                <span>02 // Candid</span>
-                <span class="text-metal-m5">&nearr;</span>
-              </div>
-            </div>
-
-            <div onclick="openLightbox('assets/profile_nature.png', 'Staying Grounded Outside the Lab')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
-              <div class="h-52 overflow-hidden">
-                <img src="assets/profile_nature.png" alt="Narendaran S G Grounded" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
-              </div>
-              <div class="p-2.5 font-mono text-[11px] text-slate-300 flex justify-between items-center border-t border-slate-800">
-                <span>03 // Grounded</span>
-                <span class="text-metal-m5">&nearr;</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Action Footer Strip -->
-      <div class="rounded-2xl p-6 sm:p-8 eda-border flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div class="space-y-1.5 max-w-xl">
-          <div class="text-xs font-mono text-metal-m3 uppercase font-semibold">Open to Core ASIC / VLSI Roles &amp; Internships</div>
-          <h3 class="text-xl sm:text-2xl font-bold text-white">Let's Build the Next Generation of Silicon Together.</h3>
-          <p class="text-xs sm:text-sm text-slate-300">
-            Actively seeking opportunities in Physical Design (Back-End), RTL Design &amp; Verification (Front-End), and Synthesis/DFT.
-          </p>
-        </div>
-        <div class="flex flex-wrap gap-3 font-mono text-xs sm:text-sm">
-          <a href="mailto:sgnarendaran@gmail.com" class="px-5 py-2.5 rounded-lg bg-metal-m5 text-silicon-950 font-bold hover:opacity-90 transition">
-            sgnarendaran@gmail.com
-          </a>
-          <a href="https://www.linkedin.com/in/narendaran-s-g-886273291" target="_blank" rel="noopener" class="px-4 py-2.5 rounded-lg bg-silicon-950 border border-metal-m3/50 text-metal-m3 hover:bg-metal-m3/10 transition">
-            LinkedIn &nearr;
-          </a>
-          <a href="resume.html" class="px-4 py-2.5 rounded-lg bg-silicon-950 border border-slate-700 text-white hover:border-metal-m5 transition">
-            Printable Resume &nearr;
-          </a>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-
-  <!-- Lightbox Modal -->
-  <div id="lightbox-modal" onclick="closeLightbox()" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm items-center justify-center p-4">
-    <div onclick="event.stopPropagation()" class="max-w-5xl w-full bg-silicon-900 border border-metal-m5/40 rounded-xl overflow-hidden shadow-2xl">
-      <div class="px-4 py-3 bg-silicon-950 border-b border-slate-800 flex items-center justify-between font-mono text-xs">
-        <span id="lightbox-caption" class="text-metal-m5 font-semibold truncate mr-2">Preview</span>
-        <button type="button" onclick="closeLightbox()" class="px-2.5 py-1 rounded bg-silicon-800 text-slate-300 hover:text-white shrink-0">ESC / Close &#10005;</button>
-      </div>
-      <div class="p-4 bg-silicon-950 flex items-center justify-center max-h-[80vh] overflow-auto">
-        <img id="lightbox-img" src="" alt="Enlarged Preview" class="max-h-[75vh] w-auto object-contain rounded" />
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // =========================================================================
-    // 0. VISUALLY CALIBRATED DARK / LIGHT THEME ENGINE
-    // =========================================================================
-    function applySiteTheme(theme) {
-      const htmlEl = document.documentElement;
-      const iconEl = document.getElementById('theme-icon');
-      const labelEl = document.getElementById('theme-label');
-      
-      if (theme === 'light') {
-        htmlEl.classList.add('light-theme');
-        htmlEl.classList.remove('dark');
-        if (iconEl) iconEl.innerHTML = '&#9728;';
-        if (labelEl) labelEl.textContent = 'Light';
-        triggerCanvasRefresh();
-      } else {
-        htmlEl.classList.remove('light-theme');
-        htmlEl.classList.add('dark');
-        if (iconEl) iconEl.innerHTML = '&#9789;';
-        if (labelEl) labelEl.textContent = 'Dark';
-        triggerCanvasRefresh();
-      }
-      localStorage.setItem('narendaran_site_theme', theme);
-    }
-
-    function toggleSiteTheme() {
-      const current = localStorage.getItem('narendaran_site_theme') || 'dark';
-      applySiteTheme(current === 'dark' ? 'light' : 'dark');
-    }
-
-    applySiteTheme(localStorage.getItem('narendaran_site_theme') || 'dark');
-
-    function triggerCanvasRefresh() {
-      const canvas = document.getElementById('asic-canvas');
-      if (canvas && typeof canvas.triggerRedraw === 'function') {
-        canvas.triggerRedraw();
-      }
-    }
-
-    // =========================================================================
-    // 1. DYNAMIC SUB-VIEW TAB ROUTER WITH PARTICLE BURSTS
-    // =========================================================================
-    let transitionParticles = [];
-
-    function spawnTransitionParticles(originX, originY) {
-      const colors = ['#F5B041', '#10B981', '#FFD166', '#F59E0B'];
-      const cx = originX || window.innerWidth / 2;
-      const cy = originY || 56;
-      for (let i = 0; i < 34; i++) {
-        const angle = (Math.PI * 2 * i) / 34 + (Math.random() - 0.5) * 0.3;
-        const speed = 2.5 + Math.random() * 6.5;
-        transitionParticles.push({
-          x: cx,
-          y: cy,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          size: 2 + Math.random() * 2.5,
-          alpha: 1,
-          color: colors[i % colors.length]
-        });
-      }
-    }
-
-    function switchPageView(viewKey, evt) {
-      if (evt && evt.clientX) {
-        spawnTransitionParticles(evt.clientX, evt.clientY);
-      } else {
-        spawnTransitionParticles(window.innerWidth / 2, 54);
-      }
-
-      document.querySelectorAll('.app-view').forEach(sec => {
-        sec.classList.remove('view-visible');
-        setTimeout(() => {
-          if (sec.id !== 'view-' + viewKey) {
-            sec.classList.remove('active-view');
-          }
-        }, 160);
-      });
-
-      const target = document.getElementById('view-' + viewKey);
-      if (target) {
-        setTimeout(() => {
-          document.querySelectorAll('.app-view').forEach(s => s.classList.remove('active-view'));
-          target.classList.add('active-view');
-          requestAnimationFrame(() => {
-            target.classList.add('view-visible');
-          });
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          if (viewKey === 'qor') renderQorDashboard();
-        }, 165);
-      }
-
-      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
-        if (btn.getAttribute('data-view') === viewKey) {
-          btn.classList.add('active-nav');
-        } else {
-          btn.classList.remove('active-nav');
-        }
-      });
-    }
-
-    function toggleMobileMenu(forceState) {
-      const drawer = document.getElementById('mobile-nav-drawer');
-      if (!drawer) return;
-      const show = typeof forceState === 'boolean' ? forceState : drawer.classList.contains('hidden');
-      if (show) {
-        drawer.classList.remove('hidden');
-      } else {
-        drawer.classList.add('hidden');
-      }
-    }
-
-    // =========================================================================
-    // 2. RE-ENGINEERED HIGH-CONTRAST SILICON CANVAS WITH MOUSE-TRAIL CONVERGENCE
-    // =========================================================================
-    (function initInteractiveSiliconCanvas() {
-      const canvas = document.getElementById('asic-canvas');
-      const ctx = canvas.getContext('2d');
-      const coordReadout = document.getElementById('die-coords-readout');
-
-      let width = window.innerWidth;
-      let height = window.innerHeight;
-      const pitch = 72;
-      let cols = 0;
-      let rows = 0;
-
-      const mouse = { x: -1000, y: -1000, active: false };
-      let macros = [];
-      let vias = [];
-      let packets = [];
-      let customTraceNodes = [];
-
-      const layerColors = [
-        { name: 'M5', hex: '#F5B041', rgba: 'rgba(245, 176, 65, ' },
-        { name: 'M6', hex: '#FFD166', rgba: 'rgba(255, 209, 102, ' },
-        { name: 'M3', hex: '#10B981', rgba: 'rgba(16, 185, 129, ' },
-        { name: 'M8', hex: '#F59E0B', rgba: 'rgba(245, 158, 11, ' }
-      ];
-
-      function buildAsicGrid() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-        cols = Math.ceil(width / pitch);
-        rows = Math.ceil(height / pitch);
-
-        macros = [
-          {
-            x: pitch * 1,
-            y: pitch * 2.2,
-            w: pitch * 2.5,
-            h: pitch * 1.6,
-            label: 'SRAM_64x32_0',
-            family: 'M6/M5',
-            color: 'rgba(245, 176, 65, 0.04)',
-            border: 'rgba(245, 176, 65, 0.18)'
-          },
-          {
-            x: Math.max(pitch * 5, (cols - 3.5) * pitch),
-            y: pitch * 2.2,
-            w: pitch * 2.5,
-            h: pitch * 2,
-            label: 'GPRS_MEM_1',
-            family: 'ICC2',
-            color: 'rgba(16, 185, 129, 0.035)',
-            border: 'rgba(16, 185, 129, 0.18)'
-          }
-        ];
-
-        vias = [];
-        for (let c = 1; c < cols; c++) {
-          for (let r = 1; r < rows; r++) {
-            if ((c + r) % 3 === 0) {
-              vias.push({ x: c * pitch, y: r * pitch });
-            }
-          }
-        }
-
-        const packetCount = Math.min(22, Math.max(12, Math.floor((width * height) / 64000)));
-        packets = [];
-        for (let i = 0; i < packetCount; i++) {
-          packets.push(createPacket());
-        }
-      }
-
-      function createPacket() {
-        const layer = layerColors[Math.floor(Math.random() * layerColors.length)];
-        const horiz = Math.random() > 0.5;
-        const c = Math.floor(Math.random() * cols);
-        const r = Math.floor(Math.random() * rows);
-        const speed = 1.4 + Math.random() * 1.6;
-        return {
-          x: c * pitch,
-          y: r * pitch,
-          vx: horiz ? (Math.random() > 0.5 ? speed : -speed) : 0,
-          vy: !horiz ? (Math.random() > 0.5 ? speed : -speed) : 0,
-          layer: layer,
-          trail: [],
-          maxTrail: 16,
-          lastTurnGridX: -1,
-          lastTurnGridY: -1
-        };
-      }
-
-      function updateAndDraw() {
-        ctx.clearRect(0, 0, width, height);
-
-        const isLight = document.documentElement.classList.contains('light-theme');
-
-        ctx.lineWidth = 1;
-        for (let c = 0; c <= cols; c++) {
-          const x = c * pitch;
-          ctx.strokeStyle = c % 4 === 0 
-            ? (isLight ? 'rgba(154, 107, 19, 0.04)' : 'rgba(245, 176, 65, 0.06)') 
-            : (isLight ? 'rgba(154, 107, 19, 0.018)' : 'rgba(212, 175, 55, 0.035)');
-          ctx.beginPath();
-          ctx.moveTo(x, 0);
-          ctx.lineTo(x, height);
-          ctx.stroke();
-        }
-        for (let r = 0; r <= rows; r++) {
-          const y = r * pitch;
-          ctx.strokeStyle = r % 4 === 0 
-            ? (isLight ? 'rgba(4, 120, 87, 0.035)' : 'rgba(16, 185, 129, 0.05)') 
-            : (isLight ? 'rgba(180, 131, 39, 0.02)' : 'rgba(245, 158, 11, 0.03)');
-          ctx.beginPath();
-          ctx.moveTo(0, y);
-          ctx.lineTo(width, y);
-          ctx.stroke();
-        }
-
-        if (width > 768) {
-          ctx.font = '7.5px "JetBrains Mono", monospace';
-          macros.forEach(m => {
-            ctx.fillStyle = isLight ? 'rgba(154, 107, 19, 0.03)' : m.color;
-            ctx.fillRect(m.x, m.y, m.w, m.h);
-            ctx.strokeStyle = isLight ? 'rgba(154, 107, 19, 0.12)' : m.border;
-            ctx.lineWidth = 0.8;
-            ctx.strokeRect(m.x, m.y, m.w, m.h);
-
-            ctx.fillStyle = isLight ? 'rgba(24, 24, 27, 0.28)' : 'rgba(212, 175, 55, 0.4)';
-            ctx.fillText(`${m.label}`, m.x + 6, m.y + 11);
-          });
-        }
-
-        vias.forEach(v => {
-          ctx.fillStyle = isLight ? 'rgba(154, 107, 19, 0.09)' : 'rgba(245, 176, 65, 0.16)';
-          ctx.fillRect(v.x - 1.5, v.y - 1.5, 3, 3);
-        });
-
-        if (mouse.active && Math.random() < 0.4) {
-          customTraceNodes.push({
-            x: mouse.x + (Math.random() - 0.5) * 25,
-            y: mouse.y + (Math.random() - 0.5) * 25,
-            life: 1.0,
-            color: layerColors[Math.floor(Math.random() * layerColors.length)].hex
-          });
-        }
-
-        if (mouse.active) {
-          customTraceNodes.forEach((node, idx) => {
-            node.life -= 0.014;
-            if (node.life <= 0) {
-              customTraceNodes.splice(idx, 1);
-            } else {
-              ctx.lineWidth = 0.8;
-              ctx.strokeStyle = node.color + Math.round(node.life * 28).toString(16).padStart(2, '0');
-              ctx.beginPath();
-              ctx.moveTo(mouse.x, mouse.y);
-              ctx.lineTo(node.x, node.y);
-              ctx.stroke();
-
-              ctx.fillStyle = node.color;
-              ctx.fillRect(node.x - 1, node.y - 1, 2, 2);
-            }
-          });
-        }
-
-        packets.forEach(p => {
-          p.x += p.vx;
-          p.y += p.vy;
-          p.trail.push({ x: p.x, y: p.y });
-          if (p.trail.length > p.maxTrail) p.trail.shift();
-
-          const nearGridX = Math.round(p.x / pitch) * pitch;
-          const nearGridY = Math.round(p.y / pitch) * pitch;
-          if (
-            Math.abs(p.x - nearGridX) < 2 &&
-            Math.abs(p.y - nearGridY) < 2 &&
-            (nearGridX !== p.lastTurnGridX || nearGridY !== p.lastTurnGridY)
-          ) {
-            if (Math.random() < 0.28) {
-              p.x = nearGridX;
-              p.y = nearGridY;
-              p.lastTurnGridX = nearGridX;
-              p.lastTurnGridY = nearGridY;
-              const speed = Math.max(Math.abs(p.vx), Math.abs(p.vy));
-              if (p.vx !== 0) {
-                p.vx = 0;
-                p.vy = Math.random() > 0.5 ? speed : -speed;
-              } else {
-                p.vy = 0;
-                p.vx = Math.random() > 0.5 ? speed : -speed;
-              }
-            }
-          }
-
-          if (p.x < -30 || p.x > width + 30 || p.y < -30 || p.y > height + 30) {
-            Object.assign(p, createPacket());
-          }
-
-          if (p.trail.length > 1) {
-            for (let i = 1; i < p.trail.length; i++) {
-              const alpha = (i / p.trail.length) * (isLight ? 0.38 : 0.55);
-              ctx.strokeStyle = p.layer.rgba + alpha + ')';
-              ctx.lineWidth = 1.6;
-              ctx.beginPath();
-              ctx.moveTo(p.trail[i - 1].x, p.trail[i - 1].y);
-              ctx.lineTo(p.trail[i].x, p.trail[i].y);
-              ctx.stroke();
-            }
-          }
-          ctx.fillStyle = p.layer.hex;
-          ctx.fillRect(p.x - 1.5, p.y - 1.5, 3, 3);
-        });
-
-        for (let i = transitionParticles.length - 1; i >= 0; i--) {
-          const pt = transitionParticles[i];
-          pt.x += pt.vx;
-          pt.y += pt.vy;
-          pt.alpha -= 0.024;
-          if (pt.alpha <= 0) {
-            transitionParticles.splice(i, 1);
-          } else {
-            ctx.save();
-            ctx.globalAlpha = pt.alpha;
-            ctx.fillStyle = pt.color;
-            ctx.fillRect(pt.x - pt.size / 2, pt.y - pt.size / 2, pt.size, pt.size);
-            ctx.restore();
-          }
-        }
-
-        requestAnimationFrame(updateAndDraw);
-      }
-
-      canvas.triggerRedraw = () => buildAsicGrid();
-      window.addEventListener('resize', buildAsicGrid);
-      window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-        mouse.active = true;
-        if (coordReadout) {
-          const umX = (e.clientX * 0.425).toFixed(2);
-          const umY = ((height - e.clientY) * 0.425).toFixed(2);
-          coordReadout.textContent = `DIE CURSOR: X=${umX} um, Y=${umY} um`;
-        }
-      });
-      window.addEventListener('mouseleave', () => {
-        mouse.active = false;
-      });
-
-      buildAsicGrid();
-      updateAndDraw();
-    })();
-  </script>
-  <!-- =======================================================================
-         VIEW 5: CREDENTIALS, STORY & CONTACT
-         ======================================================================= -->
-    <section id="view-credentials" class="app-view space-y-10">
-      <div class="border-b border-slate-800 pb-4">
         <div class="text-xs font-mono text-metal-m5 uppercase tracking-widest font-semibold">Credentials // Verified Certifications, Story &amp; Contact</div>
         <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Certifications, Industry Exposure &amp; Beyond the Lab</h2>
       </div>
@@ -1455,7 +924,7 @@
               Centre for Chip Design, Easwari Engineering College &amp; VLSIMINDS. Mastered floorplanning, PDN synthesis, congestion-aware placement, CTS skew balancing, and DRC/STA closure.
             </p>
           </div>
-          <button type="button" onclick="openLightbox('assets/cert_pd_backend.png', 'My Certificate of Recognition — Physical Design Back End (VLSIMINDS & EEC, 21 Apr 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m5 font-semibold border border-metal-m5/40 transition">
+          <button type="button" onclick="openLightbox('assets/cert_pd_backend.webp', 'My Certificate of Recognition — Physical Design Back End (VLSIMINDS & EEC, 21 Apr 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m5 font-semibold border border-metal-m5/40 transition">
             View My Certificate &rarr;
           </button>
         </div>
@@ -1471,7 +940,7 @@
               Easwari Engineering College &amp; VLSIMINDS. Built comprehensive test plans, OOP SystemVerilog testbenches, Coverage-Driven Verification (CDV), and UVM fundamentals.
             </p>
           </div>
-          <button type="button" onclick="openLightbox('assets/cert_dv_frontend.png', 'My Certificate of Recognition — VLSI Design Verification Front End (VLSIMINDS & EEC, 04 Feb 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m3 font-semibold border border-metal-m3/40 transition">
+          <button type="button" onclick="openLightbox('assets/cert_dv_frontend.webp', 'My Certificate of Recognition — VLSI Design Verification Front End (VLSIMINDS & EEC, 04 Feb 2026)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m3 font-semibold border border-metal-m3/40 transition">
             View My Certificate &rarr;
           </button>
         </div>
@@ -1487,7 +956,7 @@
               Hands-on workshop organized by the Dept. of ECE &amp; Centre for Chip Design at Easwari Engineering College training on Cadence Innovus and Genus flows.
             </p>
           </div>
-          <button type="button" onclick="openLightbox('assets/cert_cadence.png', 'My Certificate of Participation — Two Day Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m6 font-semibold border border-metal-m6/40 transition">
+          <button type="button" onclick="openLightbox('assets/cert_cadence.webp', 'My Certificate of Participation — Two Day Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)')" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m6 font-semibold border border-metal-m6/40 transition">
             View My Certificate &rarr;
           </button>
         </div>
@@ -1532,9 +1001,9 @@
           </div>
 
           <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div onclick="openLightbox('assets/profile_suit.png', 'Professional Profile — Ready for Core Semiconductor Challenges')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
+            <div onclick="openLightbox('assets/profile_suit.webp', 'Professional Profile — Ready for Core Semiconductor Challenges')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
               <div class="h-52 overflow-hidden">
-                <img src="assets/profile_suit.png" alt="Narendaran S G Formal" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
+                <img loading="lazy" decoding="async" src="assets/profile_suit.webp" alt="Narendaran S G Formal" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
               </div>
               <div class="p-2.5 font-mono text-[11px] text-slate-300 flex justify-between items-center border-t border-slate-800">
                 <span>01 // Professional</span>
@@ -1542,9 +1011,9 @@
               </div>
             </div>
 
-            <div onclick="openLightbox('assets/profile_candid.png', 'Stepping Out — Curiosity & Perspective')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
+            <div onclick="openLightbox('assets/profile_candid.webp', 'Stepping Out — Curiosity & Perspective')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
               <div class="h-52 overflow-hidden">
-                <img src="assets/profile_candid.png" alt="Narendaran S G Candid" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
+                <img loading="lazy" decoding="async" src="assets/profile_candid.webp" alt="Narendaran S G Candid" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
               </div>
               <div class="p-2.5 font-mono text-[11px] text-slate-300 flex justify-between items-center border-t border-slate-800">
                 <span>02 // Candid</span>
@@ -1552,9 +1021,9 @@
               </div>
             </div>
 
-            <div onclick="openLightbox('assets/profile_nature.png', 'Staying Grounded Outside the Lab')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
+            <div onclick="openLightbox('assets/profile_nature.webp', 'Staying Grounded Outside the Lab')" class="group cursor-pointer rounded-xl overflow-hidden border border-slate-800 hover:border-metal-m5 transition bg-silicon-950 flex flex-col">
               <div class="h-52 overflow-hidden">
-                <img src="assets/profile_nature.png" alt="Narendaran S G Grounded" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
+                <img loading="lazy" decoding="async" src="assets/profile_nature.webp" alt="Narendaran S G Grounded" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" />
               </div>
               <div class="p-2.5 font-mono text-[11px] text-slate-300 flex justify-between items-center border-t border-slate-800">
                 <span>03 // Grounded</span>
@@ -1587,6 +1056,9 @@
           <a href="resume.html" class="px-4 py-2.5 rounded-lg bg-silicon-950 border border-slate-700 text-white hover:border-metal-m5 transition">
             Printable Resume &nearr;
           </a>
+          <a href="Narendaran_S_G_Resume.pdf" download class="px-4 py-2.5 rounded-lg bg-silicon-950 border border-slate-700 text-white hover:border-metal-m5 transition">
+            Download PDF &darr;
+          </a>
         </div>
       </div>
     </section>
@@ -1610,600 +1082,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Core JavaScript Router, Theme Engine, and Terminal Script -->
-  <script>
-    function applySiteTheme(theme) {
-      const htmlEl = document.documentElement;
-      const iconEl = document.getElementById('theme-icon');
-      const labelEl = document.getElementById('theme-label');
-      
-      if (theme === 'light') {
-        htmlEl.classList.add('light-theme');
-        htmlEl.classList.remove('dark');
-        if (iconEl) iconEl.innerHTML = '&#9728;';
-        if (labelEl) labelEl.textContent = 'Light';
-        triggerCanvasRefresh();
-      } else {
-        htmlEl.classList.remove('light-theme');
-        htmlEl.classList.add('dark');
-        if (iconEl) iconEl.innerHTML = '&#9789;';
-        if (labelEl) labelEl.textContent = 'Dark';
-        triggerCanvasRefresh();
-      }
-      localStorage.setItem('narendaran_site_theme', theme);
-    }
-
-    function toggleSiteTheme() {
-      const current = localStorage.getItem('narendaran_site_theme') || 'dark';
-      applySiteTheme(current === 'dark' ? 'light' : 'dark');
-    }
-
-    applySiteTheme(localStorage.getItem('narendaran_site_theme') || 'dark');
-
-    function triggerCanvasRefresh() {
-      const canvas = document.getElementById('asic-canvas');
-      if (canvas && typeof canvas.triggerRedraw === 'function') {
-        canvas.triggerRedraw();
-      }
-    }
-
-    let transitionParticles = [];
-
-    function spawnTransitionParticles(originX, originY) {
-      const colors = ['#F5B041', '#10B981', '#FFD166', '#F59E0B'];
-      const cx = originX || window.innerWidth / 2;
-      const cy = originY || 56;
-      for (let i = 0; i < 34; i++) {
-        const angle = (Math.PI * 2 * i) / 34 + (Math.random() - 0.5) * 0.3;
-        const speed = 2.5 + Math.random() * 6.5;
-        transitionParticles.push({
-          x: cx,
-          y: cy,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          size: 2 + Math.random() * 2.5,
-          alpha: 1,
-          color: colors[i % colors.length]
-        });
-      }
-    }
-
-    function switchPageView(viewKey, evt) {
-      if (evt && evt.clientX) {
-        spawnTransitionParticles(evt.clientX, evt.clientY);
-      } else {
-        spawnTransitionParticles(window.innerWidth / 2, 54);
-      }
-
-      document.querySelectorAll('.app-view').forEach(sec => {
-        sec.classList.remove('view-visible');
-        setTimeout(() => {
-          if (sec.id !== 'view-' + viewKey) {
-            sec.classList.remove('active-view');
-          }
-        }, 160);
-      });
-
-      const target = document.getElementById('view-' + viewKey);
-      if (target) {
-        setTimeout(() => {
-          document.querySelectorAll('.app-view').forEach(s => s.classList.remove('active-view'));
-          target.classList.add('active-view');
-          requestAnimationFrame(() => {
-            target.classList.add('view-visible');
-          });
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          if (viewKey === 'qor') renderQorDashboard();
-        }, 165);
-      }
-
-      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
-        if (btn.getAttribute('data-view') === viewKey) {
-          btn.classList.add('active-nav');
-        } else {
-          btn.classList.remove('active-nav');
-        }
-      });
-    }
-
-    function toggleMobileMenu(forceState) {
-      const drawer = document.getElementById('mobile-nav-drawer');
-      if (!drawer) return;
-      const show = typeof forceState === 'boolean' ? forceState : drawer.classList.contains('hidden');
-      if (show) {
-        drawer.classList.remove('hidden');
-      } else {
-        drawer.classList.add('hidden');
-      }
-    }
-
-    (function initInteractiveSiliconCanvas() {
-      const canvas = document.getElementById('asic-canvas');
-      const ctx = canvas.getContext('2d');
-      const coordReadout = document.getElementById('die-coords-readout');
-
-      let width = window.innerWidth;
-      let height = window.innerHeight;
-      const pitch = 72;
-      let cols = 0;
-      let rows = 0;
-
-      const mouse = { x: -1000, y: -1000, active: false };
-      let macros = [];
-      let vias = [];
-      let packets = [];
-      let customTraceNodes = [];
-
-      const layerColors = [
-        { name: 'M5', hex: '#F5B041', rgba: 'rgba(245, 176, 65, ' },
-        { name: 'M6', hex: '#FFD166', rgba: 'rgba(255, 209, 102, ' },
-        { name: 'M3', hex: '#10B981', rgba: 'rgba(16, 185, 129, ' },
-        { name: 'M8', hex: '#F59E0B', rgba: 'rgba(245, 158, 11, ' }
-      ];
-
-      function buildAsicGrid() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-        cols = Math.ceil(width / pitch);
-        rows = Math.ceil(height / pitch);
-
-        macros = [
-          {
-            x: pitch * 1,
-            y: pitch * 2.2,
-            w: pitch * 2.5,
-            h: pitch * 1.6,
-            label: 'SRAM_64x32_0',
-            family: 'M6/M5',
-            color: 'rgba(245, 176, 65, 0.04)',
-            border: 'rgba(245, 176, 65, 0.16)'
-          },
-          {
-            x: Math.max(pitch * 5, (cols - 3.5) * pitch),
-            y: pitch * 2.2,
-            w: pitch * 2.5,
-            h: pitch * 2,
-            label: 'GPRS_MEM_1',
-            family: 'ICC2',
-            color: 'rgba(16, 185, 129, 0.035)',
-            border: 'rgba(16, 185, 129, 0.16)'
-          }
-        ];
-
-        vias = [];
-        for (let c = 1; c < cols; c++) {
-          for (let r = 1; r < rows; r++) {
-            if ((c + r) % 3 === 0) {
-              vias.push({ x: c * pitch, y: r * pitch });
-            }
-          }
-        }
-
-        const packetCount = Math.min(22, Math.max(12, Math.floor((width * height) / 64000)));
-        packets = [];
-        for (let i = 0; i < packetCount; i++) {
-          packets.push(createPacket());
-        }
-      }
-
-      function createPacket() {
-        const layer = layerColors[Math.floor(Math.random() * layerColors.length)];
-        const horiz = Math.random() > 0.5;
-        const c = Math.floor(Math.random() * cols);
-        const r = Math.floor(Math.random() * rows);
-        const speed = 1.4 + Math.random() * 1.6;
-        return {
-          x: c * pitch,
-          y: r * pitch,
-          vx: horiz ? (Math.random() > 0.5 ? speed : -speed) : 0,
-          vy: !horiz ? (Math.random() > 0.5 ? speed : -speed) : 0,
-          layer: layer,
-          trail: [],
-          maxTrail: 16,
-          lastTurnGridX: -1,
-          lastTurnGridY: -1
-        };
-      }
-
-      function updateAndDraw() {
-        ctx.clearRect(0, 0, width, height);
-
-        const isLight = document.documentElement.classList.contains('light-theme');
-
-        ctx.lineWidth = 1;
-        for (let c = 0; c <= cols; c++) {
-          const x = c * pitch;
-          ctx.strokeStyle = c % 4 === 0 
-            ? (isLight ? 'rgba(154, 107, 19, 0.04)' : 'rgba(245, 176, 65, 0.05)') 
-            : (isLight ? 'rgba(154, 107, 19, 0.018)' : 'rgba(212, 175, 55, 0.03)');
-          ctx.beginPath();
-          ctx.moveTo(x, 0);
-          ctx.lineTo(x, height);
-          ctx.stroke();
-        }
-        for (let r = 0; r <= rows; r++) {
-          const y = r * pitch;
-          ctx.strokeStyle = r % 4 === 0 
-            ? (isLight ? 'rgba(4, 120, 87, 0.035)' : 'rgba(16, 185, 129, 0.045)') 
-            : (isLight ? 'rgba(180, 131, 39, 0.018)' : 'rgba(245, 158, 11, 0.03)');
-          ctx.beginPath();
-          ctx.moveTo(0, y);
-          ctx.lineTo(width, y);
-          ctx.stroke();
-        }
-
-        if (width > 768) {
-          ctx.font = '7.5px "JetBrains Mono", monospace';
-          macros.forEach(m => {
-            ctx.fillStyle = isLight ? 'rgba(154, 107, 19, 0.03)' : m.color;
-            ctx.fillRect(m.x, m.y, m.w, m.h);
-            ctx.strokeStyle = isLight ? 'rgba(154, 107, 19, 0.12)' : m.border;
-            ctx.lineWidth = 0.8;
-            ctx.strokeRect(m.x, m.y, m.w, m.h);
-
-            ctx.fillStyle = isLight ? 'rgba(24, 24, 27, 0.28)' : 'rgba(212, 175, 55, 0.38)';
-            ctx.fillText(`${m.label}`, m.x + 6, m.y + 11);
-          });
-        }
-
-        vias.forEach(v => {
-          ctx.fillStyle = isLight ? 'rgba(154, 107, 19, 0.1)' : 'rgba(245, 176, 65, 0.14)';
-          ctx.fillRect(v.x - 1.5, v.y - 1.5, 3, 3);
-        });
-
-        if (mouse.active && Math.random() < 0.4) {
-          customTraceNodes.push({
-            x: mouse.x + (Math.random() - 0.5) * 25,
-            y: mouse.y + (Math.random() - 0.5) * 25,
-            life: 1.0,
-            color: layerColors[Math.floor(Math.random() * layerColors.length)].hex
-          });
-        }
-
-        if (mouse.active) {
-          customTraceNodes.forEach((node, idx) => {
-            node.life -= 0.014;
-            if (node.life <= 0) {
-              customTraceNodes.splice(idx, 1);
-            } else {
-              ctx.lineWidth = 0.8;
-              ctx.strokeStyle = node.color + Math.round(node.life * 28).toString(16).padStart(2, '0');
-              ctx.beginPath();
-              ctx.moveTo(mouse.x, mouse.y);
-              ctx.lineTo(node.x, node.y);
-              ctx.stroke();
-
-              ctx.fillStyle = node.color;
-              ctx.fillRect(node.x - 1, node.y - 1, 2, 2);
-            }
-          });
-        }
-
-        packets.forEach(p => {
-          p.x += p.vx;
-          p.y += p.vy;
-          p.trail.push({ x: p.x, y: p.y });
-          if (p.trail.length > p.maxTrail) p.trail.shift();
-
-          const nearGridX = Math.round(p.x / pitch) * pitch;
-          const nearGridY = Math.round(p.y / pitch) * pitch;
-          if (
-            Math.abs(p.x - nearGridX) < 2 &&
-            Math.abs(p.y - nearGridY) < 2 &&
-            (nearGridX !== p.lastTurnGridX || nearGridY !== p.lastTurnGridY)
-          ) {
-            if (Math.random() < 0.28) {
-              p.x = nearGridX;
-              p.y = nearGridY;
-              p.lastTurnGridX = nearGridX;
-              p.lastTurnGridY = nearGridY;
-              const speed = Math.max(Math.abs(p.vx), Math.abs(p.vy));
-              if (p.vx !== 0) {
-                p.vx = 0;
-                p.vy = Math.random() > 0.5 ? speed : -speed;
-              } else {
-                p.vy = 0;
-                p.vx = Math.random() > 0.5 ? speed : -speed;
-              }
-            }
-          }
-
-          if (p.x < -30 || p.x > width + 30 || p.y < -30 || p.y > height + 30) {
-            Object.assign(p, createPacket());
-          }
-
-          if (p.trail.length > 1) {
-            for (let i = 1; i < p.trail.length; i++) {
-              const alpha = (i / p.trail.length) * (isLight ? 0.38 : 0.55);
-              ctx.strokeStyle = p.layer.rgba + alpha + ')';
-              ctx.lineWidth = 1.6;
-              ctx.beginPath();
-              ctx.moveTo(p.trail[i - 1].x, p.trail[i - 1].y);
-              ctx.lineTo(p.trail[i].x, p.trail[i].y);
-              ctx.stroke();
-            }
-          }
-          ctx.fillStyle = p.layer.hex;
-          ctx.fillRect(p.x - 1.5, p.y - 1.5, 3, 3);
-        });
-
-        for (let i = transitionParticles.length - 1; i >= 0; i--) {
-          const pt = transitionParticles[i];
-          pt.x += pt.vx;
-          pt.y += pt.vy;
-          pt.alpha -= 0.024;
-          if (pt.alpha <= 0) {
-            transitionParticles.splice(i, 1);
-          } else {
-            ctx.save();
-            ctx.globalAlpha = pt.alpha;
-            ctx.fillStyle = pt.color;
-            ctx.fillRect(pt.x - pt.size / 2, pt.y - pt.size / 2, pt.size, pt.size);
-            ctx.restore();
-          }
-        }
-
-        requestAnimationFrame(updateAndDraw);
-      }
-
-      canvas.triggerRedraw = () => buildAsicGrid();
-      window.addEventListener('resize', buildAsicGrid);
-      window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-        mouse.active = true;
-        if (coordReadout) {
-          const umX = (e.clientX * 0.425).toFixed(2);
-          const umY = ((height - e.clientY) * 0.425).toFixed(2);
-          coordReadout.textContent = `DIE CURSOR: X=${umX} um, Y=${umY} um`;
-        }
-      });
-      window.addEventListener('mouseleave', () => {
-        mouse.active = false;
-      });
-
-      buildAsicGrid();
-      updateAndDraw();
-    })();
-
-    const terminalCommands = {
-      neofetch: `       .---.          narendaran@asic-node
-      /     \\         --------------------
-      | () () |       OS     : Red Hat Enterprise Linux 8.9 (Ootpa) x86_64
-       \\  ^  /        Host   : Centre-for-Chip-Design-Workstation
-        |||||         Kernel : 4.18.0-513.el8.x86_64 (EDA-Signoff)
-        |||||         Shell  : bash 5.1 / Synopsys icc2_shell / vcs
-                      EDA    : Synopsys ICC2, DC, VCS, PT | Cadence Innovus, Genus, Modus
-                      OpenPD : OpenLane, OpenROAD, Yosys, Magic, KLayout (SKY130)
-                      Role   : Final-Year ECE (CGPA: 9.30) @ Easwari Engineering College`,
-
-      help: `GNU bash / EDA Workstation Commands:
-  neofetch    - Display Linux EDA workstation & system specs
-  whoami      - My engineering profile, education & contact
-  ls -la      - List all design libraries (.nlib), RTL & GDSII files
-  gprs        - Run report_qor on gprs_top.nlib (33.2K cells, 16 SRAM macros)
-  fifo        - Run report_clock_qor on async_fifo.nlib (Dual-CTS, 0.00ns skew)
-  arbiter     - Run Synopsys VCS simulation on ChipThink Bus Arbiter RTL
-  innovus     - View Cadence Innovus placement, CTS & routing report
-  dft         - View Cadence Genus & Modus scan-chain DFT summary
-  openlane    - View OpenLane SKY130 RTL-to-GDSII flow summary
-  uname -a    - Print Linux kernel & machine architecture
-  clear       - Clear terminal buffer`,
-
-      whoami: `uid=1000(narendaran) gid=1000(asic_design) groups=1000(physical_design),1001(rtl_verif),1002(dft)
-Name     : Narendaran S G
-Degree   : B.E. ECE (Sep 2023 - Jul 2027), Easwari Engineering College (CGPA: 9.30)
-Email    : sgnarendaran@gmail.com`,
-
-      'uname -a': `Linux asic-node.vlsi.local 4.18.0-513.el8_9.x86_64 #1 SMP x86_64 GNU/Linux (EDA Signoff Node)`,
-
-      pwd: `/home/narendaran/vlsi_workspace`,
-
-      'ls -la': `total 96
-drwxr-xr-x 7 narendaran asic_design  4096 May 15 2026 .
-drwxr-xr-x 4 narendaran asic_design  4096 May 01 2026 ..
-drwxr-xr-x 5 narendaran asic_design  4096 Apr 28 2026 gprs_top.nlib/              [33,286 cells | 16 Macros | 0 WNS]
-drwxr-xr-x 5 narendaran asic_design  4096 May 12 2026 asynchronous_fifo.nlib/     [305 cells | Dual-CTS 0ns Skew | 0 DRC]
-drwxr-xr-x 4 narendaran asic_design  4096 Nov 08 2025 cadence_innovus_core/       [+1.377ns Post-CTS WNS | 0% Overflow]
-drwxr-xr-x 3 narendaran asic_design  4096 Nov 14 2025 genus_modus_memory_dft/     [Scan Chain Stitched | 0 DFT Viols]
-drwxr-xr-x 6 narendaran asic_design  4096 Apr 10 2026 openlane_sky130_spm/        [OpenROAD/Yosys/Magic SKY130 GDSII]
--rw-r--r-- 1 narendaran asic_design  8420 Apr 18 2026 multi_master_arbiter.v      [ChipThink Finals RTL - x/JiD3]
--rw-r--r-- 1 narendaran asic_design  6140 May 14 2026 half_adder_4abstractions.sv [Synopsys VCS Switch-Level Verified]`,
-
-      gprs: `****************************************
-Report : qor (Design: gprs_top.nlib)
-Tool   : Synopsys IC Compiler II (icc2_shell)
-****************************************
-Cell Count (Initial -> Final) : 27,811 -> 33,286 Cells (16 Hard SRAM Macros)
-Core Area / Final Utilization : 391,605.41 um^2 / 66.25% (10 Metal Layers)
-Power Delivery Network (PDN)  : M8/M7/M2 mesh -> M1 rails (179 missing vias fixed -> 0 DRC)
-Clock Tree (mclk @ 4.0ns)     : 2,856 Sinks | Global Skew: 0.14 ns | Max Latency: 0.63 ns
-Routing & Signoff Closure     : 34 shorts resolved via route_eco -> 0 Opens, 0 Shorts, 0.00ns Setup WNS`,
-
-      fifo: `****************************************
-Report : clock_qor & route_opt (Design: asynchronous_fifo.nlib)
-Tool   : Synopsys IC Compiler II (icc2_shell)
-****************************************
-Core Area / Final Utilization : 2,065.43 um^2 / 68.41% (305 Final Cells, 97 DCAPs)
-wclk Domain (1.50ns, 80 sinks): Max Latency = 0.51 ns | Global Skew = 0.00 ns (M4-M5 dwds)
-rclk Domain (1.50ns, 24 sinks): Max Latency = 0.45 ns | Global Skew = 0.00 ns (M4-M5 dwds)
-Signoff Timing & DRC          : Setup WNS = +0.16 ns | Hold TNS = 0.00 ns | 0 DRC / 0 Shorts`,
-
-      arbiter: `$ vcs -full64 -sverilog multi_master_arbiter.v tb_arbiter.sv -R
-Chronologic VCS simulator copyright 1991-2026
-[SIM] Compiling offline ChipThink Hackathon Finals RTL...
-[PASS] Contention Test 1: CPU priority served immediately on cycle 1.
-[PASS] Contention Test 2: 8-cycle fairness counter triggered -> Forced grant switch to DMA/Peripheral.
-[PASS] Starvation prevented & debug state output verified. (edaplayground.com/x/JiD3)`,
-
-      innovus: `****************************************
-Report : timeDesign & routeDesign (Cadence Innovus)
-****************************************
-Standard Cell Placement : 53.189% density | Pre-CTS WNS  = +0.846 ns
-Clock Tree Synthesis    : 0.011 ns Skew   | Post-CTS WNS = +1.377 ns (optDesign)
-Detailed Signal Routing : 0.00% Routing Overflow (Clean track allocation)`,
-
-      dft: `****************************************
-Report : report_dft & scan_chains (Cadence Genus + Modus)
-****************************************
-Target Block     : Memory Block Synthesized Netlist
-Scan Methodology : Scan flip-flops stitched; Shift & Capture modes verified
-Signoff Result   : 0 DFT rule violations | Clean Area, Power & Timing (PPA) reports`,
-
-      openlane: `****************************************
-Flow   : OpenLane Automated 70+ Step RTL-to-GDSII (sky130_fd_sc_hd)
-Design : Serial-Parallel Multiplier (SPM)
-****************************************
-1. Synthesis & Linting : Yosys & Verilator clean
-2. Physical Design     : OpenROAD Floorplan, Tap/Filler insertion, PDN, Placement & CTS
-3. Polygon Signoff     : Final GDSII layout verified in Magic & KLayout`,
-
-      skills: `Commercial EDA : Synopsys ICC2, Design Compiler, Design Vision, VCS, PrimeTime | Cadence Innovus, Genus, Modus
-Open-Source    : OpenLane, OpenROAD, Yosys, Verilator, Magic, KLayout (SKY130 PDK)
-HDLs & Verif   : Verilog, SystemVerilog, UVM Fundamentals, Coverage-Driven Verification (CDV), Tcl`
-    };
-
-    const cmdAliases = {
-      'ls': 'ls -la',
-      'll': 'ls -la',
-      'dir': 'ls -la',
-      'uname': 'uname -a',
-      'report_qor': 'gprs',
-      'report_clock_qor': 'fifo',
-      'vcs': 'arbiter'
-    };
-
-    const cmdHistory = [];
-    let historyIdx = -1;
-
-    function focusTerminalInput() {
-      document.getElementById('terminal-input')?.focus();
-    }
-
-    function handleTerminalSubmit(e) {
-      if (e) e.preventDefault();
-      const input = document.getElementById('terminal-input');
-      const rawVal = input.value.trim();
-      if (!rawVal) return;
-      input.value = '';
-      executeCommand(rawVal);
-    }
-
-    function executeCommand(rawCmd) {
-      const log = document.getElementById('terminal-log');
-      const body = document.getElementById('terminal-body');
-      const cleanCmd = rawCmd.trim();
-      const lowerKey = cleanCmd.toLowerCase();
-
-      cmdHistory.push(cleanCmd);
-      historyIdx = cmdHistory.length;
-
-      if (lowerKey === 'clear' || lowerKey === 'cls') {
-        log.innerHTML = `<div class="text-slate-500"># Terminal buffer cleared. Type 'neofetch' or 'help'.</div>`;
-        body.scrollTop = body.scrollHeight;
-        return;
-      }
-
-      const resolvedKey = cmdAliases[lowerKey] || lowerKey;
-      const outputText = terminalCommands[resolvedKey] ||
-        `bash: ${cleanCmd}: command not found. Type 'help' or 'neofetch' for available commands.`;
-
-      const entry = document.createElement('div');
-      entry.className = 'space-y-1 pt-1 border-t border-slate-800/50';
-
-      const cmdLine = document.createElement('div');
-      cmdLine.innerHTML = `<span class="text-emerald-400 font-bold">narendaran@asic-node</span>:<span class="text-amber-300 font-bold">~/vlsi_workspace</span>$ <span class="text-white">${cleanCmd}</span>`;
-
-      const pre = document.createElement('pre');
-      pre.className = (terminalCommands[resolvedKey] ? 'text-emerald-300' : 'text-amber-400') + ' text-[11px] whitespace-pre-wrap leading-relaxed';
-
-      entry.appendChild(cmdLine);
-      entry.appendChild(pre);
-      log.appendChild(entry);
-
-      const lines = outputText.split('\n');
-      let idx = 0;
-      function streamNextLine() {
-        if (idx < lines.length) {
-          pre.textContent += (idx > 0 ? '\n' : '') + lines[idx];
-          idx++;
-          body.scrollTop = body.scrollHeight;
-          setTimeout(streamNextLine, 14);
-        }
-      }
-      streamNextLine();
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const input = document.getElementById('terminal-input');
-      if (input) {
-        input.addEventListener('keydown', (e) => {
-          if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            if (historyIdx > 0) {
-              historyIdx--;
-              input.value = cmdHistory[historyIdx];
-            }
-          } else if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            if (historyIdx < cmdHistory.length - 1) {
-              historyIdx++;
-              input.value = cmdHistory[historyIdx];
-            } else {
-              historyIdx = cmdHistory.length;
-              input.value = '';
-            }
-          } else if (e.key === 'Tab') {
-            e.preventDefault();
-            const partial = input.value.trim().toLowerCase();
-            if (!partial) return;
-            const match = Object.keys(terminalCommands).find(k => k.startsWith(partial));
-            if (match) input.value = match;
-          }
-        });
-      }
-      renderQorDashboard();
-    });
-
-    function filterProjects(category) {
-      document.querySelectorAll('.project-card').forEach(card => {
-        if (category === 'all' || card.dataset.category === category) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-
-      document.querySelectorAll('.proj-filter').forEach(btn => {
-        if (btn.dataset.filter === category) {
-          btn.className = "proj-filter px-3 py-1.5 rounded bg-metal-m5 text-silicon-950 font-bold transition";
-        } else {
-          btn.className = "proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition";
-        }
-      });
-    }
-
-    function openLightbox(src, caption) {
-      const modal = document.getElementById('lightbox-modal');
-      document.getElementById('lightbox-img').src = src;
-      document.getElementById('lightbox-caption').textContent = caption;
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeLightbox() {
-      const modal = document.getElementById('lightbox-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeLightbox();
-    });
-  </script>
 
   <!-- External Modular Engine & Data Scripts -->
   <script src="portfolio-data.js"></script>

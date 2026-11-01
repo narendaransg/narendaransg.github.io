@@ -310,15 +310,15 @@
   // ===========================================================================
   const baBlocks = {
     gprs: {
-      beforeImg: "assets/gprs_macro_flylines.jpg",
+      beforeImg: "assets/gprs_macro_flylines.webp",
       beforeLabel: "BEFORE: Floorplan & 16-Macro Flylines (21.18% Util)",
-      afterImg: "assets/gprs_routing.jpg",
+      afterImg: "assets/gprs_routing.webp",
       afterLabel: "AFTER: 10-Layer Detailed Route (66.25% Util, 0 Shorts)"
     },
     fifo: {
-      beforeImg: "assets/fifo_powerplan.png",
+      beforeImg: "assets/fifo_powerplan.webp",
       beforeLabel: "BEFORE: M7/M8 + M2 Power Delivery Mesh (0 PG DRC)",
-      afterImg: "assets/fifo_routing.png",
+      afterImg: "assets/fifo_routing.webp",
       afterLabel: "AFTER: Dual-CTS & Routed Layout (0 DRC, +0.16ns WNS)"
     }
   };
@@ -357,13 +357,13 @@
         </p>
 
         <div class="ba-slider-wrap" id="ba-slider-box">
-          <img id="ba-after-img" src="assets/gprs_routing.jpg" alt="After Routing" class="w-full h-full object-cover" />
+          <img id="ba-after-img" src="assets/gprs_routing.webp" alt="After Routing" class="w-full h-full object-cover" />
           <span id="ba-after-tag" class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-silicon-950/90 border border-metal-m3/50 text-[9.5px] font-mono text-metal-m3">
             AFTER: 10-Layer Detailed Route (0 Shorts)
           </span>
 
           <div id="ba-before-clip" class="ba-before-layer" style="width: 50%;">
-            <img id="ba-before-img" src="assets/gprs_macro_flylines.jpg" alt="Before Floorplan" class="w-full h-full object-cover max-w-none" />
+            <img id="ba-before-img" src="assets/gprs_macro_flylines.webp" alt="Before Floorplan" class="w-full h-full object-cover max-w-none" />
             <span id="ba-before-tag" class="absolute top-2 left-2 px-2 py-0.5 rounded bg-silicon-950/90 border border-metal-m5/50 text-[9.5px] font-mono text-metal-m5">
               BEFORE: Floorplan &amp; Macro Flylines
             </span>

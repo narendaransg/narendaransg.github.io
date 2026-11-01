@@ -8,6 +8,12 @@
   let currentBlock = 'gprs';
   let currentStage = 'floorplan';
   let transitionParticles = [];
+  // Respect the visitor's "reduce motion" system setting
+  const reducedMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+  const safeStore = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
 
   // 1. Theme Engine & Canvas Refresh
   window.applySiteTheme = function(theme) {
@@ -26,20 +32,21 @@
       if (iconEl) iconEl.innerHTML = '&#9789;';
       if (labelEl) labelEl.textContent = 'Dark';
     }
-    localStorage.setItem('narendaran_site_theme', theme);
+    safeStore.set('narendaran_site_theme', theme);
     const canvas = document.getElementById('asic-canvas');
     if (canvas && typeof canvas.triggerRedraw === 'function') canvas.triggerRedraw();
   };
 
   window.toggleSiteTheme = function() {
-    const current = localStorage.getItem('narendaran_site_theme') || 'dark';
+    const current = safeStore.get('narendaran_site_theme') || 'dark';
     applySiteTheme(current === 'dark' ? 'light' : 'dark');
   };
 
-  applySiteTheme(localStorage.getItem('narendaran_site_theme') || 'dark');
+  applySiteTheme(safeStore.get('narendaran_site_theme') || 'dark');
 
   // 2. View Router & Particle Bursts
   function spawnTransitionParticles(originX, originY) {
+    if (reducedMotion.matches) return;
     const colors = ['#F5B041', '#10B981', '#FFD166', '#F59E0B'];
     const cx = originX || window.innerWidth / 2;
     const cy = originY || 56;
@@ -118,6 +125,7 @@
     let rows = 0;
 
     const mouse = { x: -1000, y: -1000, active: false };
+    let rafId = null;
     let macros = [];
     let vias = [];
     let packets = [];
@@ -264,7 +272,7 @@
         });
       }
 
-      packets.forEach(p => {
+      if (!reducedMotion.matches) packets.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
         p.trail.push({ x: p.x, y: p.y });
@@ -328,15 +336,22 @@
         }
       }
 
-      requestAnimationFrame(updateAndDraw);
+      // Keep animating only when motion is allowed and the tab is visible
+      rafId = (!reducedMotion.matches && !document.hidden) ? requestAnimationFrame(updateAndDraw) : null;
     }
 
-    canvas.triggerRedraw = () => buildAsicGrid();
-    window.addEventListener('resize', buildAsicGrid);
+    function redraw() {
+      buildAsicGrid();
+      if (rafId === null) updateAndDraw();
+    }
+    canvas.triggerRedraw = redraw;
+    window.addEventListener('resize', redraw);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && rafId === null) updateAndDraw(); });
+    if (reducedMotion.addEventListener) reducedMotion.addEventListener('change', () => { if (rafId === null) updateAndDraw(); });
     window.addEventListener('mousemove', (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
-      mouse.active = true;
+      mouse.active = !reducedMotion.matches;
       if (coordReadout) {
         const umX = (e.clientX * 0.425).toFixed(2);
         const umY = ((height - e.clientY) * 0.425).toFixed(2);
@@ -778,6 +793,15 @@
     }
   };
 
+  // [Enlarge] button on the Physical Design view: open the current stage screenshot
+  window.openCurrentQorImage = function() {
+    const imgEl = document.getElementById('qor-stage-img');
+    const capEl = document.getElementById('qor-img-caption');
+    if (imgEl && imgEl.getAttribute('src') && imgEl.style.display !== 'none') {
+      openLightbox(imgEl.getAttribute('src'), capEl ? capEl.textContent : 'Layout View');
+    }
+  };
+
   window.closeLightbox = function() {
     const modal = document.getElementById('lightbox-modal');
     if (modal) {
@@ -789,4 +813,61 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeLightbox();
   });
+})();
+
+// Latest Updates strip on the Overview page, driven by updates.json
+(function initUpdatesStrip() {
+  const wrap = document.getElementById('updates-strip');
+  const list = document.getElementById('updates-list');
+  if (!wrap || !list || !window.fetch) return;
+
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const fmtDate = (d) => {
+    const [y, m, day] = String(d || '').split('-');
+    if (!y || !m) return d || '';
+    return (day ? Number(day) + ' ' : '') + months[Number(m) - 1] + ' ' + y;
+  };
+  const esc = (t) => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const views = ['home', 'qor', 'lab', 'projects', 'credentials'];
+
+  fetch('updates.json', { cache: 'no-cache' })
+    .then(r => (r.ok ? r.json() : null))
+    .then(data => {
+      const items = data && Array.isArray(data.updates) ? data.updates.slice(0, 4) : [];
+      if (!items.length) return;
+      list.innerHTML = items.map(u => {
+        const view = views.includes(u.view) ? u.view : null;
+        const link = view
+          ? `<button type="button" onclick="switchPageView('${view}', event)" class="mt-1 text-[11px] font-mono text-metal-m5 font-semibold hover:underline">Open &rarr;</button>`
+          : '';
+        return `
+          <li class="relative pl-4 border-l border-slate-800">
+            <span class="absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-metal-m3"></span>
+            <div class="text-[11px] font-mono text-slate-400">${esc(fmtDate(u.date))}</div>
+            <div class="text-sm font-semibold text-white">${esc(u.title)}</div>
+            <div class="text-xs text-slate-400 leading-relaxed">${esc(u.summary)}</div>
+            ${link}
+          </li>`;
+      }).join('');
+      wrap.classList.remove('hidden');
+    })
+    .catch(() => {});
+})();
+
+// Deep links: narendaransg.github.io/#qor opens the Physical Design view, etc.
+(function initHashRouting() {
+  const views = ['home', 'qor', 'lab', 'projects', 'credentials'];
+  const openFromHash = () => {
+    const key = (location.hash || '').replace('#', '');
+    if (views.includes(key) && typeof window.switchPageView === 'function') window.switchPageView(key);
+  };
+  const original = window.switchPageView;
+  if (typeof original === 'function') {
+    window.switchPageView = function(viewKey, evt) {
+      original.apply(this, arguments);
+      try { history.replaceState(null, '', viewKey === 'home' ? location.pathname : '#' + viewKey); } catch (e) {}
+    };
+  }
+  window.addEventListener('hashchange', openFromHash);
+  if (location.hash) window.addEventListener('load', openFromHash);
 })();

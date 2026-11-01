@@ -33,7 +33,7 @@ window.qorData = {
           ["I/O Ports", "103 (M5 West / M6 South)"],
           ["Port Legality", "0 Off-Track / 0 Illegal"]
         ],
-        img: "assets/gprs_macro_flylines.jpg",
+        img: "assets/gprs_macro_flylines.webp",
         caption: "My gprs_top Data-Flow Flylines & 16 SRAM Macro Orientation in icc2_shell",
         action: "I iterated macro placement over 10 times using data-flow flylines (compute_dff_connections) and placed soft blockages with 16 µm channel spacing so standard cells wouldn't get trapped between macros."
       },
@@ -53,7 +53,7 @@ window.qorData = {
           ["PG DRC / Shorts", "0 DRC / 0 Shorts"],
           ["DCAP Cells", "8,600 Placed"]
         ],
-        img: "assets/gprs_macro_flylines.jpg",
+        img: "assets/gprs_macro_flylines.webp",
         caption: "gprs_top — Floorplan & Power Planning Architecture",
         action: "My initial PG connectivity check flagged 179 missing vias. Instead of ignoring them, I used targeted add_vias commands to stitch every missing intersection and reach 0 PG violations."
       },
@@ -73,7 +73,7 @@ window.qorData = {
           ["Setup WNS / TNS", "0.00 ns / 0.00 ns"],
           ["TIEH / TIEL Cells", "76 TIEH / 121 TIEL"]
         ],
-        img: "assets/gprs_placement_density.jpg",
+        img: "assets/gprs_placement_density.webp",
         caption: "My gprs_top Cell Density Heatmap in ICC2 (62.39% Utilization)",
         action: "When I saw 13 max_transition and 303 high-capacitance net violations after initial placement, I resolved them using buffer insertion, net splitting, and cell upsizing while keeping Setup TNS at 0.00 ns."
       },
@@ -93,7 +93,7 @@ window.qorData = {
           ["Max Latency", "0.63 ns (Target: 0.60)"],
           ["Routing NDR", "M4–M5 (dwds)"]
         ],
-        img: "assets/gprs_placement_density.jpg",
+        img: "assets/gprs_placement_density.webp",
         caption: "gprs_top — Post-CTS Density & Clock Distribution",
         action: "By applying M4–M5 dwds Non-Default Routing rules, I locked global skew to 0.14 ns across 2,856 sinks and slashed Hold TNS from -227.91 ns down to just -0.46 ns."
       },
@@ -113,7 +113,7 @@ window.qorData = {
           ["Setup WNS / TNS", "0.00 ns / 0.00 ns"],
           ["Signoff Crosstalk", "0 Violations"]
         ],
-        img: "assets/gprs_routing.jpg",
+        img: "assets/gprs_routing.webp",
         caption: "My Final 10-Layer Detailed Route Layout for gprs_top (route_opt_done.design)",
         action: "Initial detailed routing left 34 routing shorts and 32 DRC violations. I ran targeted route_eco iterations to clear every short and closed residual slew/hold checks in PrimeTime."
       }
@@ -147,7 +147,7 @@ window.qorData = {
           ["Unplaced Ports", "0"],
           ["Off-Track Ports", "0 (100% Track Aligned)"]
         ],
-        img: "assets/fifo_floorplan_ports.png",
+        img: "assets/fifo_floorplan_ports.webp",
         caption: "My 8-Bit Async FIFO Floorplan & M5 Port Placement (port_placement_done.design)",
         action: "By cleanly segregating input ports on the West and output ports on the East on M5 tracks, I prevented cross-chip signal detouring before placement even began."
       },
@@ -167,7 +167,7 @@ window.qorData = {
           ["PG Shorts", "0 Shorts"],
           ["DCAP Cells", "97 Physical Cells"]
         ],
-        img: "assets/fifo_powerplan.png",
+        img: "assets/fifo_powerplan.webp",
         caption: "My 8-Bit Async FIFO Multi-Layer Power Mesh (powerplan.design)",
         action: "When PG verification flagged 2 minimum-spacing via DRC violations, I modified the via definitions and sizing to achieve a 100% DRC-clean power grid."
       },
@@ -187,7 +187,7 @@ window.qorData = {
           ["Setup WNS", "+0.35 ns (Slack Met)"],
           ["Setup TNS", "0.00 ns"]
         ],
-        img: "assets/fifo_placement.png",
+        img: "assets/fifo_placement.webp",
         caption: "My 8-Bit Async FIFO Standard Cell Placement (placement_done.design)",
         action: "I achieved 0.00% vertical and horizontal congestion with +0.35 ns positive setup slack right out of placement, leaving ample headroom for dual-clock CTS."
       },
@@ -195,21 +195,21 @@ window.qorData = {
         title: "4. Dual Asynchronous Clock Tree Synthesis (wclk & rclk)",
         desc: "I synthesized independent buffered clock trees for wclk (1.50 ns period, 80 sinks) and rclk (1.50 ns period, 24 sinks) using 34 buffers and 18 inverters per domain on M4–M5 (dwds NDR).",
         bars: [
-          { label: "Dual-Domain Clock Skew Balancing", valText: "0.00 ns Global Skew", pct: 100, color: "bg-metal-m3" },
+          { label: "Per-Domain Clock Skew (wclk / rclk)", valText: "0.00 ns Each", pct: 100, color: "bg-metal-m3" },
           { label: "wclk Latency (0.51ns vs 0.60ns Target)", valText: "0.51 ns (Met)", pct: 85, color: "bg-metal-m5" },
           { label: "rclk Latency (0.45ns vs 0.60ns Target)", valText: "0.45 ns (Met)", pct: 75, color: "bg-metal-m8" }
         ],
         metrics: [
           ["wclk Latency", "0.51 ns (Target <= 0.60ns)"],
           ["rclk Latency", "0.45 ns (Target <= 0.60ns)"],
-          ["Global Skew", "0.00 ns (Target <= 0.225ns)"],
+          ["Skew (per domain)", "0.00 ns wclk / 0.00 ns rclk (Target <= 0.225ns)"],
           ["CTS Buffers / Inv", "34 Buffers / 18 Inverters"],
           ["Setup TNS", "0.00 ns (Clean)"],
           ["Hold TNS", "0.00 ns (Clean)"]
         ],
-        img: "assets/fifo_cts_tree.png",
+        img: "assets/fifo_cts_tree.webp",
         caption: "My 8-Bit Async FIFO Clock Tree Latency Graph (cts_completed.design)",
-        action: "Even though wclk drove 80 sequential sinks and rclk drove 24 sinks, I balanced both trees to 0.00 ns global skew and sub-0.51 ns latency with zero timing violations."
+        action: "Even though wclk drove 80 sequential sinks and rclk drove 24 sinks, I built each tree independently (the domains are asynchronous, so they are never skew-balanced against each other) and reached 0.00 ns skew within each domain, sub-0.51 ns latency, and zero timing violations."
       },
       routing: {
         title: "5. Detailed Routing & Clean DRC/Timing Signoff",
@@ -227,7 +227,7 @@ window.qorData = {
           ["Final Setup WNS", "+0.16 ns (Positive Slack)"],
           ["Final Setup/Hold TNS", "0.00 ns / 0.00 ns"]
         ],
-        img: "assets/fifo_routing.png",
+        img: "assets/fifo_routing.webp",
         caption: "My 8-Bit Async FIFO Final Routed Layout (route_opt_done.design)",
         action: "Closed full physical signoff with 0 shorts, 0 opens, 0 DRC violations, +0.16 ns positive Setup WNS, and 0.00 ns Hold TNS."
       }

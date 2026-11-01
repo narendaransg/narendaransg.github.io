@@ -1,0 +1,33 @@
+{
+  "_howto": "Add new entries at the TOP. Fields: id (unique, never change), date (YYYY-MM or YYYY-MM-DD), title, summary, view (home | qor | lab | projects | credentials, optional). Set \"linkedin\": true on an entry to have the GitHub Action share it on LinkedIn once (only if the LinkedIn secrets are configured).",
+  "updates": [
+    {
+      "id": "2026-05-half-adder-vcs",
+      "date": "2026-05",
+      "title": "4-abstraction Verilog half adder verified in Synopsys VCS",
+      "summary": "Dataflow, behavioral, gate-level and switch-level CMOS versions checked by one SystemVerilog testbench.",
+      "view": "projects"
+    },
+    {
+      "id": "2026-05-async-fifo-pd",
+      "date": "2026-05",
+      "title": "8-bit async FIFO taken to signoff in IC Compiler II",
+      "summary": "Separate wclk/rclk clock trees, 0 DRC and +0.16 ns setup WNS.",
+      "view": "qor"
+    },
+    {
+      "id": "2026-04-chipthink-finals",
+      "date": "2026-04",
+      "title": "ChipThink VLSI Hackathon finalist",
+      "summary": "Designed a multi-master bus arbiter with an 8-cycle anti-starvation counter, fully offline.",
+      "view": "lab"
+    },
+    {
+      "id": "2026-04-gprs-signoff",
+      "date": "2026-04",
+      "title": "gprs_top: 16-macro block routed clean",
+      "summary": "33,286 cells, 2,856-sink clock tree at 0.14 ns skew, 34 route shorts fixed with route_eco.",
+      "view": "qor"
+    }
+  ]
+}

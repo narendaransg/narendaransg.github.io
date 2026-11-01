@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Narendaran S G — VLSI & ASIC Resume</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="One-page resume of Narendaran S G: ASIC physical design, RTL design and verification, and DFT." />
+  <link rel="canonical" href="https://narendaransg.github.io/resume.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="tailwind.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -38,6 +41,7 @@
         margin: 0;
         padding: 5mm 8mm;
         box-shadow: none;
+        zoom: 0.93; /* keeps the resume on a single A4 page */
       }
       @page {
         size: A4;
@@ -56,6 +60,9 @@
       <span>1-Page ATS Semiconductor Resume</span>
     </div>
     <div class="flex items-center space-x-3">
+      <a href="Narendaran_S_G_Resume.pdf" download class="px-4 py-1.5 rounded border border-cyan-400/60 text-cyan-300 font-bold hover:bg-cyan-400/10 transition">
+        Download PDF
+      </a>
       <button onclick="window.print()" class="px-4 py-1.5 rounded bg-cyan-400 text-slate-950 font-bold hover:bg-cyan-300 transition">
         Save as PDF / Print (A4)
       </button>
@@ -69,7 +76,7 @@
     <header class="border-b-2 border-slate-900 pb-2 text-center">
       <h1 class="text-2xl font-bold tracking-tight text-slate-950 uppercase">Narendaran S G</h1>
       <p class="text-xs font-semibold text-blue-900 mt-0.5">
-        Final Year ECE Innovator &bull; ASIC Physical Design (Back-End) &bull; RTL Design &amp; Verification (Front-End) &bull; DFT
+        Final-Year ECE Student &bull; ASIC Physical Design (Back-End) &bull; RTL Design &amp; Verification (Front-End) &bull; DFT
       </p>
       <div class="flex flex-wrap justify-center gap-x-2.5 gap-y-0.5 text-[10px] text-slate-700 mt-1 mono">
         <span>Chennai, Tamil Nadu, India</span>
@@ -92,7 +99,7 @@
       <div class="flex justify-between items-baseline">
         <div>
           <span class="font-bold text-slate-950">Easwari Engineering College (SRM Group)</span>, Chennai, India
-          <div class="italic text-slate-700">Bachelor of Engineering (B.E.) in Electrical, Electronics and Communications Engineering (ECE)</div>
+          <div class="italic text-slate-700">Bachelor of Engineering (B.E.) in Electronics and Communication Engineering (ECE)</div>
         </div>
         <div class="text-right shrink-0">
           <div class="font-bold">Sep 2023 – Jul 2027</div>
@@ -104,7 +111,7 @@
           <span class="font-bold text-slate-950">Chettinad Vidyashram</span>, Chennai, India — <span class="italic text-slate-700">Higher Secondary School (Science Stream: PCM, Biotechnology)</span>
         </div>
         <div class="text-right shrink-0">
-          <span class="font-bold">Mar 2008 – May 2023</span> | <span class="font-semibold text-blue-900">Grade: 96%</span>
+          <span class="font-bold">Class XII, May 2023</span> | <span class="font-semibold text-blue-900">Grade: 96%</span>
         </div>
       </div>
     </section>
@@ -132,7 +139,7 @@
         <ul class="list-disc list-inside space-y-0.5 text-slate-800">
           <li>Implemented an end-to-end layout across a 2,065.428 &mu;m&sup2; core area (63.14% initial &rarr; 68.41% final utilization, 1 &mu;m core offset, 305 final cells) with 24 track-aligned M5 ports (West inputs, East outputs).</li>
           <li>Structured an M7/M8 top mesh (0.6 &mu;m width, 18 &mu;m pitch), M2 vertical straps (0.18 &mu;m width, 6 &mu;m pitch), and 0.06 &mu;m M1 rails with 97 DCAP and 2 TIEH cells, fixing 2 via spacing violations for 0 PG DRC and 0% placement congestion.</li>
-          <li>Balanced dual asynchronous clocks (<span class="mono text-[10px]">wclk</span>: 1.50 ns period, 80 sinks, 0.51 ns latency; <span class="mono text-[10px]">rclk</span>: 1.50 ns period, 24 sinks, 0.45 ns latency) with 34 buffers/18 inverters on M4–M5 (<span class="mono text-[10px]">dwds</span> NDR) achieving 0 ns global skew, 0 DRC/Shorts/Opens, +0.16 ns Setup WNS, and 0 ns Hold TNS.</li>
+          <li>Balanced dual asynchronous clocks (<span class="mono text-[10px]">wclk</span>: 1.50 ns period, 80 sinks, 0.51 ns latency; <span class="mono text-[10px]">rclk</span>: 1.50 ns period, 24 sinks, 0.45 ns latency) with 34 buffers/18 inverters on M4–M5 (<span class="mono text-[10px]">dwds</span> NDR) achieving 0 ns skew within each clock domain, 0 DRC/Shorts/Opens, +0.16 ns Setup WNS, and 0 ns Hold TNS.</li>
         </ul>
       </div>
 

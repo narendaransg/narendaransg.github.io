@@ -1,0 +1,61 @@
+name: Build site assets & share updates
+
+# On every push to main:
+#   1. rebuilds tailwind.css (so new Tailwind classes in your HTML/JS work)
+#   2. re-renders Narendaran_S_G_Resume.pdf when resume.html changed
+#   3. shares new updates.json entries marked "linkedin": true (only if LinkedIn secrets are set)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: site-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build Tailwind CSS
+        run: npx --yes tailwindcss@3 -i tailwind.src.css -o tailwind.css --minify
+
+      - name: Did resume.html change?
+        id: resume
+        run: |
+          if git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -qx 'resume.html' || [ ! -f Narendaran_S_G_Resume.pdf ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Render resume PDF
+        if: steps.resume.outputs.changed == 'true'
+        run: |
+          npm install --no-save playwright@1
+          npx playwright install --with-deps chromium
+          node scripts/build-resume-pdf.mjs
+
+      - name: Share new updates on LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: node scripts/post-linkedin.mjs
+
+      - name: Commit generated files
+        run: |
+          git add tailwind.css Narendaran_S_G_Resume.pdf .github/linkedin-posted.json
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Rebuild generated site files"
+            git push
+          fi

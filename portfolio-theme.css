@@ -252,3 +252,43 @@ html.light-theme #asic-canvas {
 ::-webkit-scrollbar-track { background: var(--bg-page); }
 ::-webkit-scrollbar-thumb { background: var(--gold-deep); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold-primary); }
+
+/* Inline code chips (replaces literal backticks in copy) */
+.code-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88em;
+  padding: 0.05em 0.35em;
+  border-radius: 4px;
+  background: rgba(245, 176, 65, 0.10);
+  border: 1px solid rgba(245, 176, 65, 0.22);
+  color: inherit;
+  white-space: nowrap;
+}
+html:not(.dark) .code-chip { background: rgba(154, 107, 19, 0.08); border-color: rgba(154, 107, 19, 0.25); }
+
+/* Phones: keep floating widgets out of the way of content */
+@media (max-width: 639px) {
+  #chip-style-switcher { display: none !important; }
+  #chip-mascot-root { bottom: 12px !important; right: 12px !important; }
+  #chip-mascot-btn { width: 46px !important; height: 46px !important; }
+  #mascot-greeting-pill { display: none !important; }
+  footer { padding-bottom: 72px !important; }
+}
+
+/* Respect the visitor's "reduce motion" system setting */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Catch every opacity variant of the silicon surfaces (e.g. bg-silicon-900/50 on the QoR table) */
+[class*="bg-silicon-950/"] { background-color: var(--bg-card-inner) !important; }
+[class*="bg-silicon-900/"] { background-color: var(--bg-card) !important; }
+[class*="bg-silicon-800/"] { background-color: var(--bg-pill) !important; }
+html.light-theme [class*="divide-slate-800"] > * + * { border-color: var(--border-subtle) !important; }
+html.light-theme [class*="bg-slate-900"], html.light-theme [class*="bg-slate-950"] { background-color: var(--bg-card-inner) !important; }
+h1 .code-chip, h2 .code-chip, h3 .code-chip { font-size: 0.78em; padding: 0 0.3em; vertical-align: 0.08em; }
