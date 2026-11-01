@@ -321,7 +321,7 @@
             <h3 class="text-lg sm:text-xl font-bold text-white">Explore My Core Engineering Workspaces</h3>
           </div>
           <button type="button" onclick="switchPageView('projects', event)" class="text-xs font-mono text-metal-m5 font-semibold hover:underline">
-            View All 9 Chronicles &rarr;
+            View All 10 Chronicles &rarr;
           </button>
         </div>
 
@@ -680,7 +680,7 @@
           </div>
 
           <div class="flex flex-wrap gap-1.5 font-mono text-xs" id="project-filters">
-            <button type="button" onclick="filterProjects('all')" data-filter="all" class="proj-filter px-3 py-1.5 rounded bg-metal-m5 font-bold transition">All (9)</button>
+            <button type="button" onclick="filterProjects('all')" data-filter="all" class="proj-filter px-3 py-1.5 rounded bg-metal-m5 font-bold transition">All (10)</button>
             <button type="button" onclick="filterProjects('pd')" data-filter="pd" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">Physical Design</button>
             <button type="button" onclick="filterProjects('rtl')" data-filter="rtl" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">RTL &amp; Verification</button>
             <button type="button" onclick="filterProjects('dft')" data-filter="dft" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">DFT &amp; Synthesis</button>
@@ -775,7 +775,33 @@
             </div>
           </article>
 
-          <!-- 5. Stripping Away Proprietary GUIs: OpenLane &amp; SKY130 RTL-to-GDSII -->
+          <!-- 5. EV Station Controller at ChipCraft 2.0 -->
+          <article data-category="rtl" data-id="ev-station-controller-at-chipcraft-2-0" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
+            <div class="space-y-3.5">
+              <div class="flex items-center justify-between gap-2 font-mono text-xs">
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m3 border border-metal-m3/40 font-semibold">Hackathon Project</span>
+                <span class="text-slate-400 shrink-0">Mar 2026</span>
+              </div>
+              <h3 class="text-lg font-bold text-white">EV Station Controller at ChipCraft 2.0</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Developed and synthesized a robust EV charging station controller during the ChipCraft 2.0 hackathon. The design integrates a PMU arbiter, smart FIFO, port timer unit, and toggle synchronization to handle complex state management and multi-clock domain data transfer.
+              </p>
+              <ul class="text-xs font-mono text-slate-300 space-y-1 border-t border-slate-800 pt-3">
+                <li>&bull; <span class="text-metal-m3 font-semibold">Result:</span> </li>
+                <li>&bull; Designed modular RTL using Verilog, including pmu_arbiter_fsm, ibmu_smart_fifo, and</li>
+                <li>&bull; Implemented cdc_toggle_sync for reliable Clock Domain Crossing (CDC) data integrity</li>
+                <li>&bull; Verified functionality using SystemVerilog testbenches (tb_ev_station.sv) and VCS simulations.</li>
+                <li>&bull; Performed RTL synthesis and generated area/timing/power reports using Synopsys Design Compiler.</li>
+              </ul>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+              <button type="button" onclick="openLightbox(&quot;assets/ev-station-controller-at-chipcraft-2-0-view-graph.webp&quot;, &quot;analyzed the waveform&quot;)" class="text-metal-m3 font-semibold hover:underline">View waveform &rarr;</button>
+              <span class="text-slate-400">Euphoria 2026, Kalasalingam Academy of Research and Education</span>
+              <span class="text-metal-m6 font-semibold">Participant</span>
+            </div>
+          </article>
+
+          <!-- 6. Stripping Away Proprietary GUIs: OpenLane &amp; SKY130 RTL-to-GDSII -->
           <article data-category="pd" data-id="openlane-sky130-spm" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between gap-2 font-mono text-xs">
@@ -793,7 +819,7 @@
             </div>
           </article>
 
-          <!-- 6. Achieving 0.00% Route Overflow &amp; 0.011 ns Skew in Cadence Innovus -->
+          <!-- 7. Achieving 0.00% Route Overflow &amp; 0.011 ns Skew in Cadence Innovus -->
           <article data-category="pd" data-id="cadence-innovus-flow" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between gap-2 font-mono text-xs">
@@ -810,7 +836,7 @@
             </div>
           </article>
 
-          <!-- 7. Making Silicon Testable: Memory Block DFT in Cadence Genus &amp; Modus -->
+          <!-- 8. Making Silicon Testable: Memory Block DFT in Cadence Genus &amp; Modus -->
           <article data-category="dft" data-id="memory-dft-genus-modus" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between gap-2 font-mono text-xs">
@@ -828,7 +854,7 @@
             </div>
           </article>
 
-          <!-- 8. My First Full Flow Milestone: PLL Design from RTL to Routing -->
+          <!-- 9. My First Full Flow Milestone: PLL Design from RTL to Routing -->
           <article data-category="pd" data-id="pll-rtl-to-routing" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between gap-2 font-mono text-xs">
@@ -846,7 +872,7 @@
             </div>
           </article>
 
-          <!-- 9. Where It Started: My Breadboard 4-Bit Fast Multiplier &amp; Barrel Shifter -->
+          <!-- 10. Where It Started: My Breadboard 4-Bit Fast Multiplier &amp; Barrel Shifter -->
           <article data-category="ic" data-id="breadboard-multiplier" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between gap-2 font-mono text-xs">

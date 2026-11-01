@@ -10,16 +10,40 @@
       "title": "Taming Dual Asynchronous Clocks: 8-Bit Async FIFO Physical Design",
       "summary": "In **Synopsys IC Compiler II**, I drove this layout across a 2,065.43 µm² core while keeping independent write (`wclk`) and read (`rclk`) domains completely isolated from crosstalk and skew.",
       "bullets": [
-        { "label": "Floorplan & PDN", "text": "24 M5 ports, 97 DCAPs, M7/M8 + M2 mesh (0 PG DRC).", "accent": "gold" },
-        { "label": "Dual CTS", "text": "`wclk` (80 sinks, 0.51ns) & `rclk` (24 sinks, 0.45ns), each at **0.00 ns skew**.", "accent": "gold" },
-        { "label": "Signoff", "text": "0 shorts, 0 opens, 0 DRC, +0.16 ns Setup WNS.", "accent": "emerald" }
+        {
+          "label": "Floorplan & PDN",
+          "text": "24 M5 ports, 97 DCAPs, M7/M8 + M2 mesh (0 PG DRC).",
+          "accent": "gold"
+        },
+        {
+          "label": "Dual CTS",
+          "text": "`wclk` (80 sinks, 0.51ns) & `rclk` (24 sinks, 0.45ns), each at **0.00 ns skew**.",
+          "accent": "gold"
+        },
+        {
+          "label": "Signoff",
+          "text": "0 shorts, 0 opens, 0 DRC, +0.16 ns Setup WNS.",
+          "accent": "emerald"
+        }
       ],
       "links": [
-        { "kind": "image", "label": "Inspect Layout", "target": "assets/fifo_routing.webp", "caption": "My 8-Bit Asynchronous FIFO Final Routed Layout (0 DRC, +0.16ns WNS)" },
-        { "kind": "qor", "label": "QoR Table", "target": "fifo" }
+        {
+          "kind": "image",
+          "label": "Inspect Layout",
+          "target": "assets/fifo_routing.webp",
+          "caption": "My 8-Bit Asynchronous FIFO Final Routed Layout (0 DRC, +0.16ns WNS)"
+        },
+        {
+          "kind": "qor",
+          "label": "QoR Table",
+          "target": "fifo"
+        }
       ],
       "tools": "",
-      "badge": { "text": "", "accent": "gold" }
+      "badge": {
+        "text": "",
+        "accent": "gold"
+      }
     },
     {
       "id": "gprs-top-pd",
@@ -30,16 +54,40 @@
       "title": "Conquering a 16-Macro Heavy Block: GPRS Physical Design (`gprs_top`)",
       "summary": "Transitioning `gprs_top` from **Design Compiler (`dc_shell`)** into **IC Compiler II (`icc2_shell`)**, I managed 27,811 initial cells (33,286 final) and 16 hard SRAM macros across 10 metal layers.",
       "bullets": [
-        { "label": "Core & Power", "text": "391,605.4 µm² core (66.25% final util); fixed 179 missing PG vias.", "accent": "gold" },
-        { "label": "CTS & Congestion", "text": "2,856 `mclk` sinks at 0.14 ns skew; 0.12% placement congestion.", "accent": "gold" },
-        { "label": "Signoff", "text": "Cleared 34 route shorts via `route_eco`; 0.00 ns Setup WNS/TNS.", "accent": "emerald" }
+        {
+          "label": "Core & Power",
+          "text": "391,605.4 µm² core (66.25% final util); fixed 179 missing PG vias.",
+          "accent": "gold"
+        },
+        {
+          "label": "CTS & Congestion",
+          "text": "2,856 `mclk` sinks at 0.14 ns skew; 0.12% placement congestion.",
+          "accent": "gold"
+        },
+        {
+          "label": "Signoff",
+          "text": "Cleared 34 route shorts via `route_eco`; 0.00 ns Setup WNS/TNS.",
+          "accent": "emerald"
+        }
       ],
       "links": [
-        { "kind": "image", "label": "View Layout", "target": "assets/gprs_routing.webp", "caption": "My gprs_top 10-Layer Detailed Route & SRAM Macro Signoff in Synopsys ICC2" },
-        { "kind": "qor", "label": "QoR Table", "target": "gprs" }
+        {
+          "kind": "image",
+          "label": "View Layout",
+          "target": "assets/gprs_routing.webp",
+          "caption": "My gprs_top 10-Layer Detailed Route & SRAM Macro Signoff in Synopsys ICC2"
+        },
+        {
+          "kind": "qor",
+          "label": "QoR Table",
+          "target": "gprs"
+        }
       ],
       "tools": "",
-      "badge": { "text": "", "accent": "gold" }
+      "badge": {
+        "text": "",
+        "accent": "gold"
+      }
     },
     {
       "id": "chipthink-bus-arbiter",
@@ -50,14 +98,29 @@
       "title": "Zero Internet, Pure RTL: My Multi-Master Bus Arbiter at ChipThink Finals",
       "summary": "At the **ChipThink VLSI Hackathon** (Maven Silicon & IEEE), my teammates and I designed and verified a deterministic Verilog Bus Arbiter for CPU, DMA, and Peripheral masters completely offline.",
       "bullets": [
-        { "label": "Anti-Starvation", "text": "8-clock-cycle fairness counter forces priority rotation if DMA/Peripherals wait continuously.", "accent": "emerald" },
-        { "label": "Verified", "text": "Live hardware debug state tracking across all contention cases.", "accent": "emerald" }
+        {
+          "label": "Anti-Starvation",
+          "text": "8-clock-cycle fairness counter forces priority rotation if DMA/Peripherals wait continuously.",
+          "accent": "emerald"
+        },
+        {
+          "label": "Verified",
+          "text": "Live hardware debug state tracking across all contention cases.",
+          "accent": "emerald"
+        }
       ],
       "links": [
-        { "kind": "url", "label": "EDA Playground (x/JiD3)", "target": "https://edaplayground.com/x/JiD3" }
+        {
+          "kind": "url",
+          "label": "EDA Playground (x/JiD3)",
+          "target": "https://edaplayground.com/x/JiD3"
+        }
       ],
       "tools": "",
-      "badge": { "text": "", "accent": "emerald" }
+      "badge": {
+        "text": "",
+        "accent": "emerald"
+      }
     },
     {
       "id": "half-adder-vcs",
@@ -69,10 +132,66 @@
       "summary": "Built a combinational half adder across Dataflow (`assign`), Behavioral (`always @(*)`), Gate-Level, and Switch-Level CMOS (`pmos`/`nmos` wired to `VDD`/`VSS`), verified simultaneously via a SystemVerilog testbench (`tb_top`) in **Synopsys VCS**.",
       "bullets": [],
       "links": [
-        { "kind": "url", "label": "GitHub Repo", "target": "https://github.com/narendaransg/half-adders-at-different-forms" }
+        {
+          "kind": "url",
+          "label": "GitHub Repo",
+          "target": "https://github.com/narendaransg/half-adders-at-different-forms"
+        }
       ],
       "tools": "",
-      "badge": { "text": "", "accent": "emerald" }
+      "badge": {
+        "text": "",
+        "accent": "emerald"
+      }
+    },
+    {
+      "id": "ev-station-controller-at-chipcraft-2-0",
+      "category": "rtl",
+      "tag": "Hackathon Project",
+      "accent": "emerald",
+      "date": "Mar 2026",
+      "title": "EV Station Controller at ChipCraft 2.0",
+      "summary": "Developed and synthesized a robust EV charging station controller during the ChipCraft 2.0 hackathon. The design integrates a PMU arbiter, smart FIFO, port timer unit, and toggle synchronization to handle complex state management and multi-clock domain data transfer.",
+      "bullets": [
+        {
+          "label": "Result",
+          "text": "",
+          "accent": "emerald"
+        },
+        {
+          "label": "",
+          "text": "Designed modular RTL using Verilog, including pmu_arbiter_fsm, ibmu_smart_fifo, and",
+          "accent": "emerald"
+        },
+        {
+          "label": "",
+          "text": "Implemented cdc_toggle_sync for reliable Clock Domain Crossing (CDC) data integrity",
+          "accent": "emerald"
+        },
+        {
+          "label": "",
+          "text": "Verified functionality using SystemVerilog testbenches (tb_ev_station.sv) and VCS simulations.",
+          "accent": "emerald"
+        },
+        {
+          "label": "",
+          "text": "Performed RTL synthesis and generated area/timing/power reports using Synopsys Design Compiler.",
+          "accent": "emerald"
+        }
+      ],
+      "links": [
+        {
+          "kind": "image",
+          "label": "View waveform",
+          "target": "assets/ev-station-controller-at-chipcraft-2-0-view-graph.webp",
+          "caption": "analyzed the waveform"
+        }
+      ],
+      "tools": "Euphoria 2026, Kalasalingam Academy of Research and Education",
+      "badge": {
+        "text": "Participant",
+        "accent": "bright"
+      }
     },
     {
       "id": "openlane-sky130-spm",
@@ -85,7 +204,10 @@
       "bullets": [],
       "links": [],
       "tools": "OpenROAD / Yosys / Magic",
-      "badge": { "text": "SKY130 GDSII Clean", "accent": "gold" }
+      "badge": {
+        "text": "SKY130 GDSII Clean",
+        "accent": "gold"
+      }
     },
     {
       "id": "cadence-innovus-flow",
@@ -97,10 +219,18 @@
       "summary": "Placed standard cells at 53.189% density (Pre-CTS WNS: +0.846 ns), balanced the clock tree to **0.011 ns skew** (boosting Post-CTS WNS to +1.377 ns), and completed routing with **0.00% overflow**.",
       "bullets": [],
       "links": [
-        { "kind": "image", "label": "View Cadence Certificate", "target": "assets/cert_cadence.webp", "caption": "My Certificate — Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)" }
+        {
+          "kind": "image",
+          "label": "View Cadence Certificate",
+          "target": "assets/cert_cadence.webp",
+          "caption": "My Certificate — Workshop on Physical Design using Cadence Tools (7–8 Nov 2025)"
+        }
       ],
       "tools": "",
-      "badge": { "text": "", "accent": "gold" }
+      "badge": {
+        "text": "",
+        "accent": "gold"
+      }
     },
     {
       "id": "memory-dft-genus-modus",
@@ -113,7 +243,10 @@
       "bullets": [],
       "links": [],
       "tools": "Cadence Genus + Modus",
-      "badge": { "text": "Scan Verified ✓", "accent": "emerald" }
+      "badge": {
+        "text": "Scan Verified ✓",
+        "accent": "emerald"
+      }
     },
     {
       "id": "pll-rtl-to-routing",
@@ -126,7 +259,10 @@
       "bullets": [],
       "links": [],
       "tools": "Synopsys Design Vision / ICC",
-      "badge": { "text": "Pre-Layout Verified ✓", "accent": "emerald" }
+      "badge": {
+        "text": "Pre-Layout Verified ✓",
+        "accent": "emerald"
+      }
     },
     {
       "id": "breadboard-multiplier",
@@ -138,10 +274,18 @@
       "summary": "Built a discrete IC 4-bit binary multiplier (`15 × 15 = 225 / 11100001₂`) on a breadboard using AND gate arrays and 4-bit full adders, paired with RTL synthesis analysis of an 8-bit combinatorial Barrel Shifter.",
       "bullets": [],
       "links": [
-        { "kind": "image", "label": "See Hardware Build", "target": "assets/ic_multiplier.webp", "caption": "My Breadboard 4-Bit Binary Fast Multiplier (15 x 15 = 225 / 11100001)" }
+        {
+          "kind": "image",
+          "label": "See Hardware Build",
+          "target": "assets/ic_multiplier.webp",
+          "caption": "My Breadboard 4-Bit Binary Fast Multiplier (15 x 15 = 225 / 11100001)"
+        }
       ],
       "tools": "ALU Foundations",
-      "badge": { "text": "", "accent": "gold" }
+      "badge": {
+        "text": "",
+        "accent": "gold"
+      }
     }
   ],
   "certifications": [
