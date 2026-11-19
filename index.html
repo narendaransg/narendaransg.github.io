@@ -321,7 +321,7 @@
             <h3 class="text-lg sm:text-xl font-bold text-white">Explore My Core Engineering Workspaces</h3>
           </div>
           <button type="button" onclick="switchPageView('projects', event)" class="text-xs font-mono text-metal-m5 font-semibold hover:underline">
-            View All 11 Chronicles &rarr;
+            View All 10 Chronicles &rarr;
           </button>
         </div>
 
@@ -680,7 +680,7 @@
           </div>
 
           <div class="flex flex-wrap gap-1.5 font-mono text-xs" id="project-filters">
-            <button type="button" onclick="filterProjects('all')" data-filter="all" class="proj-filter px-3 py-1.5 rounded bg-metal-m5 font-bold transition">All (11)</button>
+            <button type="button" onclick="filterProjects('all')" data-filter="all" class="proj-filter px-3 py-1.5 rounded bg-metal-m5 font-bold transition">All (10)</button>
             <button type="button" onclick="filterProjects('pd')" data-filter="pd" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">Physical Design</button>
             <button type="button" onclick="filterProjects('rtl')" data-filter="rtl" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">RTL &amp; Verification</button>
             <button type="button" onclick="filterProjects('dft')" data-filter="dft" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">DFT &amp; Synthesis</button>
@@ -887,28 +887,6 @@
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
               <button type="button" onclick="openLightbox(&quot;assets/ic_multiplier.webp&quot;, &quot;My Breadboard 4-Bit Binary Fast Multiplier (15 x 15 = 225 / 11100001)&quot;)" class="text-metal-m8 font-semibold hover:underline">See Hardware Build &rarr;</button>
               <span class="text-slate-400">ALU Foundations</span>
-            </div>
-          </article>
-
-          <!-- 11. New Physical Design Block: Floorplan, CTS &amp; Signoff -->
-          <article data-category="pd" data-id="new-pd-block" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
-            <div class="space-y-3.5">
-              <div class="flex items-center justify-between gap-2 font-mono text-xs">
-                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">BACK-END PD - ICC2</span>
-                <span class="text-slate-400 shrink-0">2026</span>
-              </div>
-              <h3 class="text-lg font-bold text-white">New Physical Design Block: Floorplan, CTS &amp; Signoff</h3>
-              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Implemented in <strong class="text-white">Synopsys IC Compiler II</strong> with clean PDN, balanced clock skew, and signoff DRC/STA closure.
-              </p>
-              <ul class="text-xs font-mono text-slate-300 space-y-1 border-t border-slate-800 pt-3">
-                <li>&bull; <span class="text-metal-m5 font-semibold">Floorplan &amp; PDN:</span> Core utilization, metal straps, and DCAP insertion.</li>
-                <li>&bull; <span class="text-metal-m3 font-semibold">CTS &amp; Routing:</span> Target clock skew, NDR rules, and post-ECO shorts.</li>
-              </ul>
-            </div>
-            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-              <span class="text-slate-400">Synopsys ICC2</span>
-              <span class="text-metal-m3 font-semibold">DRC Clean</span>
             </div>
           </article>
           <!-- content:projects:end -->
