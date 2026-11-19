@@ -369,3 +369,11 @@ Design : Serial-Parallel Multiplier (SPM)
 Open-Source    : OpenLane, OpenROAD, Yosys, Verilator, Magic, KLayout (SKY130 PDK)
 HDLs & Verif   : Verilog, SystemVerilog, UVM Fundamentals, Coverage-Driven Verification (CDV), Tcl`
 };
+
+Object.assign(window.terminalCommands || {}, {
+  'sudo tapeout': "[sudo] password for narendaran: ********\n[GDSII] Streaming OASIS/GDSII polygons...\n[DRC]   0 errors | [LVS] 100% match | [ANTENNA] Clean\n[FOUNDRY] Tapeout reticle locked!",
+  drc_check: "[DRC SCAN] M1..M8, VIA1..VIA7, POLY, DIFF -> 0 violations found.",
+  skew_hunt: "[CLOCK PROBE] 0.00 ns per-domain skew (FIFO) | 0.14 ns skew across 2,856 sinks (gprs_top).",
+  gdsii: "GDSII STREAM READY — Press Up Up Down Down Left Right Left Right for Golden GDS override.",
+  exit: "Session stays open until setup and hold slack both close."
+});

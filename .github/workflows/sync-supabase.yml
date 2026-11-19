@@ -1,0 +1,53 @@
+name: Sync Supabase drafts to site
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Optional sync note from admin UI"
+        required: false
+        default: "Admin publish sync"
+
+permissions:
+  contents: write
+
+jobs:
+  sync_and_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Pull approved Supabase drafts & render cards
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: python3 scripts/sync_supabase.py
+
+      - name: Rebuild Tailwind CSS
+        run: npx --yes tailwindcss@3 -i tailwind.src.css -o tailwind.css --minify
+
+      - name: Share new updates on LinkedIn
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: node scripts/post-linkedin.mjs
+
+      - name: Commit synced site files
+        run: |
+          git add content.json updates.json index.html tailwind.css .github/linkedin-posted.json
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Sync Supabase portfolio drafts"
+            git push
+          fi
