@@ -321,7 +321,7 @@
             <h3 class="text-lg sm:text-xl font-bold text-white">Explore My Core Engineering Workspaces</h3>
           </div>
           <button type="button" onclick="switchPageView('projects', event)" class="text-xs font-mono text-metal-m5 font-semibold hover:underline">
-            View All 1 Chronicles &rarr;
+            View All 10 Chronicles &rarr;
           </button>
         </div>
 
@@ -680,7 +680,7 @@
           </div>
 
           <div class="flex flex-wrap gap-1.5 font-mono text-xs" id="project-filters">
-            <button type="button" onclick="filterProjects('all')" data-filter="all" class="proj-filter px-3 py-1.5 rounded bg-metal-m5 font-bold transition">All (1)</button>
+            <button type="button" onclick="filterProjects('all')" data-filter="all" class="proj-filter px-3 py-1.5 rounded bg-metal-m5 font-bold transition">All (10)</button>
             <button type="button" onclick="filterProjects('pd')" data-filter="pd" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">Physical Design</button>
             <button type="button" onclick="filterProjects('rtl')" data-filter="rtl" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">RTL &amp; Verification</button>
             <button type="button" onclick="filterProjects('dft')" data-filter="dft" class="proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition">DFT &amp; Synthesis</button>
@@ -691,25 +691,202 @@
         <!-- Project cards are generated from content.json by scripts/build_content.py -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
           <!-- content:projects:start -->
-          <!-- 1. New Physical Design Block: Floorplan, CTS &amp; Signoff -->
-          <article data-category="pd" data-id="new-pd-block" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
+          <!-- 1. Taming Dual Asynchronous Clocks: 8-Bit Async FIFO Physical Design -->
+          <article data-category="pd" data-id="async-fifo-pd" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
             <div class="space-y-3.5">
               <div class="flex items-center justify-between gap-2 font-mono text-xs">
-                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">BACK-END PD - ICC2</span>
-                <span class="text-slate-400 shrink-0">2026</span>
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">BACK-END PD • ICC2</span>
+                <span class="text-slate-400 shrink-0">Apr – May 2026</span>
               </div>
-              <h3 class="text-lg font-bold text-white">New Physical Design Block: Floorplan, CTS &amp; Signoff</h3>
+              <h3 class="text-lg font-bold text-white">Taming Dual Asynchronous Clocks: 8-Bit Async FIFO Physical Design</h3>
               <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Implemented in <strong class="text-white">Synopsys IC Compiler II</strong> with clean PDN, balanced clock skew, and signoff DRC/STA closure.
+                In <strong class="text-white">Synopsys IC Compiler II</strong>, I drove this layout across a 2,065.43 µm² core while keeping independent write (<code class="code-chip">wclk</code>) and read (<code class="code-chip">rclk</code>) domains completely isolated from crosstalk and skew.
               </p>
               <ul class="text-xs font-mono text-slate-300 space-y-1 border-t border-slate-800 pt-3">
-                <li>&bull; <span class="text-metal-m5 font-semibold">Floorplan &amp; PDN:</span> Core utilization, metal straps, and DCAP insertion.</li>
-                <li>&bull; <span class="text-metal-m3 font-semibold">CTS &amp; Routing:</span> Target clock skew, NDR rules, and post-ECO shorts.</li>
+                <li>&bull; <span class="text-metal-m5 font-semibold">Floorplan &amp; PDN:</span> 24 M5 ports, 97 DCAPs, M7/M8 + M2 mesh (0 PG DRC).</li>
+                <li>&bull; <span class="text-metal-m5 font-semibold">Dual CTS:</span> <code class="code-chip">wclk</code> (80 sinks, 0.51ns) &amp; <code class="code-chip">rclk</code> (24 sinks, 0.45ns), each at <strong class="text-white">0.00 ns skew</strong>.</li>
+                <li>&bull; <span class="text-metal-m3 font-semibold">Signoff:</span> 0 shorts, 0 opens, 0 DRC, +0.16 ns Setup WNS.</li>
               </ul>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-              <span class="text-slate-400">Synopsys ICC2</span>
-              <span class="text-metal-m3 font-semibold">DRC Clean</span>
+              <button type="button" onclick="openLightbox(&quot;assets/fifo_routing.webp&quot;, &quot;My 8-Bit Asynchronous FIFO Final Routed Layout (0 DRC, +0.16ns WNS)&quot;)" class="text-metal-m5 font-semibold hover:underline">Inspect Layout &rarr;</button>
+              <button type="button" onclick="switchPageView('qor', event); switchQorBlock(&quot;fifo&quot;);" class="text-slate-400 hover:text-white">QoR Table &nearr;</button>
+            </div>
+          </article>
+
+          <!-- 2. Conquering a 16-Macro Heavy Block: GPRS Physical Design (`gprs_top`) -->
+          <article data-category="pd" data-id="gprs-top-pd" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
+            <div class="space-y-3.5">
+              <div class="flex items-center justify-between gap-2 font-mono text-xs">
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">BACK-END PD • ICC2</span>
+                <span class="text-slate-400 shrink-0">Apr 2026</span>
+              </div>
+              <h3 class="text-lg font-bold text-white">Conquering a 16-Macro Heavy Block: GPRS Physical Design (<code class="code-chip">gprs_top</code>)</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Transitioning <code class="code-chip">gprs_top</code> from <strong class="text-white">Design Compiler (<code class="code-chip">dc_shell</code>)</strong> into <strong class="text-white">IC Compiler II (<code class="code-chip">icc2_shell</code>)</strong>, I managed 27,811 initial cells (33,286 final) and 16 hard SRAM macros across 10 metal layers.
+              </p>
+              <ul class="text-xs font-mono text-slate-300 space-y-1 border-t border-slate-800 pt-3">
+                <li>&bull; <span class="text-metal-m5 font-semibold">Core &amp; Power:</span> 391,605.4 µm² core (66.25% final util); fixed 179 missing PG vias.</li>
+                <li>&bull; <span class="text-metal-m5 font-semibold">CTS &amp; Congestion:</span> 2,856 <code class="code-chip">mclk</code> sinks at 0.14 ns skew; 0.12% placement congestion.</li>
+                <li>&bull; <span class="text-metal-m3 font-semibold">Signoff:</span> Cleared 34 route shorts via <code class="code-chip">route_eco</code>; 0.00 ns Setup WNS/TNS.</li>
+              </ul>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+              <button type="button" onclick="openLightbox(&quot;assets/gprs_routing.webp&quot;, &quot;My gprs_top 10-Layer Detailed Route &amp; SRAM Macro Signoff in Synopsys ICC2&quot;)" class="text-metal-m5 font-semibold hover:underline">View Layout &rarr;</button>
+              <button type="button" onclick="switchPageView('qor', event); switchQorBlock(&quot;gprs&quot;);" class="text-slate-400 hover:text-white">QoR Table &nearr;</button>
+            </div>
+          </article>
+
+          <!-- 3. Zero Internet, Pure RTL: My Multi-Master Bus Arbiter at ChipThink Finals -->
+          <article data-category="rtl" data-id="chipthink-bus-arbiter" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
+            <div class="space-y-3.5">
+              <div class="flex items-center justify-between gap-2 font-mono text-xs">
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m3 border border-metal-m3/40 font-semibold">RTL DESIGN • HACKATHON FINALIST</span>
+                <span class="text-slate-400 shrink-0">Apr 2026</span>
+              </div>
+              <h3 class="text-lg font-bold text-white">Zero Internet, Pure RTL: My Multi-Master Bus Arbiter at ChipThink Finals</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                At the <strong class="text-white">ChipThink VLSI Hackathon</strong> (Maven Silicon &amp; IEEE), my teammates and I designed and verified a deterministic Verilog Bus Arbiter for CPU, DMA, and Peripheral masters completely offline.
+              </p>
+              <ul class="text-xs font-mono text-slate-300 space-y-1 border-t border-slate-800 pt-3">
+                <li>&bull; <span class="text-metal-m3 font-semibold">Anti-Starvation:</span> 8-clock-cycle fairness counter forces priority rotation if DMA/Peripherals wait continuously.</li>
+                <li>&bull; <span class="text-metal-m3 font-semibold">Verified:</span> Live hardware debug state tracking across all contention cases.</li>
+              </ul>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+              <a href="https://edaplayground.com/x/JiD3" target="_blank" rel="noopener" class="text-metal-m3 font-semibold hover:underline flex items-center gap-1.5"><svg class="w-3.5 h-3.5 stroke-current" fill="none" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg><span>EDA Playground (x/JiD3) &nearr;</span></a>
+            </div>
+          </article>
+
+          <!-- 4. Peeling Back the Compiler: 4-Abstraction Verilog &amp; CMOS Switch Verification -->
+          <article data-category="rtl" data-id="half-adder-vcs" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
+            <div class="space-y-3.5">
+              <div class="flex items-center justify-between gap-2 font-mono text-xs">
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m3 border border-metal-m3/40 font-semibold">RTL &amp; VERIFICATION • VCS</span>
+                <span class="text-slate-400 shrink-0">May 2026</span>
+              </div>
+              <h3 class="text-lg font-bold text-white">Peeling Back the Compiler: 4-Abstraction Verilog &amp; CMOS Switch Verification</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Built a combinational half adder across Dataflow (<code class="code-chip">assign</code>), Behavioral (<code class="code-chip">always @(*)</code>), Gate-Level, and Switch-Level CMOS (<code class="code-chip">pmos</code>/<code class="code-chip">nmos</code> wired to <code class="code-chip">VDD</code>/<code class="code-chip">VSS</code>), verified simultaneously via a SystemVerilog testbench (<code class="code-chip">tb_top</code>) in <strong class="text-white">Synopsys VCS</strong>.
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+              <a href="https://github.com/narendaransg/half-adders-at-different-forms" target="_blank" rel="noopener" class="text-metal-m3 font-semibold hover:underline flex items-center gap-1.5"><svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" /></svg><span>GitHub Repo &nearr;</span></a>
+            </div>
+          </article>
+
+          <!-- 5. EV Station Controller at ChipCraft 2.0 -->
+          <article data-category="rtl" data-id="ev-station-controller-at-chipcraft-2-0" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
+            <div class="space-y-3.5">
+              <div class="flex items-center justify-between gap-2 font-mono text-xs">
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m3 border border-metal-m3/40 font-semibold">Hackathon Project</span>
+                <span class="text-slate-400 shrink-0">Mar 2026</span>
+              </div>
+              <h3 class="text-lg font-bold text-white">EV Station Controller at ChipCraft 2.0</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Developed and synthesized a robust EV charging station controller during the ChipCraft 2.0 hackathon. The design integrates a PMU arbiter, smart FIFO, port timer unit, and toggle synchronization to handle complex state management and multi-clock domain data transfer.
+              </p>
+              <ul class="text-xs font-mono text-slate-300 space-y-1 border-t border-slate-800 pt-3">
+                <li>&bull; <span class="text-metal-m3 font-semibold">Result:</span> </li>
+                <li>&bull; Designed modular RTL using Verilog, including pmu_arbiter_fsm, ibmu_smart_fifo, and</li>
+                <li>&bull; Implemented cdc_toggle_sync for reliable Clock Domain Crossing (CDC) data integrity</li>
+                <li>&bull; Verified functionality using SystemVerilog testbenches (tb_ev_station.sv) and VCS simulations.</li>
+                <li>&bull; Performed RTL synthesis and generated area/timing/power reports using Synopsys Design Compiler.</li>
+              </ul>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+              <button type="button" onclick="openLightbox(&quot;assets/ev-station-controller-at-chipcraft-2-0-view-graph.webp&quot;, &quot;analyzed the waveform&quot;)" class="text-metal-m3 font-semibold hover:underline">View waveform &rarr;</button>
+              <span class="text-slate-400">Euphoria 2026, Kalasalingam Academy of Research and Education</span>
+              <span class="text-metal-m6 font-semibold">Participant</span>
+            </div>
+          </article>
+
+          <!-- 6. Stripping Away Proprietary GUIs: OpenLane &amp; SKY130 RTL-to-GDSII -->
+          <article data-category="pd" data-id="openlane-sky130-spm" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
+            <div class="space-y-3.5">
+              <div class="flex items-center justify-between gap-2 font-mono text-xs">
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">OPEN-SOURCE RTL-TO-GDSII</span>
+                <span class="text-slate-400 shrink-0">Nov 2025 – Apr 2026</span>
+              </div>
+              <h3 class="text-lg font-bold text-white">Stripping Away Proprietary GUIs: OpenLane &amp; SKY130 RTL-to-GDSII</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Executed a 70+ step open-source physical realization pipeline for a <strong class="text-white">Serial-Parallel Multiplier (SPM)</strong> using Yosys, Verilator, OpenROAD, Magic, and KLayout in the <strong class="text-white">SkyWater 130nm (<code class="code-chip">sky130_fd_sc_hd</code>)</strong> PDK.
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+              <span class="text-slate-400">OpenROAD / Yosys / Magic</span>
+              <span class="text-metal-m5 font-semibold">SKY130 GDSII Clean</span>
+            </div>
+          </article>
+
+          <!-- 7. Achieving 0.00% Route Overflow &amp; 0.011 ns Skew in Cadence Innovus -->
+          <article data-category="pd" data-id="cadence-innovus-flow" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
+            <div class="space-y-3.5">
+              <div class="flex items-center justify-between gap-2 font-mono text-xs">
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m6 border border-metal-m6/40 font-semibold">BACK-END PD • CADENCE INNOVUS</span>
+                <span class="text-slate-400 shrink-0">Nov 2025</span>
+              </div>
+              <h3 class="text-lg font-bold text-white">Achieving 0.00% Route Overflow &amp; 0.011 ns Skew in Cadence Innovus</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Placed standard cells at 53.189% density (Pre-CTS WNS: +0.846 ns), balanced the clock tree to <strong class="text-white">0.011 ns skew</strong> (boosting Post-CTS WNS to +1.377 ns), and completed routing with <strong class="text-white">0.00% overflow</strong>.
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+              <button type="button" onclick="openLightbox(&quot;assets/cert_cadence.webp&quot;, &quot;My Certificate \u2014 Workshop on Physical Design using Cadence Tools (7\u20138 Nov 2025)&quot;)" class="text-metal-m6 font-semibold hover:underline">View Cadence Certificate &rarr;</button>
+            </div>
+          </article>
+
+          <!-- 8. Making Silicon Testable: Memory Block DFT in Cadence Genus &amp; Modus -->
+          <article data-category="dft" data-id="memory-dft-genus-modus" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
+            <div class="space-y-3.5">
+              <div class="flex items-center justify-between gap-2 font-mono text-xs">
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m8 border border-metal-m8/40 font-semibold">DFT &amp; SYNTHESIS • CADENCE GENUS</span>
+                <span class="text-slate-400 shrink-0">Nov 2025</span>
+              </div>
+              <h3 class="text-lg font-bold text-white">Making Silicon Testable: Memory Block DFT in Cadence Genus &amp; Modus</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Implemented scan-chain insertion, stitched scan flip-flops, validated shift/capture modes, and resolved DFT rule violations using the <strong class="text-white">Cadence Genus–Modus</strong> flow.
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+              <span class="text-slate-400">Cadence Genus + Modus</span>
+              <span class="text-metal-m3 font-semibold">Scan Verified ✓</span>
+            </div>
+          </article>
+
+          <!-- 9. My First Full Flow Milestone: PLL Design from RTL to Routing -->
+          <article data-category="pd" data-id="pll-rtl-to-routing" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
+            <div class="space-y-3.5">
+              <div class="flex items-center justify-between gap-2 font-mono text-xs">
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m5 border border-metal-m5/40 font-semibold">RTL-TO-ROUTING • SYNOPSYS</span>
+                <span class="text-slate-400 shrink-0">2025</span>
+              </div>
+              <h3 class="text-lg font-bold text-white">My First Full Flow Milestone: PLL Design from RTL to Routing</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Drove a Phase-Locked Loop (PLL) from RTL through Synthesis, Placement, CTS, Routing, and pre-layout functional simulation using <strong class="text-white">Synopsys Design Vision &amp; IC Compiler</strong> at the Centre for Chip Design Lab.
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+              <span class="text-slate-400">Synopsys Design Vision / ICC</span>
+              <span class="text-metal-m3 font-semibold">Pre-Layout Verified ✓</span>
+            </div>
+          </article>
+
+          <!-- 10. Where It Started: My Breadboard 4-Bit Fast Multiplier &amp; Barrel Shifter -->
+          <article data-category="ic" data-id="breadboard-multiplier" class="project-card rounded-xl p-5 sm:p-6 eda-border flex flex-col justify-between">
+            <div class="space-y-3.5">
+              <div class="flex items-center justify-between gap-2 font-mono text-xs">
+                <span class="px-2.5 py-0.5 rounded bg-silicon-800 text-metal-m8 border border-metal-m8/40 font-semibold">IC HARDWARE &amp; RTL SYNTHESIS</span>
+                <span class="text-slate-400 shrink-0">Oct 2024 – Nov 2025</span>
+              </div>
+              <h3 class="text-lg font-bold text-white">Where It Started: My Breadboard 4-Bit Fast Multiplier &amp; Barrel Shifter</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Built a discrete IC 4-bit binary multiplier (<code class="code-chip">15 × 15 = 225 / 11100001₂</code>) on a breadboard using AND gate arrays and 4-bit full adders, paired with RTL synthesis analysis of an 8-bit combinatorial Barrel Shifter.
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+              <button type="button" onclick="openLightbox(&quot;assets/ic_multiplier.webp&quot;, &quot;My Breadboard 4-Bit Binary Fast Multiplier (15 x 15 = 225 / 11100001)&quot;)" class="text-metal-m8 font-semibold hover:underline">See Hardware Build &rarr;</button>
+              <span class="text-slate-400">ALU Foundations</span>
             </div>
           </article>
           <!-- content:projects:end -->
@@ -790,14 +967,82 @@
       <!-- Verified Certification Cards (generated from content.json) -->
       <div id="cert-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- content:certifications:start -->
+        <div class="rounded-xl p-5 eda-border flex flex-col justify-between" data-id="pd-backend-vlsiminds">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2 font-mono text-xs text-metal-m5 font-semibold">
+              <span>VLSIMINDS • BENGALURU</span>
+              <span class="shrink-0">21 Apr 2026</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Physical Design – Back End</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Centre for Chip Design, Easwari Engineering College &amp; VLSIMINDS. Mastered floorplanning, PDN synthesis, congestion-aware placement, CTS skew balancing, and DRC/STA closure.
+            </p>
+          </div>
+          <button type="button" onclick="openLightbox(&quot;assets/cert_pd_backend.webp&quot;, &quot;My Certificate of Recognition \u2014 Physical Design Back End (VLSIMINDS &amp; EEC, 21 Apr 2026)&quot;)" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m5 font-semibold border border-metal-m5/40 transition">
+            View My Certificate &rarr;
+          </button>
+        </div>
 
+        <div class="rounded-xl p-5 eda-border flex flex-col justify-between" data-id="dv-frontend-vlsiminds">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2 font-mono text-xs text-metal-m3 font-semibold">
+              <span>VLSIMINDS • BENGALURU</span>
+              <span class="shrink-0">04 Feb 2026</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">VLSI Design Verification – Front End</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Easwari Engineering College &amp; VLSIMINDS. Built comprehensive test plans, OOP SystemVerilog testbenches, Coverage-Driven Verification (CDV), and UVM fundamentals.
+            </p>
+          </div>
+          <button type="button" onclick="openLightbox(&quot;assets/cert_dv_frontend.webp&quot;, &quot;My Certificate of Recognition \u2014 VLSI Design Verification Front End (VLSIMINDS &amp; EEC, 04 Feb 2026)&quot;)" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m3 font-semibold border border-metal-m3/40 transition">
+            View My Certificate &rarr;
+          </button>
+        </div>
+
+        <div class="rounded-xl p-5 eda-border flex flex-col justify-between" data-id="cadence-pd-workshop">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2 font-mono text-xs text-metal-m6 font-semibold">
+              <span>CENTRE FOR CHIP DESIGN</span>
+              <span class="shrink-0">07–08 Nov 2025</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Physical Design using Cadence Tools</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Hands-on workshop organized by the Dept. of ECE &amp; Centre for Chip Design at Easwari Engineering College training on Cadence Innovus and Genus flows.
+            </p>
+          </div>
+          <button type="button" onclick="openLightbox(&quot;assets/cert_cadence.webp&quot;, &quot;My Certificate of Participation \u2014 Two Day Workshop on Physical Design using Cadence Tools (7\u20138 Nov 2025)&quot;)" class="mt-4 w-full py-2 rounded bg-silicon-800 hover:opacity-90 font-mono text-xs text-metal-m6 font-semibold border border-metal-m6/40 transition">
+            View My Certificate &rarr;
+          </button>
+        </div>
         <!-- content:certifications:end -->
       </div>
 
       <!-- Exposure and Leadership Cards (generated from content.json) -->
       <div id="experience-grid" class="grid grid-cols-1 md:grid-cols-3 gap-5">
         <!-- content:experience:start -->
+        <div class="p-5 rounded-xl eda-border space-y-2" data-id="chipthink-finalist">
+          <div class="text-xs font-mono text-metal-m8 font-semibold">FINALIST • MAVEN SILICON &amp; IEEE (APR 2026)</div>
+          <h4 class="font-bold text-white">ChipThink VLSI Hackathon (TECHLETICS 4.0)</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Cleared Round 1 and competed in the offline finals at Christ College of Engineering, Irinjalakuda—designing synthesizable RTL from scratch with zero internet access.
+          </p>
+        </div>
 
+        <div class="p-5 rounded-xl eda-border space-y-2" data-id="chipcraft-2">
+          <div class="text-xs font-mono text-metal-m5 font-semibold">HARDWARE FORUM (APR 2026)</div>
+          <h4 class="font-bold text-white">CHIPCRAFT 2.0 — Kalasalingam Academy</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Benchmarked my hardware design methodologies against peers from across the region during the Euphoria Techno Management Meet.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-xl eda-border space-y-2" data-id="nokia-internship">
+          <div class="text-xs font-mono text-metal-m3 font-semibold">INDUSTRIAL INTERNSHIP (MAY – JUN 2025)</div>
+          <h4 class="font-bold text-white">Nokia — Factory Floor &amp; PCB Training</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Spent two months on the live factory floor at Nokia&#x27;s Sriperumbudur telecommunications facility, gaining exposure to industrial PCB workflows and manufacturing efficiency.
+          </p>
+        </div>
         <!-- content:experience:end -->
       </div>
 
