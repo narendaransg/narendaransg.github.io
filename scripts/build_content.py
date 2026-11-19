@@ -190,6 +190,19 @@ def validate(data, repo):
         check_id(e, w)
         need(e, w, "title", "label")
         check_accent(e.get("accent"), w)
+    for img_path in sorted((repo / "assets").glob("*")) if (repo / "assets").is_dir() else []:
+        pass
+    referenced = set()
+    for pr in data.get("projects", []):
+        for lnk in pr.get("links") or []:
+            if lnk.get("kind") == "image" and lnk.get("target"):
+                referenced.add(lnk["target"])
+    for ce in data.get("certifications", []):
+        if ce.get("image"):
+            referenced.add(ce["image"])
+    for ref in sorted(referenced):
+        if not ref.startswith(("http://", "https://")) and not (repo / ref).is_file():
+            problems.append(f"asset check: missing referenced asset '{ref}'")
     return problems
 
 

@@ -1,27 +1,47 @@
-/**
- * portfolio-engine.js (File 4 of 4)
- * Drives the interactive canvas background, Linux terminal, QoR telemetry tables,
- * 3D metal stack inspector, STA calculator, and sub-page view router.
- */
-
 (function initPortfolioEngine() {
   let currentBlock = 'gprs';
   let currentStage = 'floorplan';
   let transitionParticles = [];
-  // Respect the visitor's "reduce motion" system setting
+  let viewSwapTimer = null;
+  let viewShowTimer = null;
+
+  const VALID_VIEWS = ['home', 'qor', 'lab', 'projects', 'credentials'];
+  const THEMES = {
+    'gds-scope': { label: 'GDS + Scope', light: false, short: 'Scope' },
+    'eda-workstation': { label: 'EDA Unix', light: false, short: 'Unix' },
+    'obsidian-gold': { label: '24K Gold', light: false, short: 'Gold' },
+    'warm-ivory': { label: 'Ivory', light: true, short: 'Ivory' }
+  };
+
   const reducedMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
   const safeStore = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   };
 
-  // 1. Theme Engine & Canvas Refresh
-  window.applySiteTheme = function(theme) {
+  window.getAvailableThemes = function() { return THEMES; };
+  window.getCurrentTheme = function() {
+    const saved = safeStore.get('narendaran_site_theme');
+    return THEMES[saved] ? saved : 'gds-scope';
+  };
+
+  function syncThemeControls(themeKey) {
+    document.querySelectorAll('[data-theme-option]').forEach(btn => {
+      const active = btn.getAttribute('data-theme-option') === themeKey;
+      btn.classList.toggle('bg-metal-m5', active);
+      btn.classList.toggle('font-bold', active);
+    });
+  }
+
+  window.applySiteTheme = function(themeKey) {
+    const resolved = THEMES[themeKey] ? themeKey : 'gds-scope';
     const htmlEl = document.documentElement;
+    const isLight = Boolean(THEMES[resolved].light);
     const iconEl = document.getElementById('theme-icon');
     const labelEl = document.getElementById('theme-label');
-    
-    if (theme === 'light') {
+
+    htmlEl.setAttribute('data-theme', resolved);
+    if (isLight) {
       htmlEl.classList.add('light-theme');
       htmlEl.classList.remove('dark');
       if (iconEl) iconEl.innerHTML = '&#9728;';
@@ -30,88 +50,107 @@
       htmlEl.classList.remove('light-theme');
       htmlEl.classList.add('dark');
       if (iconEl) iconEl.innerHTML = '&#9789;';
-      if (labelEl) labelEl.textContent = 'Dark';
+      if (labelEl) labelEl.textContent = THEMES[resolved].short;
     }
-    safeStore.set('narendaran_site_theme', theme);
+
+    safeStore.set('narendaran_site_theme', resolved);
+    syncThemeControls(resolved);
     const canvas = document.getElementById('asic-canvas');
     if (canvas && typeof canvas.triggerRedraw === 'function') canvas.triggerRedraw();
+    document.dispatchEvent(new CustomEvent('vlsi:themechange', { detail: { theme: resolved, light: isLight } }));
   };
 
   window.toggleSiteTheme = function() {
-    const current = safeStore.get('narendaran_site_theme') || 'dark';
-    applySiteTheme(current === 'dark' ? 'light' : 'dark');
+    const order = Object.keys(THEMES);
+    const curr = window.getCurrentTheme();
+    const next = order[(order.indexOf(curr) + 1) % order.length];
+    window.applySiteTheme(next);
   };
 
-  applySiteTheme(safeStore.get('narendaran_site_theme') || 'dark');
+  function injectThemeSwitcherPill() {
+    if (document.getElementById('vlsi-theme-bar')) return;
+    const bar = document.createElement('div');
+    bar.id = 'vlsi-theme-bar';
+    bar.className = 'hidden sm:flex items-center gap-1 p-1 rounded-lg bg-silicon-900/90 border border-slate-800 text-[10px] shadow-lg';
+    bar.innerHTML = Object.entries(THEMES).map(([key, meta]) =>
+      `<button type="button" data-theme-option="${key}" class="px-2 py-1 rounded text-slate-300 hover:text-white transition">${meta.label}</button>`
+    ).join('');
+    document.body.appendChild(bar);
+    bar.querySelectorAll('[data-theme-option]').forEach(btn => {
+      btn.addEventListener('click', () => window.applySiteTheme(btn.getAttribute('data-theme-option')));
+    });
+    syncThemeControls(window.getCurrentTheme());
+  }
 
-  // 2. View Router & Particle Bursts
+  window.applySiteTheme(window.getCurrentTheme());
+
   function spawnTransitionParticles(originX, originY) {
     if (reducedMotion.matches || window.chipFxHandlesTransitions) return;
-    const colors = ['#F5B041', '#10B981', '#FFD166', '#F59E0B'];
+    const cs = getComputedStyle(document.documentElement);
+    const colors = [
+      cs.getPropertyValue('--gold-primary').trim() || '#39FF14',
+      cs.getPropertyValue('--emerald-pass').trim() || '#10B981',
+      cs.getPropertyValue('--gold-bright').trim() || '#38BDF8',
+      cs.getPropertyValue('--amber-warn').trim() || '#FACC15'
+    ];
     const cx = originX || window.innerWidth / 2;
     const cy = originY || 56;
-    for (let i = 0; i < 34; i++) {
-      const angle = (Math.PI * 2 * i) / 34 + (Math.random() - 0.5) * 0.3;
-      const speed = 2.5 + Math.random() * 6.5;
+    for (let i = 0; i < 28; i++) {
+      const angle = (Math.PI * 2 * i) / 28 + (Math.random() - 0.5) * 0.25;
+      const speed = 2.2 + Math.random() * 5.5;
       transitionParticles.push({
-        x: cx,
-        y: cy,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        size: 2 + Math.random() * 2.5,
-        alpha: 1,
+        x: cx, y: cy,
+        vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+        size: 2 + Math.random() * 2.2, alpha: 1,
         color: colors[i % colors.length]
       });
     }
   }
 
-  window.switchPageView = function(viewKey, evt) {
-    if (evt && evt.clientX) {
-      spawnTransitionParticles(evt.clientX, evt.clientY);
-    } else {
-      spawnTransitionParticles(window.innerWidth / 2, 54);
-    }
-
-    document.querySelectorAll('.app-view').forEach(sec => {
-      sec.classList.remove('view-visible');
-      setTimeout(() => {
-        if (sec.id !== 'view-' + viewKey) {
-          sec.classList.remove('active-view');
-        }
-      }, 160);
-    });
+  function commitViewChange(viewKey) {
+    if (!VALID_VIEWS.includes(viewKey)) return;
+    if (viewSwapTimer) clearTimeout(viewSwapTimer);
+    if (viewShowTimer) clearTimeout(viewShowTimer);
 
     const target = document.getElementById('view-' + viewKey);
-    if (target) {
-      setTimeout(() => {
-        document.querySelectorAll('.app-view').forEach(s => s.classList.remove('active-view'));
-        target.classList.add('active-view');
-        requestAnimationFrame(() => {
-          target.classList.add('view-visible');
-        });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        if (viewKey === 'qor') renderQorDashboard();
-      }, 165);
-    }
+    if (!target) return;
+
+    document.querySelectorAll('.app-view').forEach(sec => sec.classList.remove('view-visible'));
+
+    viewSwapTimer = setTimeout(() => {
+      document.querySelectorAll('.app-view').forEach(s => {
+        if (s.id !== 'view-' + viewKey) s.classList.remove('active-view');
+      });
+      target.classList.add('active-view');
+      viewShowTimer = requestAnimationFrame(() => target.classList.add('view-visible'));
+      window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+      if (viewKey === 'qor') renderQorDashboard();
+      try {
+        history.replaceState(null, '', viewKey === 'home' ? location.pathname : '#' + viewKey);
+      } catch (e) {}
+      document.dispatchEvent(new CustomEvent('vlsi:viewchange', { detail: { view: viewKey } }));
+    }, 120);
 
     document.querySelectorAll('.nav-tab-btn').forEach(btn => {
-      if (btn.getAttribute('data-view') === viewKey) {
-        btn.classList.add('active-nav');
-      } else {
-        btn.classList.remove('active-nav');
-      }
+      btn.classList.toggle('active-nav', btn.getAttribute('data-view') === viewKey);
     });
+  }
+
+  window.switchPageView = function(viewKey, evt) {
+    if (!VALID_VIEWS.includes(viewKey)) return;
+    const cx = evt && typeof evt.clientX === 'number' && evt.clientX > 0 ? evt.clientX : window.innerWidth / 2;
+    const cy = evt && typeof evt.clientY === 'number' && evt.clientY > 0 ? evt.clientY : 54;
+    spawnTransitionParticles(cx, cy);
+    commitViewChange(viewKey);
   };
 
   window.toggleMobileMenu = function(forceState) {
     const drawer = document.getElementById('mobile-nav-drawer');
     if (!drawer) return;
     const show = typeof forceState === 'boolean' ? forceState : drawer.classList.contains('hidden');
-    if (show) drawer.classList.remove('hidden');
-    else drawer.classList.add('hidden');
+    drawer.classList.toggle('hidden', !show);
   };
 
-  // 3. Background Routing Canvas Engine
   (function initInteractiveSiliconCanvas() {
     const canvas = document.getElementById('asic-canvas');
     if (!canvas) return;
@@ -126,7 +165,6 @@
 
     const mouse = { x: -1000, y: -1000, active: false };
     let rafId = null;
-    // Ambient motion settles down a few seconds after load so it never competes with content
     const ambientStart = performance.now();
     let lastMove = 0;
     let macros = [];
@@ -135,10 +173,10 @@
     let customTraceNodes = [];
 
     const layerColors = [
-      { name: 'M5', hex: '#F5B041', rgba: 'rgba(245, 176, 65, ' },
-      { name: 'M6', hex: '#FFD166', rgba: 'rgba(255, 209, 102, ' },
+      { name: 'M5', hex: '#39FF14', rgba: 'rgba(57, 255, 20, ' },
+      { name: 'M6', hex: '#38BDF8', rgba: 'rgba(56, 189, 248, ' },
       { name: 'M3', hex: '#10B981', rgba: 'rgba(16, 185, 129, ' },
-      { name: 'M8', hex: '#F59E0B', rgba: 'rgba(245, 158, 11, ' }
+      { name: 'M8', hex: '#FACC15', rgba: 'rgba(250, 204, 21, ' }
     ];
 
     function buildAsicGrid() {
@@ -150,26 +188,8 @@
       rows = Math.ceil(height / pitch);
 
       macros = [
-        {
-          x: pitch * 1,
-          y: pitch * 2.2,
-          w: pitch * 2.5,
-          h: pitch * 1.6,
-          label: 'SRAM_64x32_0',
-          family: 'M6/M5',
-          color: 'rgba(245, 176, 65, 0.04)',
-          border: 'rgba(245, 176, 65, 0.16)'
-        },
-        {
-          x: Math.max(pitch * 5, (cols - 3.5) * pitch),
-          y: pitch * 2.2,
-          w: pitch * 2.5,
-          h: pitch * 2,
-          label: 'GPRS_MEM_1',
-          family: 'ICC2',
-          color: 'rgba(16, 185, 129, 0.035)',
-          border: 'rgba(16, 185, 129, 0.16)'
-        }
+        { x: pitch * 1, y: pitch * 2.2, w: pitch * 2.5, h: pitch * 1.6, label: 'SRAM_64x32_0', color: 'rgba(57, 255, 20, 0.04)', border: 'rgba(57, 255, 20, 0.18)' },
+        { x: Math.max(pitch * 5, (cols - 3.5) * pitch), y: pitch * 2.2, w: pitch * 2.5, h: pitch * 2, label: 'GPRS_MEM_1', color: 'rgba(56, 189, 248, 0.04)', border: 'rgba(56, 189, 248, 0.18)' }
       ];
 
       vias = [];
@@ -179,9 +199,8 @@
         }
       }
 
-      const packetCount = Math.min(22, Math.max(12, Math.floor((width * height) / 64000)));
-      packets = [];
-      for (let i = 0; i < packetCount; i++) packets.push(createPacket());
+      const packetCount = Math.min(20, Math.max(10, Math.floor((width * height) / 72000)));
+      packets = Array.from({ length: packetCount }, createPacket);
     }
 
     function createPacket() {
@@ -189,160 +208,126 @@
       const horiz = Math.random() > 0.5;
       const c = Math.floor(Math.random() * cols);
       const r = Math.floor(Math.random() * rows);
-      const speed = 1.4 + Math.random() * 1.6;
+      const speed = 1.4 + Math.random() * 1.5;
       return {
-        x: c * pitch,
-        y: r * pitch,
+        x: c * pitch, y: r * pitch,
         vx: horiz ? (Math.random() > 0.5 ? speed : -speed) : 0,
         vy: !horiz ? (Math.random() > 0.5 ? speed : -speed) : 0,
-        layer: layer,
-        trail: [],
-        maxTrail: 16,
-        lastTurnGridX: -1,
-        lastTurnGridY: -1
+        layer, trail: [], maxTrail: 16, lastTurnGridX: -1, lastTurnGridY: -1
       };
     }
 
     function updateAndDraw() {
       ctx.clearRect(0, 0, width, height);
-      const isLight = document.documentElement.classList.contains('light-theme');
+      const theme = window.getCurrentTheme();
+      const isScope = theme === 'gds-scope';
+      const isLight = theme === 'warm-ivory';
+
+      const lineV = isScope ? 'rgba(56, 189, 248, 0.065)' : (isLight ? 'rgba(154, 107, 19, 0.035)' : 'rgba(245, 176, 65, 0.045)');
+      const lineH = isScope ? 'rgba(239, 68, 68, 0.065)' : (isLight ? 'rgba(4, 120, 87, 0.035)' : 'rgba(16, 185, 129, 0.04)');
 
       ctx.lineWidth = 1;
       for (let c = 0; c <= cols; c++) {
         const x = c * pitch;
-        ctx.strokeStyle = c % 4 === 0 
-          ? (isLight ? 'rgba(154, 107, 19, 0.04)' : 'rgba(245, 176, 65, 0.05)') 
-          : (isLight ? 'rgba(154, 107, 19, 0.018)' : 'rgba(212, 175, 55, 0.03)');
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, height);
-        ctx.stroke();
+        ctx.strokeStyle = lineV;
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
       }
       for (let r = 0; r <= rows; r++) {
         const y = r * pitch;
-        ctx.strokeStyle = r % 4 === 0 
-          ? (isLight ? 'rgba(4, 120, 87, 0.035)' : 'rgba(16, 185, 129, 0.045)') 
-          : (isLight ? 'rgba(180, 131, 39, 0.018)' : 'rgba(245, 158, 11, 0.03)');
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(width, y);
-        ctx.stroke();
+        ctx.strokeStyle = lineH;
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
       }
 
       if (width > 768) {
         ctx.font = '7.5px "JetBrains Mono", monospace';
         macros.forEach(m => {
-          ctx.fillStyle = isLight ? 'rgba(154, 107, 19, 0.03)' : m.color;
+          ctx.fillStyle = m.color;
           ctx.fillRect(m.x, m.y, m.w, m.h);
-          ctx.strokeStyle = isLight ? 'rgba(154, 107, 19, 0.12)' : m.border;
+          ctx.strokeStyle = m.border;
           ctx.lineWidth = 0.8;
           ctx.strokeRect(m.x, m.y, m.w, m.h);
-
-          ctx.fillStyle = isLight ? 'rgba(24, 24, 27, 0.28)' : 'rgba(212, 175, 55, 0.38)';
-          ctx.fillText(`${m.label}`, m.x + 6, m.y + 11);
+          ctx.fillStyle = isLight ? 'rgba(24, 24, 27, 0.35)' : 'rgba(226, 232, 240, 0.42)';
+          ctx.fillText(m.label, m.x + 6, m.y + 11);
         });
       }
 
       vias.forEach(v => {
-        ctx.fillStyle = isLight ? 'rgba(154, 107, 19, 0.1)' : 'rgba(245, 176, 65, 0.14)';
+        ctx.fillStyle = isScope ? 'rgba(250, 204, 21, 0.22)' : 'rgba(245, 176, 65, 0.15)';
         ctx.fillRect(v.x - 1.5, v.y - 1.5, 3, 3);
       });
 
       const amb = Math.max(0.3, 1 - Math.max(0, performance.now() - ambientStart - 6000) / 3000);
       const packetLimit = Math.ceil(packets.length * amb);
+
       if (mouse.active && performance.now() - lastMove < 140 && Math.random() < 0.4) {
         customTraceNodes.push({
-          x: mouse.x + (Math.random() - 0.5) * 25,
-          y: mouse.y + (Math.random() - 0.5) * 25,
+          x: mouse.x + (Math.random() - 0.5) * 24,
+          y: mouse.y + (Math.random() - 0.5) * 24,
           life: 1.0,
           color: layerColors[Math.floor(Math.random() * layerColors.length)].hex
         });
       }
 
       if (mouse.active) {
-        customTraceNodes.forEach((node, idx) => {
-          node.life -= 0.014;
+        for (let idx = customTraceNodes.length - 1; idx >= 0; idx--) {
+          const node = customTraceNodes[idx];
+          node.life -= 0.015;
           if (node.life <= 0) {
             customTraceNodes.splice(idx, 1);
           } else {
             ctx.lineWidth = 0.8;
             ctx.strokeStyle = node.color + Math.round(node.life * 28).toString(16).padStart(2, '0');
-            ctx.beginPath();
-            ctx.moveTo(mouse.x, mouse.y);
-            ctx.lineTo(node.x, node.y);
-            ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(mouse.x, mouse.y); ctx.lineTo(node.x, node.y); ctx.stroke();
             ctx.fillStyle = node.color;
             ctx.fillRect(node.x - 1, node.y - 1, 2, 2);
           }
+        }
+      }
+
+      if (!reducedMotion.matches) {
+        packets.forEach((p, idx) => {
+          if (idx >= packetLimit) return;
+          p.x += p.vx;
+          p.y += p.vy;
+          p.trail.push({ x: p.x, y: p.y });
+          if (p.trail.length > p.maxTrail) p.trail.shift();
+
+          const nearGridX = Math.round(p.x / pitch) * pitch;
+          const nearGridY = Math.round(p.y / pitch) * pitch;
+          if (Math.abs(p.x - nearGridX) < 2 && Math.abs(p.y - nearGridY) < 2 && (nearGridX !== p.lastTurnGridX || nearGridY !== p.lastTurnGridY)) {
+            if (Math.random() < 0.28) {
+              p.x = nearGridX; p.y = nearGridY;
+              p.lastTurnGridX = nearGridX; p.lastTurnGridY = nearGridY;
+              const speed = Math.max(Math.abs(p.vx), Math.abs(p.vy));
+              if (p.vx !== 0) { p.vx = 0; p.vy = Math.random() > 0.5 ? speed : -speed; }
+              else { p.vy = 0; p.vx = Math.random() > 0.5 ? speed : -speed; }
+            }
+          }
+
+          if (p.x < -30 || p.x > width + 30 || p.y < -30 || p.y > height + 30) Object.assign(p, createPacket());
+
+          for (let i = 1; i < p.trail.length; i++) {
+            const alpha = (i / p.trail.length) * (isLight ? 0.35 : 0.55) * amb;
+            ctx.strokeStyle = p.layer.rgba + alpha + ')';
+            ctx.lineWidth = 1.6;
+            ctx.beginPath(); ctx.moveTo(p.trail[i - 1].x, p.trail[i - 1].y); ctx.lineTo(p.trail[i].x, p.trail[i].y); ctx.stroke();
+          }
+          ctx.fillStyle = p.layer.hex;
+          ctx.fillRect(p.x - 1.5, p.y - 1.5, 3, 3);
         });
       }
 
-      if (!reducedMotion.matches) packets.forEach((p, idx) => {
-        if (idx >= packetLimit) return;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.trail.push({ x: p.x, y: p.y });
-        if (p.trail.length > p.maxTrail) p.trail.shift();
-
-        const nearGridX = Math.round(p.x / pitch) * pitch;
-        const nearGridY = Math.round(p.y / pitch) * pitch;
-        if (
-          Math.abs(p.x - nearGridX) < 2 &&
-          Math.abs(p.y - nearGridY) < 2 &&
-          (nearGridX !== p.lastTurnGridX || nearGridY !== p.lastTurnGridY)
-        ) {
-          if (Math.random() < 0.28) {
-            p.x = nearGridX;
-            p.y = nearGridY;
-            p.lastTurnGridX = nearGridX;
-            p.lastTurnGridY = nearGridY;
-            const speed = Math.max(Math.abs(p.vx), Math.abs(p.vy));
-            if (p.vx !== 0) {
-              p.vx = 0;
-              p.vy = Math.random() > 0.5 ? speed : -speed;
-            } else {
-              p.vy = 0;
-              p.vx = Math.random() > 0.5 ? speed : -speed;
-            }
-          }
-        }
-
-        if (p.x < -30 || p.x > width + 30 || p.y < -30 || p.y > height + 30) {
-          Object.assign(p, createPacket());
-        }
-
-        if (p.trail.length > 1) {
-          for (let i = 1; i < p.trail.length; i++) {
-            const alpha = (i / p.trail.length) * (isLight ? 0.38 : 0.55) * amb;
-            ctx.strokeStyle = p.layer.rgba + alpha + ')';
-            ctx.lineWidth = 1.6;
-            ctx.beginPath();
-            ctx.moveTo(p.trail[i - 1].x, p.trail[i - 1].y);
-            ctx.lineTo(p.trail[i].x, p.trail[i].y);
-            ctx.stroke();
-          }
-        }
-        ctx.fillStyle = p.layer.hex;
-        ctx.fillRect(p.x - 1.5, p.y - 1.5, 3, 3);
-      });
-
       for (let i = transitionParticles.length - 1; i >= 0; i--) {
         const pt = transitionParticles[i];
-        pt.x += pt.vx;
-        pt.y += pt.vy;
-        pt.alpha -= 0.024;
-        if (pt.alpha <= 0) {
-          transitionParticles.splice(i, 1);
-        } else {
-          ctx.save();
-          ctx.globalAlpha = pt.alpha;
-          ctx.fillStyle = pt.color;
+        pt.x += pt.vx; pt.y += pt.vy; pt.alpha -= 0.025;
+        if (pt.alpha <= 0) transitionParticles.splice(i, 1);
+        else {
+          ctx.save(); ctx.globalAlpha = pt.alpha; ctx.fillStyle = pt.color;
           ctx.fillRect(pt.x - pt.size / 2, pt.y - pt.size / 2, pt.size, pt.size);
           ctx.restore();
         }
       }
 
-      // Keep animating only when motion is allowed and the tab is visible
       rafId = (!reducedMotion.matches && !document.hidden) ? requestAnimationFrame(updateAndDraw) : null;
     }
 
@@ -354,15 +339,12 @@
     window.addEventListener('resize', redraw);
     document.addEventListener('visibilitychange', () => { if (!document.hidden && rafId === null) updateAndDraw(); });
     if (reducedMotion.addEventListener) reducedMotion.addEventListener('change', () => { if (rafId === null) updateAndDraw(); });
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.clientX; mouse.y = e.clientY;
       mouse.active = !reducedMotion.matches;
       lastMove = performance.now();
       if (coordReadout) {
-        const umX = (e.clientX * 0.425).toFixed(2);
-        const umY = ((height - e.clientY) * 0.425).toFixed(2);
-        coordReadout.textContent = `DIE CURSOR: X=${umX} um, Y=${umY} um`;
+        coordReadout.textContent = `DIE CURSOR: X=${(e.clientX * 0.425).toFixed(2)} um, Y=${((height - e.clientY) * 0.425).toFixed(2)} um`;
       }
     });
     window.addEventListener('mouseleave', () => { mouse.active = false; });
@@ -371,7 +353,6 @@
     updateAndDraw();
   })();
 
-  // 4. QoR Explorer Renderer
   function renderQorDashboard() {
     if (!window.qorData) return;
     const block = window.qorData[currentBlock];
@@ -395,7 +376,8 @@
       imgEl.style.display = 'block';
       fallbackEl.style.display = 'none';
       imgEl.src = stage.img;
-      document.getElementById('qor-fallback-filename').textContent = stage.img;
+      const fnEl = document.getElementById('qor-fallback-filename');
+      if (fnEl) fnEl.textContent = stage.img;
     }
 
     const barsContainer = document.getElementById('qor-bars-container');
@@ -411,14 +393,9 @@
           </div>
         </div>
       `).join('');
-
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          document.querySelectorAll('.qor-bar-fill').forEach(el => {
-            el.style.width = el.getAttribute('data-target');
-          });
-        }, 30);
-      });
+      requestAnimationFrame(() => setTimeout(() => {
+        document.querySelectorAll('.qor-bar-fill').forEach(el => { el.style.width = el.getAttribute('data-target'); });
+      }, 30));
     }
 
     const metricsGrid = document.getElementById('qor-metrics-grid');
@@ -445,11 +422,9 @@
     }
 
     document.querySelectorAll('.qor-tab').forEach(btn => {
-      if (btn.dataset.stage === currentStage) {
-        btn.className = "qor-tab p-3 rounded-lg bg-silicon-800 border border-metal-m5 text-left transition";
-      } else {
-        btn.className = "qor-tab p-3 rounded-lg bg-silicon-900/90 border border-slate-800 text-left hover:border-slate-700 transition";
-      }
+      btn.className = btn.dataset.stage === currentStage
+        ? "qor-tab p-3 rounded-lg bg-silicon-800 border border-metal-m5 text-left transition"
+        : "qor-tab p-3 rounded-lg bg-silicon-900/90 border border-slate-800 text-left hover:border-slate-700 transition";
     });
   }
 
@@ -457,13 +432,10 @@
     currentBlock = blockKey;
     const btnGprs = document.getElementById('btn-block-gprs');
     const btnFifo = document.getElementById('btn-block-fifo');
-    if (blockKey === 'gprs') {
-      if (btnGprs) btnGprs.className = "px-3 sm:px-4 py-2 rounded-md bg-metal-m5 font-bold transition";
-      if (btnFifo) btnFifo.className = "px-3 sm:px-4 py-2 rounded-md text-slate-300 hover:text-white transition";
-    } else {
-      if (btnFifo) btnFifo.className = "px-3 sm:px-4 py-2 rounded-md bg-metal-m5 font-bold transition";
-      if (btnGprs) btnGprs.className = "px-3 sm:px-4 py-2 rounded-md text-slate-300 hover:text-white transition";
-    }
+    const activeCls = "px-3 sm:px-4 py-2 rounded-md bg-metal-m5 font-bold transition";
+    const idleCls = "px-3 sm:px-4 py-2 rounded-md text-slate-300 hover:text-white transition";
+    if (btnGprs) btnGprs.className = blockKey === 'gprs' ? activeCls : idleCls;
+    if (btnFifo) btnFifo.className = blockKey === 'fifo' ? activeCls : idleCls;
     renderQorDashboard();
   };
 
@@ -472,44 +444,22 @@
     renderQorDashboard();
   };
 
-  // 5. 3D Metal Stack & Bus Arbiter Logic
   window.selectMetalLayer = function(key) {
-    if (!window.metalLayersData) return;
-    const data = window.metalLayersData[key];
+    const data = window.metalLayersData && window.metalLayersData[key];
     if (!data) return;
     const titleEl = document.getElementById('metal-detail-title');
-    if (titleEl) {
-      titleEl.className = `${data.colorClass} font-bold text-sm`;
-      titleEl.textContent = data.title;
-    }
+    if (titleEl) { titleEl.className = `${data.colorClass} font-bold text-sm`; titleEl.textContent = data.title; }
     const descEl = document.getElementById('metal-detail-desc');
     if (descEl) descEl.textContent = data.desc;
     const specsEl = document.getElementById('metal-detail-specs');
-    if (specsEl) {
-      specsEl.innerHTML = `
-        <div><span class="text-slate-400">Block A:</span> <span class="text-white font-semibold">${data.specA}</span></div>
-        <div><span class="text-slate-400">Block B:</span> <span class="text-white font-semibold">${data.specB}</span></div>
-      `;
-    }
-
+    if (specsEl) specsEl.innerHTML = `<div><span class="text-slate-400">Block A:</span> <span class="text-white font-semibold">${data.specA}</span></div><div><span class="text-slate-400">Block B:</span> <span class="text-white font-semibold">${data.specB}</span></div>`;
     ['m8m7', 'm6m5_ports', 'm5m4_cts', 'm2_straps', 'm1_rails'].forEach(id => {
       const el = document.getElementById('slab-' + id);
-      if (el) {
-        if (id === key) el.classList.add('active-slab', 'border-metal-m5');
-        else el.classList.remove('active-slab', 'border-metal-m5');
-      }
+      if (el) el.classList.toggle('active-slab', id === key);
     });
   };
 
-  window.arbState = {
-    cycle: 0,
-    req_cpu: true,
-    req_dma: true,
-    req_periph: false,
-    wait_cnt: 0,
-    last_secondary: 'periph',
-    autoTimer: null
-  };
+  window.arbState = { cycle: 0, req_cpu: true, req_dma: true, req_periph: false, wait_cnt: 0, last_secondary: 'periph', autoTimer: null };
 
   window.toggleArbiterReq = function(master) {
     if (master === 'cpu') arbState.req_cpu = !arbState.req_cpu;
@@ -519,168 +469,94 @@
   };
 
   function updateArbiterButtons() {
-    const cfg = [
-      { key: 'cpu', active: arbState.req_cpu, color: 'metal-m5' },
-      { key: 'dma', active: arbState.req_dma, color: 'metal-m3' },
-      { key: 'periph', active: arbState.req_periph, color: 'metal-m6' }
-    ];
-    cfg.forEach(({ key, active, color }) => {
-      const btn = document.getElementById(`btn-req-${key}`);
-      const dot = document.getElementById(`dot-req-${key}`);
-      const txt = document.getElementById(`txt-req-${key}`);
-      if (btn && dot && txt) {
-        if (active) {
-          btn.className = `p-3 rounded-lg bg-silicon-800 border border-${color} text-left transition`;
-          dot.className = `w-2.5 h-2.5 rounded-full bg-${color}`;
-          txt.className = `text-[11px] text-${color} font-semibold mt-1`;
-          txt.textContent = `req_${key} = 1 (ACTIVE)`;
-        } else {
-          btn.className = `p-3 rounded-lg bg-silicon-950 border border-slate-700 text-left transition`;
-          dot.className = `w-2.5 h-2.5 rounded-full bg-slate-500`;
-          txt.className = `text-[11px] text-slate-400 mt-1`;
-          txt.textContent = `req_${key} = 0 (IDLE)`;
+    [{ key: 'cpu', active: arbState.req_cpu, color: 'metal-m5' }, { key: 'dma', active: arbState.req_dma, color: 'metal-m3' }, { key: 'periph', active: arbState.req_periph, color: 'metal-m6' }]
+      .forEach(({ key, active, color }) => {
+        const btn = document.getElementById(`btn-req-${key}`);
+        const dot = document.getElementById(`dot-req-${key}`);
+        const txt = document.getElementById(`txt-req-${key}`);
+        if (btn && dot && txt) {
+          btn.className = active ? `p-3 rounded-lg bg-silicon-800 border border-${color} text-left transition` : `p-3 rounded-lg bg-silicon-950 border border-slate-700 text-left transition`;
+          dot.className = `w-2.5 h-2.5 rounded-full ${active ? `bg-${color}` : 'bg-slate-500'}`;
+          txt.className = active ? `text-[11px] text-${color} font-semibold mt-1` : `text-[11px] text-slate-400 mt-1`;
+          txt.textContent = `req_${key} = ${active ? '1 (ACTIVE)' : '0 (IDLE)'}`;
         }
-      }
-    });
+      });
   }
 
   window.stepArbiterClock = function() {
     arbState.cycle++;
-    let grant = "IDLE (2'b00)";
-    let badge = "BUS IDLE";
-    let logMsg = "";
+    let grant = "IDLE (2'b00)", badge = "BUS IDLE", logMsg = "";
     const secondaryWaiting = arbState.req_dma || arbState.req_periph;
-
     if (!arbState.req_cpu && !secondaryWaiting) {
-      arbState.wait_cnt = 0;
-      grant = "IDLE (2'b00)";
-      badge = "NO ACTIVE REQUESTS";
+      arbState.wait_cnt = 0; grant = "IDLE (2'b00)"; badge = "NO ACTIVE REQUESTS";
       logMsg = `[Cycle ${arbState.cycle}] All master request lines de-asserted. Bus is IDLE.`;
     } else if (arbState.req_cpu && !secondaryWaiting) {
-      arbState.wait_cnt = 0;
-      grant = "CPU (2'b01)";
-      badge = "PRIORITY: CPU EXCLUSIVE";
+      arbState.wait_cnt = 0; grant = "CPU (2'b01)"; badge = "PRIORITY: CPU EXCLUSIVE";
       logMsg = `[Cycle ${arbState.cycle}] Only CPU requesting bus -> Granted to CPU (wait_cnt = 0).`;
     } else if (!arbState.req_cpu && secondaryWaiting) {
       arbState.wait_cnt = 0;
       if (arbState.req_dma && arbState.req_periph) {
-        if (arbState.last_secondary === 'dma') {
-          grant = "PERIPH (2'b11)";
-          arbState.last_secondary = 'periph';
-        } else {
-          grant = "DMA (2'b10)";
-          arbState.last_secondary = 'dma';
-        }
+        grant = arbState.last_secondary === 'dma' ? "PERIPH (2'b11)" : "DMA (2'b10)";
+        arbState.last_secondary = arbState.last_secondary === 'dma' ? 'periph' : 'dma';
         badge = "ROUND-ROBIN: DMA <-> PERIPH";
-        logMsg = `[Cycle ${arbState.cycle}] CPU idle; rotating grant fairly -> Granted ${grant}.`;
-      } else if (arbState.req_dma) {
-        grant = "DMA (2'b10)";
-        arbState.last_secondary = 'dma';
-        badge = "GRANTED: DMA";
-        logMsg = `[Cycle ${arbState.cycle}] CPU idle -> DMA granted immediate bus access.`;
       } else {
-        grant = "PERIPH (2'b11)";
-        arbState.last_secondary = 'periph';
-        badge = "GRANTED: PERIPHERAL";
-        logMsg = `[Cycle ${arbState.cycle}] CPU idle -> Peripheral granted immediate bus access.`;
+        grant = arbState.req_dma ? "DMA (2'b10)" : "PERIPH (2'b11)";
+        arbState.last_secondary = arbState.req_dma ? 'dma' : 'periph';
+        badge = `GRANTED: ${arbState.req_dma ? 'DMA' : 'PERIPHERAL'}`;
       }
+      logMsg = `[Cycle ${arbState.cycle}] CPU idle -> Granted ${grant}.`;
+    } else if (arbState.wait_cnt < 8) {
+      arbState.wait_cnt++; grant = "CPU (2'b01)"; badge = `CONTENTION: CPU SERVED (${arbState.wait_cnt}/8)`;
+      logMsg = `[Cycle ${arbState.cycle}] Contention! Priority 1 serves CPU while wait_cnt increments (${arbState.wait_cnt}/8).`;
     } else {
-      if (arbState.wait_cnt < 8) {
-        arbState.wait_cnt++;
-        grant = "CPU (2'b01)";
-        badge = `CONTENTION: CPU SERVED (${arbState.wait_cnt}/8)`;
-        logMsg = `[Cycle ${arbState.cycle}] Contention! Priority 1 serves CPU while wait_cnt increments (${arbState.wait_cnt}/8).`;
-      } else {
-        if (arbState.req_dma && arbState.req_periph) {
-          if (arbState.last_secondary === 'dma') {
-            grant = "PERIPH (2'b11)";
-            arbState.last_secondary = 'periph';
-          } else {
-            grant = "DMA (2'b10)";
-            arbState.last_secondary = 'dma';
-          }
-        } else if (arbState.req_dma) {
-          grant = "DMA (2'b10)";
-          arbState.last_secondary = 'dma';
-        } else {
-          grant = "PERIPH (2'b11)";
-          arbState.last_secondary = 'periph';
-        }
-        badge = "ANTI-STARVATION OVERRIDE TRIGGERED!";
-        logMsg = `[Cycle ${arbState.cycle}] STARVATION PREVENTED! 8-cycle threshold reached -> Forced switch to ${grant}!`;
-        arbState.wait_cnt = 0;
-      }
+      grant = (arbState.req_dma && arbState.req_periph)
+        ? (arbState.last_secondary === 'dma' ? "PERIPH (2'b11)" : "DMA (2'b10)")
+        : (arbState.req_dma ? "DMA (2'b10)" : "PERIPH (2'b11)");
+      if (arbState.req_dma && arbState.req_periph) arbState.last_secondary = arbState.last_secondary === 'dma' ? 'periph' : 'dma';
+      badge = "ANTI-STARVATION OVERRIDE TRIGGERED!";
+      logMsg = `[Cycle ${arbState.cycle}] STARVATION PREVENTED! 8-cycle threshold reached -> Forced switch to ${grant}!`;
+      arbState.wait_cnt = 0;
     }
 
-    const cycEl = document.getElementById('arb-cycle');
-    const gntEl = document.getElementById('arb-grant');
-    const cntEl = document.getElementById('arb-counter');
-    const badgeEl = document.getElementById('arb-status-badge');
+    const map = { 'arb-cycle': arbState.cycle, 'arb-grant': grant, 'arb-counter': `${arbState.wait_cnt} / 8`, 'arb-status-badge': badge, 'arb-log-line': logMsg };
+    Object.entries(map).forEach(([id, val]) => { const el = document.getElementById(id); if (el) el.textContent = val; });
     const barEl = document.getElementById('arb-wait-bar');
-    const logEl = document.getElementById('arb-log-line');
-
-    if (cycEl) cycEl.textContent = arbState.cycle;
-    if (gntEl) gntEl.textContent = grant;
-    if (cntEl) cntEl.textContent = `${arbState.wait_cnt} / 8`;
-    if (badgeEl) badgeEl.textContent = badge;
     if (barEl) barEl.style.width = `${(arbState.wait_cnt / 8) * 100}%`;
-    if (logEl) logEl.textContent = logMsg;
+    document.dispatchEvent(new CustomEvent('vlsi:arbiterstep', { detail: { ...arbState, grant } }));
   };
 
   window.toggleArbiterAuto = function() {
     const btn = document.getElementById('btn-arb-autorun');
     if (arbState.autoTimer) {
-      clearInterval(arbState.autoTimer);
-      arbState.autoTimer = null;
-      if (btn) {
-        btn.textContent = "Auto: OFF";
-        btn.className = "px-3 py-2 rounded bg-silicon-800 border border-metal-m5/40 text-metal-m5 font-semibold hover:bg-metal-m5/10 transition";
-      }
+      clearInterval(arbState.autoTimer); arbState.autoTimer = null;
+      if (btn) { btn.textContent = "Auto: OFF"; btn.className = "px-3 py-2 rounded bg-silicon-800 border border-metal-m5/40 text-metal-m5 font-semibold hover:bg-metal-m5/10 transition"; }
     } else {
       stepArbiterClock();
       arbState.autoTimer = setInterval(stepArbiterClock, 900);
-      if (btn) {
-        btn.textContent = "Auto: ON";
-        btn.className = "px-3 py-2 rounded bg-metal-m5 font-bold transition";
-      }
+      if (btn) { btn.textContent = "Auto: ON"; btn.className = "px-3 py-2 rounded bg-metal-m5 font-bold transition"; }
     }
   };
 
   window.resetArbiter = function() {
     if (arbState.autoTimer) toggleArbiterAuto();
-    arbState.cycle = 0;
-    arbState.wait_cnt = 0;
-    const cycEl = document.getElementById('arb-cycle');
-    const gntEl = document.getElementById('arb-grant');
-    const cntEl = document.getElementById('arb-counter');
-    const badgeEl = document.getElementById('arb-status-badge');
+    arbState.cycle = 0; arbState.wait_cnt = 0;
+    const map = { 'arb-cycle': '0', 'arb-grant': "CPU (2'b01)", 'arb-counter': '0 / 8', 'arb-status-badge': 'PRIORITY: CPU SERVED FIRST', 'arb-log-line': '[Reset] Counter cleared. Step the clock to observe multi-master arbitration.' };
+    Object.entries(map).forEach(([id, val]) => { const el = document.getElementById(id); if (el) el.textContent = val; });
     const barEl = document.getElementById('arb-wait-bar');
-    const logEl = document.getElementById('arb-log-line');
-
-    if (cycEl) cycEl.textContent = "0";
-    if (gntEl) gntEl.textContent = "CPU (2'b01)";
-    if (cntEl) cntEl.textContent = "0 / 8";
-    if (badgeEl) badgeEl.textContent = "PRIORITY: CPU SERVED FIRST";
-    if (barEl) barEl.style.width = "0%";
-    if (logEl) logEl.textContent = "[Reset] Counter cleared. Step the clock to observe multi-master arbitration.";
+    if (barEl) barEl.style.width = '0%';
+    document.dispatchEvent(new CustomEvent('vlsi:arbiterreset'));
   };
 
-  // 6. Linux Terminal Logic
   const cmdHistory = [];
   let historyIdx = -1;
-
-  window.focusTerminalInput = function() {
-    document.getElementById('terminal-input')?.focus();
-  };
-
+  window.focusTerminalInput = function() { document.getElementById('terminal-input')?.focus(); };
   window.handleTerminalSubmit = function(e) {
     if (e) e.preventDefault();
     const input = document.getElementById('terminal-input');
-    if (!input) return;
-    const rawVal = input.value.trim();
-    if (!rawVal) return;
+    if (!input || !input.value.trim()) return;
+    const val = input.value.trim();
     input.value = '';
-    executeCommand(rawVal);
+    executeCommand(val);
   };
 
   window.executeCommand = function(rawCmd) {
@@ -689,7 +565,6 @@
     if (!log || !body) return;
     const cleanCmd = rawCmd.trim();
     const lowerKey = cleanCmd.toLowerCase();
-
     cmdHistory.push(cleanCmd);
     historyIdx = cmdHistory.length;
 
@@ -699,72 +574,41 @@
       return;
     }
 
-    const cmdAliases = {
-      'ls': 'ls -la',
-      'll': 'ls -la',
-      'dir': 'ls -la',
-      'uname': 'uname -a',
-      'report_qor': 'gprs',
-      'report_clock_qor': 'fifo',
-      'vcs': 'arbiter'
-    };
-
-    const resolvedKey = cmdAliases[lowerKey] || lowerKey;
-    const terminalCommands = window.terminalCommands || {};
-    const outputText = terminalCommands[resolvedKey] ||
-      `bash: ${cleanCmd}: command not found. Type 'help' or 'neofetch' for available commands.`;
+    const aliases = { ls: 'ls -la', ll: 'ls -la', dir: 'ls -la', uname: 'uname -a', report_qor: 'gprs', report_clock_qor: 'fifo', vcs: 'arbiter' };
+    const resolvedKey = aliases[lowerKey] || lowerKey;
+    const cmds = window.terminalCommands || {};
+    const outputText = cmds[resolvedKey] || `bash: ${cleanCmd}: command not found. Type 'help' or 'neofetch' for available commands.`;
 
     const entry = document.createElement('div');
     entry.className = 'space-y-1 pt-1 border-t border-slate-800/50';
-
-    const cmdLine = document.createElement('div');
-    cmdLine.innerHTML = `<span class="text-emerald-400 font-bold">narendaran@asic-node</span>:<span class="text-amber-300 font-bold">~/vlsi_workspace</span>$ <span class="text-white">${cleanCmd}</span>`;
-
+    entry.innerHTML = `<div><span class="text-emerald-400 font-bold">narendaran@asic-node</span>:<span class="text-amber-300 font-bold">~/vlsi_workspace</span>$ <span class="text-white">${cleanCmd}</span></div>`;
     const pre = document.createElement('pre');
-    pre.className = (terminalCommands[resolvedKey] ? 'text-emerald-300' : 'text-amber-400') + ' text-[11px] whitespace-pre-wrap leading-relaxed';
-
-    entry.appendChild(cmdLine);
+    pre.className = (cmds[resolvedKey] ? 'text-emerald-300' : 'text-amber-400') + ' text-[11px] whitespace-pre-wrap leading-relaxed';
     entry.appendChild(pre);
     log.appendChild(entry);
 
     const lines = outputText.split('\n');
     let idx = 0;
-    function streamNextLine() {
+    (function stream() {
       if (idx < lines.length) {
-        pre.textContent += (idx > 0 ? '\n' : '') + lines[idx];
-        idx++;
+        pre.textContent += (idx > 0 ? '\n' : '') + lines[idx++];
         body.scrollTop = body.scrollHeight;
-        setTimeout(streamNextLine, 14);
+        setTimeout(stream, 14);
       }
-    }
-    streamNextLine();
+    })();
   };
 
   document.addEventListener('DOMContentLoaded', () => {
+    injectThemeSwitcherPill();
     const input = document.getElementById('terminal-input');
     if (input) {
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowUp') {
+      input.addEventListener('keydown', e => {
+        if (e.key === 'ArrowUp' && historyIdx > 0) { e.preventDefault(); input.value = cmdHistory[--historyIdx]; }
+        else if (e.key === 'ArrowDown') { e.preventDefault(); input.value = historyIdx < cmdHistory.length - 1 ? cmdHistory[++historyIdx] : (historyIdx = cmdHistory.length, ''); }
+        else if (e.key === 'Tab') {
           e.preventDefault();
-          if (historyIdx > 0) {
-            historyIdx--;
-            input.value = cmdHistory[historyIdx];
-          }
-        } else if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          if (historyIdx < cmdHistory.length - 1) {
-            historyIdx++;
-            input.value = cmdHistory[historyIdx];
-          } else {
-            historyIdx = cmdHistory.length;
-            input.value = '';
-          }
-        } else if (e.key === 'Tab') {
-          e.preventDefault();
-          const partial = input.value.trim().toLowerCase();
-          if (!partial) return;
-          const terminalCommands = window.terminalCommands || {};
-          const match = Object.keys(terminalCommands).find(k => k.startsWith(partial));
+          const p = input.value.trim().toLowerCase();
+          const match = p && Object.keys(window.terminalCommands || {}).find(k => k.startsWith(p));
           if (match) input.value = match;
         }
       });
@@ -773,19 +617,12 @@
 
   window.filterProjects = function(category) {
     document.querySelectorAll('.project-card').forEach(card => {
-      if (category === 'all' || card.dataset.category === category) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
+      card.style.display = (category === 'all' || card.dataset.category === category) ? 'flex' : 'none';
     });
-
     document.querySelectorAll('.proj-filter').forEach(btn => {
-      if (btn.dataset.filter === category) {
-        btn.className = "proj-filter px-3 py-1.5 rounded bg-metal-m5 font-bold transition";
-      } else {
-        btn.className = "proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition";
-      }
+      btn.className = btn.dataset.filter === category
+        ? "proj-filter px-3 py-1.5 rounded bg-metal-m5 font-bold transition"
+        : "proj-filter px-3 py-1.5 rounded bg-silicon-900/90 border border-slate-800 text-slate-300 hover:border-metal-m5 transition";
     });
   };
 
@@ -794,14 +631,11 @@
     const imgEl = document.getElementById('lightbox-img');
     const capEl = document.getElementById('lightbox-caption');
     if (modal && imgEl && capEl) {
-      imgEl.src = src;
-      capEl.textContent = caption;
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+      imgEl.src = src; capEl.textContent = caption;
+      modal.classList.remove('hidden'); modal.classList.add('flex');
     }
   };
 
-  // [Enlarge] button on the Physical Design view: open the current stage screenshot
   window.openCurrentQorImage = function() {
     const imgEl = document.getElementById('qor-stage-img');
     const capEl = document.getElementById('qor-img-caption');
@@ -812,30 +646,23 @@
 
   window.closeLightbox = function() {
     const modal = document.getElementById('lightbox-modal');
-    if (modal) {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
+    if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
   };
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeLightbox();
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 })();
 
-// Latest Updates strip on the Overview page, driven by updates.json
 (function initUpdatesStrip() {
   const wrap = document.getElementById('updates-strip');
   const list = document.getElementById('updates-list');
   if (!wrap || !list || !window.fetch) return;
-
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const fmtDate = (d) => {
+  const fmtDate = d => {
     const [y, m, day] = String(d || '').split('-');
     if (!y || !m) return d || '';
     return (day ? Number(day) + ' ' : '') + months[Number(m) - 1] + ' ' + y;
   };
-  const esc = (t) => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const views = ['home', 'qor', 'lab', 'projects', 'credentials'];
 
   fetch('updates.json', { cache: 'no-cache' })
@@ -845,37 +672,20 @@
       if (!items.length) return;
       list.innerHTML = items.map(u => {
         const view = views.includes(u.view) ? u.view : null;
-        const link = view
-          ? `<button type="button" onclick="switchPageView('${view}', event)" class="mt-1 text-[11px] font-mono text-metal-m5 font-semibold hover:underline">Open &rarr;</button>`
-          : '';
-        return `
-          <li class="relative pl-4 border-l border-slate-800">
-            <span class="absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-metal-m3"></span>
-            <div class="text-[11px] font-mono text-slate-400">${esc(fmtDate(u.date))}</div>
-            <div class="text-sm font-semibold text-white">${esc(u.title)}</div>
-            <div class="text-xs text-slate-400 leading-relaxed">${esc(u.summary)}</div>
-            ${link}
-          </li>`;
+        const link = view ? `<button type="button" onclick="switchPageView('${view}', event)" class="mt-1 text-[11px] font-mono text-metal-m5 font-semibold hover:underline">Open &rarr;</button>` : '';
+        return `<li class="relative pl-4 border-l border-slate-800"><span class="absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-metal-m3"></span><div class="text-[11px] font-mono text-slate-400">${esc(fmtDate(u.date))}</div><div class="text-sm font-semibold text-white">${esc(u.title)}</div><div class="text-xs text-slate-400 leading-relaxed">${esc(u.summary)}</div>${link}</li>`;
       }).join('');
       wrap.classList.remove('hidden');
     })
     .catch(() => {});
 })();
 
-// Deep links: narendaransg.github.io/#qor opens the Physical Design view, etc.
 (function initHashRouting() {
   const views = ['home', 'qor', 'lab', 'projects', 'credentials'];
   const openFromHash = () => {
     const key = (location.hash || '').replace('#', '');
     if (views.includes(key) && typeof window.switchPageView === 'function') window.switchPageView(key);
   };
-  const original = window.switchPageView;
-  if (typeof original === 'function') {
-    window.switchPageView = function(viewKey, evt) {
-      original.apply(this, arguments);
-      try { history.replaceState(null, '', viewKey === 'home' ? location.pathname : '#' + viewKey); } catch (e) {}
-    };
-  }
   window.addEventListener('hashchange', openFromHash);
   if (location.hash) window.addEventListener('load', openFromHash);
 })();

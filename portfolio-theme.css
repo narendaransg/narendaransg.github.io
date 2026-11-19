@@ -1,4 +1,3 @@
-/* Motion system: every transition on the site uses these durations and one easing curve */
 :root {
   --dur-fast: 160ms;
   --dur-base: 280ms;
@@ -6,15 +5,9 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ==========================================================================
-   portfolio-theme.css
-   Dark A: "Obsidian Die & 24K Wirebond Gold"
-   Light A: "Warm Ivory & Antique Bronze" (High-Contrast, Solid Borders)
-   Navigation: Wording B + Style 1 (Sliding 24K Gold Underline Bar)
-   ========================================================================== */
-
-:root {
-  /* Dark A: Obsidian Die & 24K Wirebond Gold */
+/* Default / Obsidian Die & 24K Wirebond Gold */
+:root,
+html[data-theme="obsidian-gold"] {
   --bg-page: #070709;
   --bg-header: rgba(12, 13, 17, 0.88);
   --bg-status: #040406;
@@ -40,10 +33,13 @@
   --shadow-card-hover: 0 14px 36px -6px rgba(0, 0, 0, 0.85), 0 0 26px -4px rgba(245, 176, 65, 0.22);
 
   --vignette: radial-gradient(circle at 50% 30%, rgba(7, 7, 9, 0.25) 0%, rgba(7, 7, 9, 0.86) 90%);
+  --grid-line-1: rgba(245, 176, 65, 0.05);
+  --grid-line-2: rgba(16, 185, 129, 0.045);
 }
 
-html.light-theme {
-  /* Light A: Warm Ivory & Antique Bronze (True Engineering Palette - Not Inverted) */
+/* Warm Ivory & Antique Bronze */
+html.light-theme,
+html[data-theme="warm-ivory"] {
   --bg-page: #F4F1EA;
   --bg-header: rgba(250, 248, 243, 0.94);
   --bg-status: #EAE5D9;
@@ -69,23 +65,97 @@ html.light-theme {
   --shadow-card-hover: 0 12px 28px -4px rgba(24, 24, 27, 0.14), 0 4px 12px -2px rgba(154, 107, 19, 0.16);
 
   --vignette: radial-gradient(circle at 50% 30%, rgba(244, 241, 234, 0.2) 0%, rgba(235, 230, 218, 0.82) 90%);
+  --grid-line-1: rgba(154, 107, 19, 0.05);
+  --grid-line-2: rgba(4, 120, 87, 0.045);
 }
 
-/* Base Body & Typography */
+/* Combined: GDSII Layout & Mask Layer Palette + Oscilloscope / Logic Analyzer Phosphor */
+html[data-theme="gds-scope"] {
+  --bg-page: #040A07;
+  --bg-header: rgba(5, 10, 8, 0.92);
+  --bg-status: #030705;
+  --bg-card: rgba(7, 15, 12, 0.9);
+  --bg-card-inner: #050608;
+  --bg-pill: #0C1B15;
+
+  --text-heading: #ECFDF5;
+  --text-body: #A7F3D0;
+  --text-muted: #6EE7B7;
+
+  --gold-primary: #39FF14;
+  --gold-bright: #38BDF8;
+  --gold-deep: #10B981;
+  --emerald-pass: #22C55E;
+  --amber-warn: #FACC15;
+  --crimson-alert: #EF4444;
+
+  --border-card: rgba(57, 255, 20, 0.34);
+  --border-card-hover: rgba(56, 189, 248, 0.82);
+  --border-subtle: rgba(34, 197, 94, 0.22);
+  --shadow-card: 0 8px 28px -6px rgba(0, 0, 0, 0.8), 0 0 18px -4px rgba(57, 255, 20, 0.12);
+  --shadow-card-hover: 0 14px 36px -6px rgba(0, 0, 0, 0.9), 0 0 24px -4px rgba(56, 189, 248, 0.24);
+
+  --vignette:
+    repeating-linear-gradient(0deg, rgba(57, 255, 20, 0.025) 0px, rgba(57, 255, 20, 0.025) 1px, transparent 1px, transparent 24px),
+    repeating-linear-gradient(90deg, rgba(56, 189, 248, 0.025) 0px, rgba(56, 189, 248, 0.025) 1px, transparent 1px, transparent 24px),
+    radial-gradient(circle at 50% 35%, rgba(4, 10, 7, 0.15) 0%, rgba(3, 6, 5, 0.88) 92%);
+  --grid-line-1: rgba(239, 68, 68, 0.07);
+  --grid-line-2: rgba(56, 189, 248, 0.07);
+}
+
+html[data-theme="gds-scope"] .eda-border {
+  border-radius: 4px !important;
+  outline: 1px dashed rgba(168, 85, 247, 0.28);
+  outline-offset: -4px;
+}
+
+/* Retro Linux / Sun Solaris / RHEL EDA Workstation */
+html[data-theme="eda-workstation"] {
+  --bg-page: #0A0E14;
+  --bg-header: rgba(10, 14, 20, 0.94);
+  --bg-status: #070A0F;
+  --bg-card: rgba(17, 24, 39, 0.92);
+  --bg-card-inner: #0D131F;
+  --bg-pill: #162033;
+
+  --text-heading: #F1F5F9;
+  --text-body: #CBD5E1;
+  --text-muted: #93C5FD;
+
+  --gold-primary: #4ADE80;
+  --gold-bright: #93C5FD;
+  --gold-deep: #22C55E;
+  --emerald-pass: #4ADE80;
+  --amber-warn: #FBBF24;
+  --crimson-alert: #F87171;
+
+  --border-card: rgba(147, 197, 253, 0.34);
+  --border-card-hover: rgba(74, 222, 128, 0.78);
+  --border-subtle: rgba(148, 163, 184, 0.22);
+  --shadow-card: 0 8px 24px -6px rgba(0, 0, 0, 0.75);
+  --shadow-card-hover: 0 12px 30px -6px rgba(0, 0, 0, 0.88), 0 0 18px -4px rgba(74, 222, 128, 0.18);
+
+  --vignette: radial-gradient(circle at 50% 25%, rgba(10, 14, 20, 0.2) 0%, rgba(7, 10, 15, 0.85) 92%);
+  --grid-line-1: rgba(147, 197, 253, 0.045);
+  --grid-line-2: rgba(251, 191, 36, 0.04);
+}
+
+html[data-theme="eda-workstation"] .eda-border {
+  border-radius: 2px !important;
+}
+
 body {
   background-color: var(--bg-page);
   color: var(--text-body);
   overflow-x: hidden;
-  overflow-x: clip; /* clip (not hidden) so position: sticky keeps working */
+  overflow-x: clip;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Map Existing Tailwind Classes Automatically to Your Black & Gold / Warm Ivory Variables */
 .text-white { color: var(--text-heading) !important; }
 .text-slate-200, .text-slate-300 { color: var(--text-body) !important; }
 .text-slate-400, .text-slate-500 { color: var(--text-muted) !important; }
 
-/* Primary Accents Remapped from Cyan/Magenta to 24K Gold / Emerald / Bronze */
 .text-metal-m5 { color: var(--gold-primary) !important; }
 .text-metal-m3 { color: var(--emerald-pass) !important; }
 .text-metal-m8 { color: var(--amber-warn) !important; }
@@ -95,7 +165,8 @@ body {
   background-color: var(--gold-primary) !important;
   color: #070709 !important;
 }
-html.light-theme .bg-metal-m5 {
+html.light-theme .bg-metal-m5,
+html[data-theme="warm-ivory"] .bg-metal-m5 {
   background-color: #9A6B13 !important;
   color: #FFFFFF !important;
 }
@@ -103,12 +174,12 @@ html.light-theme .bg-metal-m5 {
   background-color: var(--emerald-pass) !important;
   color: #070709 !important;
 }
-html.light-theme .bg-metal-m3 {
+html.light-theme .bg-metal-m3,
+html[data-theme="warm-ivory"] .bg-metal-m3 {
   background-color: #047857 !important;
   color: #FFFFFF !important;
 }
 
-/* Surface & Border Overrides */
 .bg-silicon-950, .bg-silicon-950\/90 { background-color: var(--bg-card-inner) !important; }
 .bg-silicon-900, .bg-silicon-900\/75, .bg-silicon-900\/80, .bg-silicon-900\/90 {
   background-color: var(--bg-card) !important;
@@ -125,7 +196,6 @@ html.light-theme .bg-metal-m3 {
   border-color: var(--border-card) !important;
 }
 
-/* Top Header & Status Bar Visibility in Both Modes */
 #top-status-bar {
   background-color: var(--bg-status) !important;
   border-bottom: 1px solid var(--border-subtle) !important;
@@ -135,9 +205,6 @@ html.light-theme .bg-metal-m3 {
   border-bottom: 1px solid var(--border-card) !important;
 }
 
-/* ==========================================================================
-   STYLE 1 NAVIGATION: CLEAN HUMAN WORDS + SLIDING 24K GOLD UNDERLINE BAR
-   ========================================================================== */
 .nav-tab-btn {
   position: relative;
   color: var(--text-muted);
@@ -148,9 +215,7 @@ html.light-theme .bg-metal-m3 {
   background: transparent !important;
   transition: color 0.25s ease;
 }
-.nav-tab-btn:hover {
-  color: var(--text-heading);
-}
+.nav-tab-btn:hover { color: var(--text-heading); }
 .nav-tab-btn::after {
   content: "";
   position: absolute;
@@ -168,13 +233,8 @@ html.light-theme .bg-metal-m3 {
   color: var(--gold-primary) !important;
   font-weight: 700;
 }
-.nav-tab-btn.active-nav::after {
-  transform: scaleX(1);
-}
+.nav-tab-btn.active-nav::after { transform: scaleX(1); }
 
-/* ==========================================================================
-   CARD ELEVATION & SOLID VISIBLE BORDERS (CRISP IN BOTH DARK & LIGHT MODES)
-   ========================================================================== */
 .eda-border {
   background-color: var(--bg-card);
   backdrop-filter: blur(10px);
@@ -189,17 +249,15 @@ html.light-theme .bg-metal-m3 {
   transform: translateY(-2px);
 }
 
-/* Keep the Linux Workstation Terminal Authentic Dark Obsidian in Both Modes */
 #linux-terminal-window {
   background-color: #08090C !important;
-  border: 1.5px solid rgba(212, 175, 55, 0.45) !important;
+  border: 1.5px solid var(--border-card-hover) !important;
   box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.65);
 }
 #linux-terminal-window .text-white { color: #F8FAFC !important; }
 #linux-terminal-window .text-slate-300 { color: #D4D4D8 !important; }
 #linux-terminal-window .text-slate-400 { color: #9CA3AF !important; }
 
-/* Full-Screen Interactive Silicon Routing Canvas */
 #asic-canvas {
   position: fixed;
   top: 0;
@@ -208,11 +266,8 @@ html.light-theme .bg-metal-m3 {
   height: 100vh;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.68;
+  opacity: 0.72;
   transition: opacity 0.35s ease;
-}
-html.light-theme #asic-canvas {
-  opacity: 0.55;
 }
 
 .die-vignette {
@@ -223,59 +278,45 @@ html.light-theme #asic-canvas {
   background: var(--vignette);
 }
 
-/* Instant Sub-Page View Switching Animations */
 .app-view {
   display: none;
   opacity: 0;
   transform: translateY(14px) scale(0.992);
   transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
 }
-.app-view.active-view {
-  display: block;
-}
+.app-view.active-view { display: block; }
 .app-view.view-visible {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
 
-/* 3D Metal Stack Isometric Slabs (Mobile Safe) */
-.metal-slab {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
+.metal-slab { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
 @media (min-width: 640px) {
-  .metal-slab {
-    transform: perspective(700px) rotateX(16deg) scale(0.98);
-  }
+  .metal-slab { transform: perspective(700px) rotateX(16deg) scale(0.98); }
   .metal-slab.active-slab {
     transform: perspective(700px) rotateX(6deg) scale(1.02) translateX(6px);
     box-shadow: 0 8px 25px -5px rgba(212, 175, 55, 0.35);
   }
 }
 
-.qor-bar-fill {
-  transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
+.qor-bar-fill { transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar { width: 7px; height: 7px; }
 ::-webkit-scrollbar-track { background: var(--bg-page); }
 ::-webkit-scrollbar-thumb { background: var(--gold-deep); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold-primary); }
 
-/* Inline code chips (replaces literal backticks in copy) */
 .code-chip {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.88em;
   padding: 0.05em 0.35em;
   border-radius: 4px;
   background: rgba(245, 176, 65, 0.10);
-  border: 1px solid rgba(245, 176, 65, 0.22);
+  border: 1px solid var(--border-card);
   color: inherit;
   white-space: nowrap;
 }
-html:not(.dark) .code-chip { background: rgba(154, 107, 19, 0.08); border-color: rgba(154, 107, 19, 0.25); }
 
-/* Phones: keep floating widgets out of the way of content */
 @media (max-width: 639px) {
   #chip-style-switcher { display: none !important; }
   #chip-mascot-root { bottom: 12px !important; right: 12px !important; }
@@ -284,7 +325,6 @@ html:not(.dark) .code-chip { background: rgba(154, 107, 19, 0.08); border-color:
   footer { padding-bottom: 72px !important; }
 }
 
-/* Respect the visitor's "reduce motion" system setting */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -294,7 +334,6 @@ html:not(.dark) .code-chip { background: rgba(154, 107, 19, 0.08); border-color:
   }
 }
 
-/* Catch every opacity variant of the silicon surfaces (e.g. bg-silicon-900/50 on the QoR table) */
 [class*="bg-silicon-950/"] { background-color: var(--bg-card-inner) !important; }
 [class*="bg-silicon-900/"] { background-color: var(--bg-card) !important; }
 [class*="bg-silicon-800/"] { background-color: var(--bg-pill) !important; }
@@ -302,13 +341,12 @@ html.light-theme [class*="divide-slate-800"] > * + * { border-color: var(--borde
 html.light-theme [class*="bg-slate-900"], html.light-theme [class*="bg-slate-950"] { background-color: var(--bg-card-inner) !important; }
 h1 .code-chip, h2 .code-chip, h3 .code-chip { font-size: 0.78em; padding: 0 0.3em; vertical-align: 0.08em; }
 
-/* ===================== chip-fx.js effects ===================== */
+/* chip-fx.js effects */
 #chip-fx-overlay {
   position: fixed; inset: 0; width: 100vw; height: 100vh;
   pointer-events: none; z-index: 65;
 }
 
-/* RTL-to-GDSII build-up behind the hero */
 .fx-host { position: relative; isolation: isolate; }
 .fx-host > *:not(.hero-build-canvas) { position: relative; z-index: 1; }
 .hero-build-canvas {
@@ -316,7 +354,6 @@ h1 .code-chip, h2 .code-chip, h3 .code-chip { font-size: 0.78em; padding: 0 0.3e
   pointer-events: none; z-index: 0;
 }
 
-/* Manhattan route draw on section dividers */
 .route-host { position: relative; }
 .route-trace { position: absolute; left: 0; right: 0; bottom: -1px; height: 12px; pointer-events: none; }
 .route-trace.at-top { bottom: auto; top: -11px; transform: scaleY(-1); }
@@ -326,54 +363,40 @@ h1 .code-chip, h2 .code-chip, h3 .code-chip { font-size: 0.78em; padding: 0 0.3e
   stroke-dasharray: var(--len, 2000); stroke-dashoffset: var(--len, 2000);
   transition: stroke-dashoffset 0.45s var(--ease-out);
 }
-.route-trace .rt1, .route-trace .rt3 { stroke: #F5B041; }
-.route-trace .rt2 { stroke: #10B981; }
-html.light-theme .route-trace .rt1, html.light-theme .route-trace .rt3 { stroke: #9A6B13; }
-html.light-theme .route-trace .rt2 { stroke: #047857; }
+.route-trace .rt1, .route-trace .rt3 { stroke: var(--gold-primary); }
+.route-trace .rt2 { stroke: var(--emerald-pass); }
 .route-trace.drawn .rt { stroke-dashoffset: 0; }
 .route-trace.drawn .rt2 { transition-delay: 0.45s; }
 .route-trace.drawn .rt3 { transition-delay: 0.9s; transition-duration: 0.9s; }
 .route-trace .via {
   position: absolute; top: 8px; width: 6px; height: 6px; margin-left: -3px;
-  background: #FFFFFF; border: 1px solid #F5B041;
+  background: var(--text-heading); border: 1px solid var(--gold-primary);
   opacity: 0; transform: scale(0.3); transition: opacity 0.2s, transform 0.2s;
 }
 .route-trace.drawn .via { opacity: 1; transform: scale(1); }
 .route-trace.drawn .v1 { transition-delay: 0.45s; }
 .route-trace.drawn .v2 { transition-delay: 0.9s; }
 
-/* Clock H-tree pulse into the stat cards */
 .clk-host { position: relative; }
 .clk-tree { position: absolute; left: 0; top: -22px; width: 100%; height: 22px; overflow: visible; pointer-events: none; }
-.clk-tree .clk-base { fill: none; stroke: rgba(245, 176, 65, 0.22); stroke-width: 1.5; }
-.clk-tree .clk-pulse { fill: none; stroke: #F59E0B; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 0 99999; }
-.clk-tree .clk-root { fill: #F5B041; }
-html.light-theme .clk-tree .clk-base { stroke: rgba(154, 107, 19, 0.3); }
-html.light-theme .clk-tree .clk-pulse { stroke: #B45309; }
+.clk-tree .clk-base { fill: none; stroke: var(--border-card); stroke-width: 1.5; }
+.clk-tree .clk-pulse { fill: none; stroke: var(--amber-warn); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 0 99999; }
+.clk-tree .clk-root { fill: var(--gold-primary); }
 @media (min-width: 640px) { #stat-grid { margin-top: 22px; } }
 .clk-hit {
-  border-color: #10B981 !important;
-  box-shadow: 0 0 0 1px #10B981, 0 0 18px rgba(16, 185, 129, 0.35) !important;
+  border-color: var(--emerald-pass) !important;
+  box-shadow: 0 0 0 1px var(--emerald-pass), 0 0 18px rgba(16, 185, 129, 0.35) !important;
 }
-html.light-theme .clk-hit { border-color: #047857 !important; box-shadow: 0 0 0 1px #047857, 0 0 14px rgba(4, 120, 87, 0.25) !important; }
 
-/* The terminal stays dark in both themes: keep its neutral pill readable */
 #linux-terminal-window [class*="bg-slate-800"] { background-color: #1E293B !important; color: #E2E8F0 !important; border-color: #334155 !important; }
-
-/* ===================== Polish round 2 ===================== */
-
-/* Calmer ambient motion: the mascot stays put until hovered */
 #chip-mascot-btn { animation: none !important; }
 
-/* Staggered entrances */
 @keyframes fx-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 .fx-enter { animation: fx-rise var(--dur-slow) var(--ease-out) both; animation-delay: calc(var(--i, 0) * 40ms); }
 
-/* Flow playback */
 #fp-sticky { position: -webkit-sticky; position: sticky !important; top: 104px; z-index: 2; }
 .fp-block-btn { color: var(--text-muted); transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
 .fp-block-btn.active { background: var(--gold-primary); color: #070709; font-weight: 700; }
-html.light-theme .fp-block-btn.active { color: #FFFFFF; }
 #fp-img-a, #fp-img-b { transition: opacity var(--dur-fast) linear; }
 .fp-rail { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; position: relative; }
 .fp-rail button { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 5px 6px; border-radius: 6px; font-size: 12px; color: var(--text-muted); transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out); }
@@ -389,35 +412,36 @@ html.light-theme .fp-block-btn.active { color: #FFFFFF; }
   .fp-rail button { flex-direction: column; gap: 4px; padding: 4px; }
 }
 
-/* Layout magnifier */
 .layout-loupe {
   position: absolute; width: 150px; height: 150px; pointer-events: none; z-index: 5;
-  border: 1.5px solid #F5B041; border-radius: 6px; background-color: #070709; background-repeat: no-repeat;
+  border: 1.5px solid var(--gold-primary); border-radius: 6px; background-color: #070709; background-repeat: no-repeat;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55); opacity: 0; transform: scale(0.85);
   transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
 }
 .layout-loupe.on { opacity: 1; transform: scale(1); }
-.layout-loupe::before, .layout-loupe::after { content: ""; position: absolute; background: rgba(245, 176, 65, 0.55); }
+.layout-loupe::before, .layout-loupe::after { content: ""; position: absolute; background: var(--border-card-hover); }
 .layout-loupe::before { left: 50%; top: 0; bottom: 0; width: 1px; }
 .layout-loupe::after { top: 50%; left: 0; right: 0; height: 1px; }
-.layout-loupe span { position: absolute; right: 4px; bottom: 3px; font: 600 10px "JetBrains Mono", monospace; color: #F5B041; background: rgba(7, 7, 9, 0.75); padding: 0 3px; border-radius: 3px; }
+.layout-loupe span { position: absolute; right: 4px; bottom: 3px; font: 600 10px "JetBrains Mono", monospace; color: var(--gold-primary); background: rgba(7, 7, 9, 0.75); padding: 0 3px; border-radius: 3px; }
 
-/* CMOS-inverter theme toggle: dark theme = IN 0 / OUT 1, light theme = IN 1 / OUT 0 */
 .inv-toggle #theme-icon { display: none; }
 .inv-icon { display: block; overflow: visible; }
 .inv-icon line { stroke-width: 2; stroke-linecap: round; }
 .inv-icon .inv-body, .inv-icon .inv-bubble { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; }
 .inv-icon .inv-in { stroke: #4B4C55; transition: stroke var(--dur-fast) linear; }
-.inv-icon .inv-out { stroke: #F5B041; transition: stroke var(--dur-fast) linear 180ms; } /* 180ms = the gate's propagation delay */
-html.light-theme .inv-icon .inv-in { stroke: #9A6B13; }
-html.light-theme .inv-icon .inv-out { stroke: #C8B99E; }
-.inv-toggle.switching .inv-body { stroke: #10B981; transition: stroke 0s; }
+.inv-icon .inv-out { stroke: var(--gold-primary); transition: stroke var(--dur-fast) linear 180ms; }
+.inv-toggle.switching .inv-body { stroke: var(--emerald-pass); transition: stroke 0s; }
 
-/* Clock-waveform scroll progress */
 .clk-progress { position: absolute; left: 0; right: 0; bottom: -4px; height: 8px; pointer-events: none; opacity: 0; transition: opacity var(--dur-base) var(--ease-out);
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8'%3E%3Cpath d='M0 7H6V1H18V7H24' fill='none' stroke='%23F5B041' stroke-opacity='0.16' stroke-width='1.2'/%3E%3C/svg%3E") repeat-x left center; }
 .clk-progress.on { opacity: 1; }
 .clk-progress-fill { height: 100%; width: 0;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8'%3E%3Cpath d='M0 7H6V1H18V7H24' fill='none' stroke='%23F5B041' stroke-width='1.4'/%3E%3C/svg%3E") repeat-x left center; }
-html.light-theme .clk-progress { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8'%3E%3Cpath d='M0 7H6V1H18V7H24' fill='none' stroke='%239A6B13' stroke-opacity='0.2' stroke-width='1.2'/%3E%3C/svg%3E"); }
-html.light-theme .clk-progress-fill { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8'%3E%3Cpath d='M0 7H6V1H18V7H24' fill='none' stroke='%239A6B13' stroke-width='1.4'/%3E%3C/svg%3E"); }
+
+#vlsi-theme-bar {
+  position: fixed;
+  top: 68px;
+  right: 16px;
+  z-index: 62;
+  font-family: 'JetBrains Mono', monospace;
+}
