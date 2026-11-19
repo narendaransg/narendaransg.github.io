@@ -286,6 +286,33 @@
         "text": "",
         "accent": "gold"
       }
+    },
+    {
+      "id": "new-pd-block",
+      "tag": "BACK-END PD - ICC2",
+      "date": "2026",
+      "badge": {
+        "text": "DRC Clean",
+        "accent": "emerald"
+      },
+      "links": [],
+      "title": "New Physical Design Block: Floorplan, CTS & Signoff",
+      "tools": "Synopsys ICC2",
+      "accent": "gold",
+      "bullets": [
+        {
+          "text": "Core utilization, metal straps, and DCAP insertion.",
+          "label": "Floorplan & PDN",
+          "accent": "gold"
+        },
+        {
+          "text": "Target clock skew, NDR rules, and post-ECO shorts.",
+          "label": "CTS & Routing",
+          "accent": "emerald"
+        }
+      ],
+      "summary": "Implemented in **Synopsys IC Compiler II** with clean PDN, balanced clock skew, and signoff DRC/STA closure.",
+      "category": "pd"
     }
   ],
   "certifications": [
