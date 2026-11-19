@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pull published portfolio drafts from Supabase and sync repo JSON/JS files."""
+"""Pull published portfolio drafts from Supabase and merge into repo JSON files."""
 import json
 import os
 import subprocess
@@ -28,6 +28,39 @@ def fetch_table(base_url: str, key: str, table: str) -> list:
         raise RuntimeError(f"Failed fetching Supabase table '{table}': {exc}") from exc
 
 
+def merge_by_id(existing_items: list, rows: list) -> list:
+    merged = []
+    index_by_id = {}
+    for item in existing_items:
+        if isinstance(item, dict):
+            copied = dict(item)
+            idx = len(merged)
+            merged.append(copied)
+            if copied.get("id"):
+                index_by_id[str(copied["id"])] = idx
+
+    for r in rows:
+        if not r.get("published", True):
+            continue
+        payload = r.get("payload", r)
+        if not isinstance(payload, dict):
+            continue
+        item_id = str(payload.get("id") or r.get("id") or "").strip()
+        if payload.get("_delete") is True:
+            if item_id and item_id in index_by_id:
+                merged[index_by_id[item_id]] = None
+            continue
+        if item_id and item_id in index_by_id:
+            merged[index_by_id[item_id]] = payload
+        else:
+            idx = len(merged)
+            merged.append(payload)
+            if item_id:
+                index_by_id[item_id] = idx
+
+    return [x for x in merged if x is not None]
+
+
 def main() -> int:
     url = os.environ.get("SUPABASE_URL", "").strip()
     key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "").strip()
@@ -43,34 +76,32 @@ def main() -> int:
     content_path = ROOT / "content.json"
     existing_content = json.loads(content_path.read_text(encoding="utf-8"))
     content_out = {
-        "_readme": existing_content.get("_readme", "Synced from Supabase drafts via scripts/sync_supabase.py"),
-        "projects": [r.get("payload", r) for r in projects if r.get("published", True)],
-        "certifications": [r.get("payload", r) for r in certs if r.get("published", True)],
-        "experience": [r.get("payload", r) for r in experience if r.get("published", True)],
+        "_readme": existing_content.get("_readme", "Merged from Supabase drafts via scripts/sync_supabase.py"),
+        "projects": merge_by_id(existing_content.get("projects", []), projects),
+        "certifications": merge_by_id(existing_content.get("certifications", []), certs),
+        "experience": merge_by_id(existing_content.get("experience", []), experience),
     }
     content_path.write_text(json.dumps(content_out, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     updates_path = ROOT / "updates.json"
     existing_updates = json.loads(updates_path.read_text(encoding="utf-8"))
+    merged_updates = merge_by_id(existing_updates.get("updates", []), updates_rows)
     clean_updates = []
-    for r in updates_rows:
-        if not r.get("published", True):
-            continue
-        item = dict(r.get("payload", r))
-        # Safety gate: never auto-post to LinkedIn unless explicitly flagged and non-empty
-        if item.get("linkedin") is True and not str(item.get("title", "")).strip():
-            item["linkedin"] = False
-        clean_updates.append(item)
+    for item in merged_updates:
+        copied = dict(item)
+        if copied.get("linkedin") is True and not str(copied.get("title", "")).strip():
+            copied["linkedin"] = False
+        clean_updates.append(copied)
 
     updates_out = {
-        "_howto": existing_updates.get("_howto", "Synced from Supabase drafts."),
+        "_howto": existing_updates.get("_howto", "Merged from Supabase drafts."),
         "updates": clean_updates,
     }
     updates_path.write_text(json.dumps(updates_out, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     subprocess.run([sys.executable, "scripts/build_content.py", "--check"], cwd=ROOT, check=True)
     subprocess.run([sys.executable, "scripts/build_content.py"], cwd=ROOT, check=True)
-    print("Synced Supabase drafts into content.json, updates.json, and index.html.")
+    print("Merged Supabase drafts into content.json, updates.json, and index.html.")
     return 0
 
 
